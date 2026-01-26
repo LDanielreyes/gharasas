@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+/* Import Web Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Arimo:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0');
+
+@theme {
+  /* Colors - Refined for Premium Feel */
+  --color-primary: #0C4D89;
+  --color-secondary: #2678A4;
+  --color-accent: #3BA2C5;
+  --color-cyan: #37C6D8;
+
+  /* Cyber / Tech Mode Colors (Dark Only) */
+  --color-cyber-cyan: #38BDF8;
+  /* Sky 400 - Electric but closer to blue than pure Cyan */
+  --color-cyber-purple: #818CF8;
+  /* Indigo 400 - Softer purple */
+
+  --color-background-light: #F8FAFC;
+  /* Slate 50 */
+  --color-background-dark: #000000;
+  /* Pure Black for Cyber feel */
+  --color-background-black: #000000;
+
+  --color-surface-light: #ffffff;
+  --color-surface-dark: #050505;
+  /* Near Black */
+
+  --color-text-primary-light: #0f172a;
+  --color-text-primary-dark: #f1f5f9;
+
+  --color-border-light: #e2e8f0;
+  --color-border-dark: #1e293b;
+
+  /* Typography */
+  --font-display: "Outfit", sans-serif;
+  --font-body: "Arimo", "Arial", sans-serif;
+  --font-sans: "Arimo", system-ui, sans-serif;
+
+  /* Shadows */
+  --shadow-card-hover: 0 20px 40px -10px rgba(14, 86, 142, 0.15);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  --shadow-glow: 0 0 50px -10px rgba(12, 77, 137, 0.5);
+  /* Tech Glows */
+  --shadow-tech-cyan: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.3);
+  --shadow-tech-purple: 0 0 10px rgba(189, 0, 255, 0.5), 0 0 20px rgba(189, 0, 255, 0.3);
+}
+
+/* Force class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Smooth transitions for theme changes */
+    transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    @apply bg-background-light text-slate-900 dark:bg-background-dark dark:text-slate-100;
+    /* Smoother transition than default */
+    transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Global smooth transitions for all color-related properties */
+  * {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* View Transition API Styles - Advanced smooth theme transitions */
+@supports (view-transition-name: none) {
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 500ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Fade transition for theme changes */
+  ::view-transition-old(root) {
+    animation-name: fade-out;
+  }
+
+  ::view-transition-new(root) {
+    animation-name: fade-in;
+  }
+
+  @keyframes fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+@layer utilities {
+
+  /* Typography Utilities */
+  .text-huge-footer {
+    font-size: clamp(4rem, 15vw, 16rem);
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    font-weight: 800;
+  }
+
+  /* Tech Text Gradient */
+  .text-tech-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyber-cyan to-cyber-purple;
+  }
+
+  /* Premium Glassmorphism - Light Mode */
+  .glass {
+    background: rgba(255, 255, 255, 0.25);
+    /* Lower opacity for better glassmorphism */
+    backdrop-filter: blur(32px);
+    /* Stronger blur */
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    /* Subtle border */
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+    /* Minimal shadow */
+  }
+
+  /* Cyber Glass - Dark Mode */
+  .glass-dark {
+    background: rgba(5, 5, 5, 0.35);
+    /* Lower opacity */
+    backdrop-filter: blur(32px);
+    /* Stronger blur */
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(0, 240, 255, 0.12);
+    /* Subtle tech border */
+    box-shadow: 0 0 24px rgba(0, 240, 255, 0.05);
+    /* Soft glow */
+  }
+
+  /* Universal Glass Utility */
+  .glass-panel {
+    @apply transition-all duration-300;
+
+    /* Default (Light) - Corp Style */
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  }
+
+  /* Dark mode override for glass-panel -> Tech Style */
+  .dark .glass-panel {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    /* Tech Border */
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+    /* Tech Glow */
+  }
+
+  /* Glass Button Variant - Adaptive */
+  .btn-glass {
+    @apply px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95;
+    /* Light Mode Base */
+    background: rgba(12, 77, 137, 0.1);
+    /* Primary Tint */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(12, 77, 137, 0.2);
+    color: var(--color-primary);
+  }
+
+  .dark .btn-glass {
+    /* Cyber Mode Base */
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    color: var(--color-cyber-cyan);
+    text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+  }
+
+  .btn-glass:hover {
+    /* Light Mode Hover */
+    background: rgba(12, 77, 137, 0.2);
+    box-shadow: 0 4px 12px rgba(12, 77, 137, 0.2);
+  }
+
+  .dark .btn-glass:hover {
+    /* Cyber Mode Hover */
+    background: rgba(0, 240, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2);
+    border-color: var(--color-cyber-cyan);
+  }
+
+  /* Primary Button - Adaptive */
+  .btn-primary-glow {
+    @apply transition-all duration-300;
+    /* Light Mode: Corporate Blue */
+    background-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 14px 0 rgba(12, 77, 137, 0.39);
+  }
+
+  .btn-primary-glow:hover {
+    background-color: var(--color-secondary);
+    box-shadow: 0 6px 20px rgba(12, 77, 137, 0.23);
+  }
+
+  .dark .btn-primary-glow {
+    /* Cyber Mode: Neon Cyan */
+    background-color: transparent;
+    border: 1px solid var(--color-cyber-cyan);
+    color: var(--color-cyber-cyan);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.2), inset 0 0 5px rgba(0, 240, 255, 0.1);
+    text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+  }
+
+  .dark .btn-primary-glow:hover {
+    background-color: rgba(0, 240, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.6), inset 0 0 10px rgba(0, 240, 255, 0.3);
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
+  }
+
+  .input-underline {
+    /* Light Mode Default */
+    @apply bg-transparent border-b border-primary/30 py-3 text-slate-800 placeholder-slate-400 focus:border-primary focus:outline-none transition-all w-full;
+  }
+
+  .dark .input-underline {
+    /* Cyber Mode */
+    @apply border-white/30 text-white placeholder-white/40 focus:border-cyber-cyan;
+    transition: all 0.3s ease;
+  }
+
+  .dark .input-underline:focus {
+    box-shadow: 0 10px 20px -10px rgba(0, 240, 255, 0.3);
+  }
+}
