@@ -60,13 +60,20 @@ const RoutingMachine = ({ userLocation, destination }) => {
             createMarker: function (i, waypoint) {
                 // i = 0 is start (User), i = n-1 is end (Ghara)
                 if (i === 0) {
-                    return L.marker(waypoint.latLng, { icon: RedIcon }).bindPopup("<b>Tu Ubicación</b>");
+                    return L.marker(waypoint.latLng, { icon: RedIcon }).bindPopup("<b>Tu Ubicación Actual</b><br/><small>Coordenadas GPS obtenidas de tu dispositivo</small>");
                 }
                 return L.marker(waypoint.latLng, { icon: GharaIcon }).bindPopup("<b>Ghara HQ</b>");
             },
             addWaypoints: false,
             draggableWaypoints: false,
             language: 'es', // Localize instructions to Spanish
+            geocoder: null, // Desactiva el geocoder para evitar direcciones aproximadas incorrectas
+            show: true, // Muestra las instrucciones de ruta
+            collapsible: true, // Permite colapsar el panel de instrucciones
+            formatter: new L.Routing.Formatter({
+                language: 'es',
+                units: 'metric'
+            })
         });
 
         routingControl.addTo(map);
@@ -106,7 +113,7 @@ const LocationMap = () => {
             address: "Cra. 27 #68b-105, Suroccidente, Barranquilla, Atlántico"
         },
         cartagena: {
-            coords: [10.3708, -75.4623], // Coords for El Campestre roughly
+            coords: [10.384392927022766, -75.49553488998016], // Coords for El Campestre - Barrio el Campestre
             name: "Ghara Cartagena",
             address: "Barrio el Campestre, Mz 62 Lt 11 etapa 7, Cartagena, Bolívar"
         }
@@ -245,11 +252,7 @@ const LocationMap = () => {
                                 </Popup>
                             </Marker>
 
-                            {userLocation && (
-                                <Marker position={userLocation} icon={RedIcon}>
-                                    <Popup>Tu ubicación actual</Popup>
-                                </Marker>
-                            )}
+                            {/* El marcador del usuario se crea automáticamente en RoutingMachine para evitar duplicados */}
                         </MapContainer>
                     </motion.div>
                 </div>
