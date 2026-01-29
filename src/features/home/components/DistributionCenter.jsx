@@ -1,7 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const DistributionCenter = () => {
+    const navigate = useNavigate();
+
     return (
         <section id="aliados" className="bg-background-light dark:bg-background-dark py-24">
             <div className="container mx-auto px-4 md:px-6">
@@ -10,7 +13,8 @@ const DistributionCenter = () => {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-                    className="relative h-[500px] rounded-3xl overflow-hidden group shadow-2xl"
+                    className="relative h-[500px] rounded-3xl overflow-hidden group shadow-2xl cursor-pointer"
+                    onClick={() => navigate('/aliados')}
                 >
                     <div className="absolute inset-0">
                         <img
@@ -18,7 +22,7 @@ const DistributionCenter = () => {
                             alt="Modern warehouse distribution center"
                             className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-slate-900/50"></div>
+                        <div className="absolute inset-0 bg-slate-900/50 group-hover:bg-slate-900/40 transition-colors duration-500"></div>
                     </div>
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
                         <motion.span
@@ -55,6 +59,10 @@ const DistributionCenter = () => {
                             transition={{ delay: 0.6 }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate('/aliados');
+                            }}
                             className="bg-white/90 backdrop-blur-md text-slate-900 hover:bg-white px-10 py-4 rounded-full font-bold text-lg transition-all shadow-2xl border border-white/50"
                         >
                             Acceso Aliados
@@ -67,3 +75,4 @@ const DistributionCenter = () => {
 };
 
 export default DistributionCenter;
+

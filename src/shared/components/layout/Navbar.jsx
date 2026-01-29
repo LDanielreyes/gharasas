@@ -18,8 +18,10 @@ const Navbar = () => {
     const isHomePage = location.pathname === '/';
     // Check for service pages (both residential and enterprise)
     const isServicesPage = location.pathname.includes('/servicios/');
-    // Hero should be transparent on Home and Service pages
-    const hasTransparentHero = isHomePage || isServicesPage;
+    const isAliadosPage = location.pathname.includes('/aliados');
+    const isFamiliaPage = location.pathname.includes('/familia');
+    // Hero should be transparent on Home, Services, Aliados and Familia pages
+    const hasTransparentHero = isHomePage || isServicesPage || isAliadosPage || isFamiliaPage;
 
     // Determine if we are on a "Dark Section" (requiring white text)
     // On Home: Calculated dynamically via scroll position
@@ -203,7 +205,15 @@ const Navbar = () => {
                         {['Inicio', 'Familia Ghara', 'Aliados', 'Servicios'].map((item) => {
                             const isHovered = hoveredItem === item;
 
-                            if (item === 'Servicios') {
+                            if (item === 'Servicios' || item === 'Aliados') {
+                                const subItems = item === 'Servicios' ? [
+                                    { name: 'Residenciales', icon: 'home', path: '/servicios/residenciales' },
+                                    { name: 'Empresariales', icon: 'business', path: '/servicios/empresariales' }
+                                ] : [
+                                    { name: 'Técnicos', icon: 'engineering', path: '/aliados?tab=tecnicos' },
+                                    { name: 'Distribuidores', icon: 'local_shipping', path: '/aliados?tab=distribuidores' }
+                                ];
+
                                 return (
                                     <div
                                         key={item}
@@ -244,16 +254,18 @@ const Navbar = () => {
                                                     className="absolute top-full left-0 mt-2 w-60 bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden origin-top-left border border-slate-100 dark:border-slate-800"
                                                 >
                                                     <div className="p-2 space-y-1">
-                                                        {[
-                                                            { name: 'Residenciales', icon: 'home', path: '/servicios/residenciales' },
-                                                            { name: 'Empresariales', icon: 'business', path: '/servicios/empresariales' }
-                                                        ].map((subItem) => (
+                                                        {subItems.map((subItem) => (
                                                             <a
                                                                 key={subItem.name}
                                                                 href={subItem.path}
                                                                 onClick={(e) => {
                                                                     e.preventDefault();
-                                                                    navigate(subItem.path);
+                                                                    if (subItem.path.includes('?')) {
+                                                                        // Handle query params for Aliados
+                                                                        navigate(subItem.path);
+                                                                    } else {
+                                                                        navigate(subItem.path);
+                                                                    }
                                                                     setHoveredItem(null);
                                                                 }}
                                                                 className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group/item relative overflow-hidden"
@@ -263,7 +275,7 @@ const Navbar = () => {
                                                                 </div>
                                                                 <div className="flex flex-col">
                                                                     <span className="text-sm font-bold text-slate-900 dark:text-white">{subItem.name}</span>
-                                                                    <span className="text-[10px] text-slate-500 font-medium">Ver servicios</span>
+                                                                    <span className="text-[10px] text-slate-500 font-medium">Ver {item.toLowerCase()}</span>
                                                                 </div>
                                                             </a>
                                                         ))}

@@ -33,8 +33,8 @@ const Hero = () => {
                         transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
                         className="font-display font-bold text-6xl lg:text-7xl xl:text-8xl leading-none text-white mb-8 tracking-tight drop-shadow-lg"
                     >
-                        Mejorando tu <br />
-                        <span className="text-cyan-400 drop-shadow-[0_0_30px_rgba(34,211,238,0.4)]">ambiente</span>
+                        Expertos en <br />
+                        <span className="text-cyan-400 drop-shadow-[0_0_30px_rgba(34,211,238,0.4)]">Aires Acondicionados</span>
                     </motion.h1>
 
                     <motion.p
@@ -43,7 +43,7 @@ const Hero = () => {
                         transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
                         className="text-xl text-slate-100 font-body leading-relaxed mb-10 max-w-lg font-light drop-shadow-md"
                     >
-                        Servicio técnico experto, instalación y distribución de equipos de climatización de primer nivel. Confía en los profesionales.
+                        Venta, instalación y mantenimiento de aires acondicionados en Barranquilla. Más de 20 años de experiencia en climatización HVAC.
                     </motion.p>
 
                     <motion.div

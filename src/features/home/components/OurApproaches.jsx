@@ -1,7 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const OurApproaches = () => {
+    const navigate = useNavigate();
+
     return (
         <section id="servicios" className="py-32 bg-surface-light dark:bg-surface-dark overflow-hidden">
             <div className="container mx-auto px-4 md:px-6">
@@ -32,6 +35,7 @@ const OurApproaches = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
                         whileHover={{ y: -10 }}
+                        onClick={() => navigate('/servicios/residenciales')}
                         className="group relative h-[600px] lg:h-[700px] w-full lg:w-[110%] rounded-[2.5rem] overflow-hidden shadow-2xl cursor-pointer z-10 lg:hover:z-30 transition-all duration-500"
                     >
                         <div className="absolute inset-0">
@@ -57,6 +61,7 @@ const OurApproaches = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
                         whileHover={{ y: -10 }}
+                        onClick={() => navigate('/servicios/empresariales')}
                         className="group relative h-[600px] lg:h-[700px] w-full lg:w-[110%] lg:-ml-[10%] rounded-[2.5rem] overflow-hidden shadow-2xl cursor-pointer z-20 mt-8 lg:mt-24"
                     >
                         <div className="absolute inset-0">
@@ -82,3 +87,4 @@ const OurApproaches = () => {
 };
 
 export default OurApproaches;
+

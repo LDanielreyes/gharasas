@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
 import ScrollReveal from '../../shared/components/ui/ScrollReveal';
 
 const BenefitCard = ({ icon, title, description, index }) => {
@@ -110,148 +111,224 @@ const FaqItem = ({ question, answer }) => {
 };
 
 const AfiliadosPage = () => {
+    const [searchParams] = useSearchParams();
+    const [activeTab, setActiveTab] = useState('tecnicos');
+    const [isFormOpen, setIsFormOpen] = useState(false);
+
+    // Helper to determine active theme color for modal/button
+    const activeColorClass = activeTab === 'tecnicos' ? 'from-primary to-cyan-400' : 'from-cyan-500 to-blue-600';
+
+    useEffect(() => {
+        const tabParam = searchParams.get('tab');
+        if (tabParam === 'distribuidores') {
+            setActiveTab('distribuidores');
+        } else if (tabParam === 'tecnicos') {
+            setActiveTab('tecnicos');
+        }
+    }, [searchParams]);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     return (
-        <div className="pt-20 bg-background-light dark:bg-background-dark min-h-screen">
+        <div className="bg-background-light dark:bg-background-dark min-h-screen">
 
-            {/* Hero Section */}
-            <section className="relative overflow-hidden py-20 lg:py-28">
-                {/* Background Decor */}
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-slate-50/50 dark:bg-white/5 -skew-x-12 transform translate-x-32 -z-10"></div>
+            {/* Tab Navigation */}
+            {/* Tab Navigation Removed - Using Navbar Dropdown instead */}
 
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-
-                        {/* Text Content */}
+            {/* Hero Section - Services Style */}
+            <section className="relative h-[600px] flex items-center overflow-hidden">
+                {/* Background Images with Transition */}
+                <div className="absolute inset-0 z-0">
+                    <AnimatePresence mode="wait">
                         <motion.div
-                            className="flex-1"
-                            initial={{ opacity: 0, x: -50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6 }}
+                            key={activeTab}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1 }}
+                            className="absolute inset-0"
                         >
-                            <motion.span
-                                className="inline-block px-3 py-1 bg-blue-100 dark:bg-cyber-cyan/20 text-primary dark:text-cyber-cyan text-xs font-bold tracking-widest uppercase rounded-full mb-6"
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.5, delay: 0.2 }}
-                            >
-                                Red de Partners 2026
-                            </motion.span>
-                            <motion.h1
-                                className="font-display font-bold text-5xl lg:text-7xl text-slate-900 dark:text-white leading-tight mb-6"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.3 }}
-                            >
-                                Únete a la Red de <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400 dark:from-white dark:to-cyber-cyan">Aliados Líderes</span>
-                            </motion.h1>
-                            <motion.p
-                                className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl mb-10"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.4 }}
-                            >
-                                Potencia tu negocio de HVAC con suministro prioritario, capacitación técnica de vanguardia y acceso a proyectos exclusivos como Aliado Ghara.
-                            </motion.p>
+                            <img
+                                src={activeTab === 'tecnicos'
+                                    ? "https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=2069&auto=format&fit=crop"
+                                    : "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop"
+                                }
+                                alt={activeTab === 'tecnicos' ? "Técnico trabajando" : "Almacén de distribución"}
+                                className="w-full h-full object-cover"
+                            />
+                        </motion.div>
+                    </AnimatePresence>
+                    {/* Dark overlay for text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/60 to-transparent"></div>
+                </div>
 
-                            <motion.div
-                                className="flex items-center gap-4 opacity-60 grayscale hover:grayscale-0 transition-all duration-500"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 0.6 }}
-                                transition={{ duration: 0.6, delay: 0.5 }}
-                            >
-                                {/* Clients/Trust badges could go here */}
-                                <div className="h-8 w-24 bg-slate-200 dark:bg-white/10 rounded"></div>
-                                <div className="h-8 w-24 bg-slate-200 dark:bg-white/10 rounded"></div>
-                                <div className="h-8 w-24 bg-slate-200 dark:bg-white/10 rounded"></div>
-                            </motion.div>
+                <div className="container mx-auto px-4 md:px-6 relative z-10 pt-20">
+                    <div className="max-w-3xl">
+
+                        {/* Badge */}
+                        <motion.div
+                            key={`badge-${activeTab}`}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="mb-6"
+                        >
+                            <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase text-white bg-gradient-to-r ${activeColorClass}`}>
+                                {activeTab === 'tecnicos' ? 'Red de Técnicos 2026' : 'Red de Distribuidores 2026'}
+                            </span>
                         </motion.div>
 
-                        {/* Form Card */}
-                        <motion.div
-                            className="w-full max-w-md lg:w-[450px]"
-                            initial={{ opacity: 0, x: 50 }}
+                        {/* Title */}
+                        <motion.h1
+                            key={`title-${activeTab}`}
+                            className="font-display font-bold text-5xl md:text-7xl text-white leading-tight mb-6"
+                            initial={{ opacity: 0, x: -30 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
-                            <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-8 border border-slate-100 dark:border-white/10 relative overflow-hidden">
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-cyan-400"></div>
+                            {activeTab === 'tecnicos' ? (
+                                <>
+                                    Únete como <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Técnico Certificado</span>
+                                </>
+                            ) : (
+                                <>
+                                    Conviértete en <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Distribuidor Oficial</span>
+                                </>
+                            )}
+                        </motion.h1>
 
-                                <h3 className="font-display font-bold text-xl text-slate-900 dark:text-white mb-6">Registro de Técnico Aliado</h3>
+                        {/* Description */}
+                        <motion.p
+                            key={`desc-${activeTab}`}
+                            className="text-xl text-slate-200 leading-relaxed mb-10 border-l-4 border-cyan-400 pl-6"
+                            initial={{ opacity: 0, x: -30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: 0.3 }}
+                        >
+                            {activeTab === 'tecnicos'
+                                ? 'Accede a proyectos exclusivos, capacitación continua y herramientas profesionales.'
+                                : 'Obtén precios mayoristas directos y soporte prioritario para escalar tu negocio.'
+                            }
+                        </motion.p>
 
-                                <form className="space-y-4">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nombre Completo *</label>
-                                            <input type="text" required placeholder="Ej. Juan Pérez" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Cédula *</label>
-                                            <input type="text" required placeholder="1234567890" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
-                                        </div>
-                                    </div>
+                        {/* CTA Buttons */}
+                        <motion.div
+                            key={`cta-${activeTab}`}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.4 }}
+                            className="flex flex-col sm:flex-row items-start gap-6"
+                        >
+                            <button
+                                onClick={() => setIsFormOpen(true)}
+                                className={`group relative px-8 py-4 rounded-full font-bold text-lg text-white shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all duration-300 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20`}
+                            >
+                                <span className="flex items-center gap-3">
+                                    {activeTab === 'tecnicos' ? 'Registrarme Ahora' : 'Solicitar Alianza'}
+                                    <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                                </span>
+                            </button>
 
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Celular *</label>
-                                            <input type="tel" required placeholder="300 123 4567" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Correo</label>
-                                            <input type="email" placeholder="opcional@correo.com" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Dirección *</label>
-                                        <input type="text" required placeholder="Calle 123 #45-67" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Ciudad *</label>
-                                            <input type="text" required placeholder="Barranquilla" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Departamento *</label>
-                                            <input type="text" required placeholder="Atlántico" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
-                                        </div>
-                                    </div>
-
-                                    {/* File Uploads styled as grouped buttons or smaller inputs */}
-                                    <div className="space-y-3 pt-2">
-                                        {[
-                                            { label: 'Hoja de Vida (PDF) *', req: true, id: "hv" },
-                                            { label: 'Certificados de Estudio *', req: true, id: "certs" },
-                                            { label: 'Certificado Alturas', req: false, id: "height" },
-                                            { label: 'Certificado ARL', req: false, id: "arl" }
-                                        ].map((file) => (
-                                            <div key={file.id} className="relative">
-                                                <label htmlFor={file.id} className="cursor-pointer flex items-center justify-between w-full bg-slate-50 dark:bg-black border border-dashed border-slate-300 dark:border-white/20 rounded-lg px-4 py-2 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors group/file">
-                                                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 group-hover/file:text-primary dark:group-hover/file:text-cyber-cyan truncate max-w-[200px]">{file.label}</span>
-                                                    <span className="material-symbols-outlined text-slate-400 text-lg">upload_file</span>
-                                                </label>
-                                                <input type="file" id={file.id} required={file.req} className="hidden" />
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <button type="submit" className="w-full bg-primary hover:bg-secondary dark:bg-cyber-cyan dark:hover:bg-white dark:text-black text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 mt-2">
-                                        Enviar Registro
-                                    </button>
-
-                                    <p className="text-[10px] text-center text-slate-400 mt-4">
-                                        Campos marcados con * son obligatorios.
-                                    </p>
-                                </form>
-                            </div>
+                            <button
+                                onClick={() => document.getElementById('beneficios')?.scrollIntoView({ behavior: 'smooth' })}
+                                className="flex items-center gap-2 font-bold text-slate-300 hover:text-white transition-colors px-6 py-4"
+                            >
+                                Ver beneficios
+                                <span className="material-symbols-outlined text-sm">expand_more</span>
+                            </button>
                         </motion.div>
+
                     </div>
                 </div>
+
+                {/* Modal Overlay */}
+                <AnimatePresence>
+                    {isFormOpen && (
+                        <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
+                            {/* Backdrop */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setIsFormOpen(false)}
+                                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                            />
+
+                            {/* Modal Content */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                                className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-white/10"
+                            >
+                                {/* Decorative Header Line */}
+                                <div className={`h-2 w-full bg-gradient-to-r ${activeColorClass}`} />
+
+                                <div className="p-8 max-h-[85vh] overflow-y-auto">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <h3 className="font-display font-bold text-2xl text-slate-900 dark:text-white">
+                                            {activeTab === 'tecnicos' ? 'Registro de Técnico' : 'Solicitud Distribuidor'}
+                                        </h3>
+                                        <button
+                                            onClick={() => setIsFormOpen(false)}
+                                            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors"
+                                        >
+                                            <span className="material-symbols-outlined">close</span>
+                                        </button>
+                                    </div>
+
+                                    <form className="space-y-4">
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nombre *</label>
+                                                <input type="text" required placeholder="Tu nombre" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Apellido *</label>
+                                                <input type="text" required placeholder="Tu apellido" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{activeTab === 'tecnicos' ? 'Cédula / NIT *' : 'Razón Social / NIT *'}</label>
+                                            <input type="text" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Celular *</label>
+                                                <input type="tel" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Email *</label>
+                                                <input type="email" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Ciudad *</label>
+                                            <input type="text" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                        </div>
+
+                                        <button
+                                            type="submit"
+                                            className={`w-full py-4 mt-4 rounded-xl font-bold text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 bg-gradient-to-r ${activeColorClass}`}
+                                        >
+                                            Enviar Solicitud
+                                        </button>
+                                        <p className="text-center text-xs text-slate-400 mt-4">
+                                            Al enviar aceptas nuestra política de tratamiento de datos.
+                                        </p>
+                                    </form>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
             </section>
 
             {/* Benefits Section */}
@@ -266,37 +343,68 @@ const AfiliadosPage = () => {
                     >
                         <div className="max-w-xl">
                             <span className="text-cyan-500 font-bold text-xs tracking-widest uppercase mb-2 block">¿Por qué unirse?</span>
-                            <h2 className="font-display font-bold text-4xl text-slate-900 dark:text-white">Beneficios de formar parte de nuestra red de Aliados</h2>
+                            <h2 className="font-display font-bold text-4xl text-slate-900 dark:text-white">
+                                {activeTab === 'tecnicos'
+                                    ? 'Beneficios para Técnicos Certificados'
+                                    : 'Ventajas para Distribuidores'}
+                            </h2>
                         </div>
                         <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xs text-right md:text-left">
-                            Ofrecemos un ecosistema diseñado para escalar la operatividad de nuestros aliados.
+                            {activeTab === 'tecnicos'
+                                ? 'Impulsa tu carrera profesional con el respaldo de una marca líder.'
+                                : 'Escala tu negocio con nuestra infraestructura logística y comercial.'}
                         </p>
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <BenefitCard
-                            icon="local_shipping"
-                            title="Suministro Prioritario"
-                            description="Acceso preferencial a nuestro inventario global con tiempos de entrega reducidos y logística inteligente para tus obras."
-                            index={0}
-                        />
-                        <BenefitCard
-                            icon="school"
-                            title="Capacitación Certificada"
-                            description="Programas continuos de formación técnica en nuevas tecnologías HVAC y certificación oficial Ghara para tu equipo."
-                            index={1}
-                        />
-                        <BenefitCard
-                            icon="folder_special"
-                            title="Nuevos Proyectos"
-                            description="Conectamos tu expertise con leads calificados y proyectos de gran envergadura en tu zona de influencia comercial."
-                            index={2}
-                        />
+                        {activeTab === 'tecnicos' ? (
+                            <>
+                                <BenefitCard
+                                    icon="school"
+                                    title="Capacitación Continua"
+                                    description="Acceso a cursos certificados en nuevas tecnologías, VRF y sistemas inverter con expertos de la industria."
+                                    index={0}
+                                />
+                                <BenefitCard
+                                    icon="handyman"
+                                    title="Kit de Bienvenida"
+                                    description="Recibe uniformes, herramientas especializadas y material promocional oficial de la marca Ghara."
+                                    index={1}
+                                />
+                                <BenefitCard
+                                    icon="work"
+                                    title="Bolsa de Trabajo"
+                                    description="Prioridad en la asignación de servicios de instalación y mantenimiento solicitados por nuestros clientes."
+                                    index={2}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <BenefitCard
+                                    icon="inventory_2"
+                                    title="Inventario Prioritario"
+                                    description="Acceso garantizado a stock de equipos de alta demanda y repuestos originales con despacho preferencial."
+                                    index={0}
+                                />
+                                <BenefitCard
+                                    icon="request_quote"
+                                    title="Márgenes Exclusivos"
+                                    description="Estructura de precios mayorista escalonada diseñada para maximizar la rentabilidad de tu negocio."
+                                    index={1}
+                                />
+                                <BenefitCard
+                                    icon="support_agent"
+                                    title="Soporte Comercial"
+                                    description="Asignación de un ejecutivo de cuenta dedicado y material de apoyo para tus cierres de venta."
+                                    index={2}
+                                />
+                            </>
+                        )}
                     </div>
                 </div>
             </section>
 
-            {/* Growth Path */}
+            {/* Growth Path - Conditional Rendering */}
             <section className="py-24 bg-slate-50 dark:bg-surface-dark">
                 <div className="container mx-auto px-4 md:px-6">
                     <motion.div
@@ -306,33 +414,68 @@ const AfiliadosPage = () => {
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h2 className="font-display font-bold text-4xl text-slate-900 dark:text-white mb-4">Elige tu camino de crecimiento</h2>
-                        <p className="text-slate-500 max-w-2xl mx-auto">Diseñamos programas específicos adaptados al tamaño y visión de tu estructura profesional.</p>
+                        <h2 className="font-display font-bold text-4xl text-slate-900 dark:text-white mb-4">
+                            {activeTab === 'tecnicos' ? 'Tu Camino Profesional' : 'Modelos de Distribución'}
+                        </h2>
+                        <p className="text-slate-500 max-w-2xl mx-auto">
+                            {activeTab === 'tecnicos'
+                                ? 'Diseñamos un plan de carrera para acompañar tu crecimiento desde nivel junior hasta master.'
+                                : 'Opciones flexibles adaptadas al tamaño y capacidad operativa de tu empresa.'}
+                        </p>
                     </motion.div>
 
                     <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                        <GrowthCard
-                            isCompany={false}
-                            title="Soy Técnico Independiente"
-                            perks={[
-                                "Gestión de agenda flexible y directa",
-                                "Acceso a herramientas y repuestos originales",
-                                "Soporte técnico 24/7 en campo"
-                            ]}
-                            linkText="Ver requisitos"
-                            index={0}
-                        />
-                        <GrowthCard
-                            isCompany={true}
-                            title="Somos una Empresa"
-                            perks={[
-                                "Precios mayoristas y descuentos por volumen",
-                                "Línea de crédito corporativo y financiamiento",
-                                "Gestión de flotas y software de mantenimiento"
-                            ]}
-                            linkText="Registrar Empresa"
-                            index={1}
-                        />
+                        {activeTab === 'tecnicos' ? (
+                            <>
+                                <GrowthCard
+                                    isCompany={false}
+                                    title="Técnico Aliado"
+                                    perks={[
+                                        "Acceso a capacitaciones básicas",
+                                        "Descuentos en repuestos",
+                                        "Uniforme oficial básico"
+                                    ]}
+                                    linkText="Aplicar Ahora"
+                                    index={0}
+                                />
+                                <GrowthCard
+                                    isCompany={false}
+                                    title="Técnico Master"
+                                    perks={[
+                                        "Prioridad en asignación de servicios",
+                                        "Certificación avanzada VRF",
+                                        "Herramientas especializadas a crédito"
+                                    ]}
+                                    linkText="Ver Requisitos Master"
+                                    index={1}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <GrowthCard
+                                    isCompany={true}
+                                    title="Distribuidor Autorizado"
+                                    perks={[
+                                        "Acceso a lista de precios mayorista",
+                                        "Material POP para punto de venta",
+                                        "Capacitación para fuerza de ventas"
+                                    ]}
+                                    linkText="Ser Distribuidor"
+                                    index={0}
+                                />
+                                <GrowthCard
+                                    isCompany={true}
+                                    title="Premium Partner"
+                                    perks={[
+                                        "Los mejores márgenes del mercado",
+                                        "Línea de crédito extendida",
+                                        "Rebates anuales por volumen de venta"
+                                    ]}
+                                    linkText="Aplicar a Premium"
+                                    index={1}
+                                />
+                            </>
+                        )}
                     </div>
                 </div>
             </section>
@@ -341,18 +484,24 @@ const AfiliadosPage = () => {
             <section className="py-24 bg-white dark:bg-black">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-20">
-                        <h2 className="font-display font-bold text-3xl text-slate-900 dark:text-white">¿Cómo funciona?</h2>
+                        <h2 className="font-display font-bold text-3xl text-slate-900 dark:text-white">
+                            {activeTab === 'tecnicos' ? 'Proceso de Certificación' : 'Proceso de Alta Comercial'}
+                        </h2>
                     </div>
 
                     <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
                         {/* Line */}
                         <div className="hidden md:block absolute top-8 left-[16%] right-[16%] h-0.5 bg-slate-100 dark:bg-white/10"></div>
 
-                        {[
-                            { step: "1", title: "Registro de Perfil", desc: "Completa tu información básica y sube tus certificaciones actuales." },
-                            { step: "2", title: "Llamada de Validación", desc: "Nuestro equipo revisará tu experiencia para asignarte el nivel de aliado adecuado." },
-                            { step: "3", title: "Recibe Proyectos", desc: "Comienza a recibir leads y suministros con condiciones exclusivas." }
-                        ].map((item, idx) => (
+                        {(activeTab === 'tecnicos' ? [
+                            { step: "1", title: "Registro y Documentación", desc: "Sube tu hoja de vida y certificados técnicos al portal." },
+                            { step: "2", title: "Evaluación Técnica", desc: "Presenta una prueba de conocimientos y entrevista con nuestro jefe técnico." },
+                            { step: "3", title: "Bienvenida y Kit", desc: "Recibe tu certificación, accesos a la app y dotación inicial." }
+                        ] : [
+                            { step: "1", title: "Solicitud de Distribución", desc: "Completa el formulario comercial con los datos de tu empresa." },
+                            { step: "2", title: "Validación Comercial", desc: "Revisión de documentos legales y estudio de crédito." },
+                            { step: "3", title: "Firma de Contrato", desc: "Formalización de la alianza y apertura de cuenta mayorista." }
+                        ]).map((item, idx) => (
                             <div key={idx} className="flex flex-col items-center text-center relative z-10">
                                 <div className="w-16 h-16 rounded-full bg-primary text-white dark:bg-cyber-cyan dark:text-black font-bold text-xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200 dark:shadow-tech-cyan">
                                     {item.step}
@@ -373,18 +522,37 @@ const AfiliadosPage = () => {
                     </div>
 
                     <div className="bg-white dark:bg-black rounded-3xl p-8 shadow-sm border border-slate-100 dark:border-white/5">
-                        <FaqItem
-                            question="¿Tiene algún costo unirse a la red de aliados Ghara?"
-                            answer="El registro inicial es gratuito. Algunos programas de certificación avanzada pueden tener costos de material, pero el acceso a la plataforma de leads es por comisión de éxito o suscripción según el plan."
-                        />
-                        <FaqItem
-                            question="¿Qué equipos de climatización suministran?"
-                            answer="Cubrimos toda la gama de HVAC: Residencial (Split, Multi-split), Comercial Ligero (Cassette, Conductos) e Industrial (VRF, Chillers). Trabajamos con las principales marcas globales."
-                        />
-                        <FaqItem
-                            question="¿Cómo se gestionan los pagos de los proyectos?"
-                            answer="Ghara actúa como intermediario de confianza. Los pagos se realizan quincenalmente sobre hitos cumplidos y validados por el cliente final."
-                        />
+                        {activeTab === 'tecnicos' ? (
+                            <>
+                                <FaqItem
+                                    question="¿Tiene algún costo certificarse?"
+                                    answer="El proceso de registro es gratuito. Las certificaciones especializadas pueden tener un costo simbólico que incluye materiales y diploma."
+                                />
+                                <FaqItem
+                                    question="¿Necesito tener herramienta propia?"
+                                    answer="Para el nivel Técnico Aliado es necesario contar con herramienta básica. Para niveles superiores facilitamos acceso a herramienta especializada."
+                                />
+                                <FaqItem
+                                    question="¿Cómo me asignan los servicios?"
+                                    answer="A través de nuestra App de Técnicos recibirás notificaciones de servicios disponibles cerca de tu ubicación."
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <FaqItem
+                                    question="¿Cuál es la compra mínima inicial?"
+                                    answer="Para activar la cuenta de distribuidor requerimos una compra inicial de 5 equipos o su equivalente en monto."
+                                />
+                                <FaqItem
+                                    question="¿Realizan envíos a otras ciudades?"
+                                    answer="Sí, contamos con logística nacional. Para pedidos superiores a cierto monto el envío es gratuito a ciudades principales."
+                                />
+                                <FaqItem
+                                    question="¿Ofrecen crédito?"
+                                    answer="Sí, tras 3 meses de operación comercial continua y estudio financiero, activamos cupo de crédito a 30 días."
+                                />
+                            </>
+                        )}
                     </div>
                 </div>
             </section>

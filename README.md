@@ -1,13 +1,14 @@
-# Ghara - Modern Real Estate Platform
+# Ghara - Aires Acondicionados y Climatización HVAC
 
-Ghara is a modern, responsive real estate application designed to make finding your dream home an effortless experience. Built with performance and user experience in mind, it features a sleek UI, interactive maps, and smooth animations.
+Sitio web oficial de **Ghara SAS** - Especialistas en venta, instalación y mantenimiento de aires acondicionados en Barranquilla, Colombia. Más de 20 años de experiencia en climatización HVAC.
 
-## Features
+## Características
 
--   🏠 **Property Listings**: Browse a curated list of properties with detailed information.
--   🗺️ **Interactive Maps**: View property locations using integrated Leaflet maps.
--   ✨ **Modern UI/UX**: Built with Tailwind CSS and Framer Motion for a premium feel.
--   📱 **Fully Responsive**: Optimized for all devices, from mobile to desktop.
+-   🌡️ **Aires Acondicionados**: Split, cassette, industrial y sistemas VRF
+-   🔧 **Servicios**: Instalación, mantenimiento preventivo y reparación
+-   📍 **Mapa Interactivo**: Ubicación con rutas usando Leaflet
+-   📊 **Calculadora BTU**: Herramienta gratuita para dimensionar equipos
+-   ✨ **Diseño Premium**: Interfaz moderna con animaciones fluidas
 
 ## Tech Stack
 

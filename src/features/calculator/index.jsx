@@ -240,17 +240,11 @@ const CalculatorPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-background-light dark:bg-background-dark pt-24 pb-24 font-sans">
+        <div className="min-h-screen bg-background-light dark:bg-background-dark pt-40 pb-24 font-sans">
             <Section>
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="inline-flex items-center justify-center p-3 bg-primary/10 dark:bg-cyber-cyan/10 rounded-2xl mb-6 shadow-lg shadow-primary/5 border border-primary/20 backdrop-blur-sm"
-                    >
-                        <Calculator className="text-primary dark:text-cyber-cyan w-8 h-8" />
-                    </motion.div>
+
                     <motion.h1
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
