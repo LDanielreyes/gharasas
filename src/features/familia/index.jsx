@@ -1,10 +1,145 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
+
+// Gradientes de fondo sutiles y profesionales
+const SubtleGradientOrbs = () => (
+    <>
+        {/* Orbe principal - muy sutil */}
+        <motion.div
+            className="absolute w-[800px] h-[800px] rounded-full"
+            style={{
+                background: 'radial-gradient(circle, rgba(55,198,216,0.08) 0%, transparent 60%)',
+                top: '-20%',
+                right: '-10%',
+                filter: 'blur(80px)',
+            }}
+            animate={{
+                opacity: [0.5, 0.7, 0.5],
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* Orbe secundario */}
+        <motion.div
+            className="absolute w-[600px] h-[600px] rounded-full"
+            style={{
+                background: 'radial-gradient(circle, rgba(12,77,137,0.12) 0%, transparent 60%)',
+                bottom: '-10%',
+                left: '-5%',
+                filter: 'blur(60px)',
+            }}
+            animate={{
+                opacity: [0.4, 0.6, 0.4],
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
+    </>
+);
+
+// Patrón de líneas diagonales elegantes
+const ElegantLines = () => (
+    <div className="absolute inset-0 overflow-hidden opacity-[0.03]">
+        <div
+            className="absolute inset-0"
+            style={{
+                backgroundImage: `repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 40px,
+                    rgba(255,255,255,0.5) 40px,
+                    rgba(255,255,255,0.5) 41px
+                )`
+            }}
+        />
+    </div>
+);
+
+// Efecto de viñeta sutil
+const Vignette = () => (
+    <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)'
+        }}
+    />
+);
+
+// Línea de luz horizontal que se mueve lentamente
+const ScanLine = () => (
+    <motion.div
+        className="absolute left-0 right-0 h-px opacity-20"
+        style={{
+            background: 'linear-gradient(90deg, transparent, rgba(55,198,216,0.5), transparent)',
+        }}
+        initial={{ top: '0%' }}
+        animate={{ top: ['0%', '100%'] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+    />
+);
+
+// Partículas mínimas y profesionales (solo algunas pequeñas)
+const MinimalParticles = () => {
+    const particles = useMemo(() =>
+        Array.from({ length: 15 }, (_, i) => ({
+            id: i,
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            duration: Math.random() * 30 + 20,
+            delay: Math.random() * 10,
+        })), []
+    );
+
+    return (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {particles.map((particle) => (
+                <motion.div
+                    key={particle.id}
+                    className="absolute w-1 h-1 rounded-full bg-white/20"
+                    style={{
+                        left: `${particle.x}%`,
+                        top: `${particle.y}%`,
+                    }}
+                    animate={{
+                        opacity: [0.1, 0.3, 0.1],
+                        scale: [1, 1.2, 1],
+                    }}
+                    transition={{
+                        duration: particle.duration,
+                        repeat: Infinity,
+                        delay: particle.delay,
+                        ease: "easeInOut",
+                    }}
+                />
+            ))}
+        </div>
+    );
+};
+
+// Overlay con textura de ruido para apariencia premium
+const NoiseTexture = () => (
+    <div
+        className="absolute inset-0 opacity-[0.015] pointer-events-none mix-blend-overlay"
+        style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }}
+    />
+);
 
 const FamiliaGharaPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    // Estado para el efecto de hover del mouse
+    const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+
+    const handleMouseMove = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setMousePosition({
+            x: ((e.clientX - rect.left) / rect.width) * 100,
+            y: ((e.clientY - rect.top) / rect.height) * 100,
+        });
+    };
 
     // Form State
     const [formData, setFormData] = useState({
@@ -15,57 +150,195 @@ const FamiliaGharaPage = () => {
         message: ''
     });
 
+    // Estado para el envío del formulario
+    const [isSending, setIsSending] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        alert('Mensaje enviado (Simulación). Gracias por contactarnos.');
-        setFormData({ type: 'Petición', name: '', id: '', email: '', message: '' });
+        setIsSending(true);
+        setSubmitStatus(null);
+
+        // CONFIGURACIÓN DE EMAILJS
+        const SERVICE_ID = 'service_n6c86pz';
+        const TEMPLATE_ID = 'template_8mmbr0b';
+        const PUBLIC_KEY = 'Kj5T5N8Q9CEk299Ne';
+
+        try {
+            // Si no hay keys configuradas, simulamos éxito (para desarrollo)
+            if (PUBLIC_KEY === 'user_ghara_key') {
+                console.warn('⚠️ Credenciales de EmailJS no configuradas. Simulando envío.');
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            } else {
+                await emailjs.send(SERVICE_ID, TEMPLATE_ID, formData, PUBLIC_KEY);
+            }
+
+            setSubmitStatus('success');
+            setFormData({ type: 'Petición', name: '', id: '', email: '', message: '' });
+
+            // Limpiar mensaje de éxito después de 5 segundos
+            setTimeout(() => setSubmitStatus(null), 5000);
+
+        } catch (error) {
+            console.error('Error al enviar email:', error);
+            setSubmitStatus('error');
+        } finally {
+            setIsSending(false);
+        }
+    };
+
+    // Variantes de animación para texto - carga inmediata
+    const containerVariants = {
+        hidden: { opacity: 1 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0,
+                delayChildren: 0
+            }
+        }
+    };
+
+    const wordVariants = {
+        hidden: {
+            opacity: 1,
+            y: 0,
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0
+            }
+        }
+    };
+
+    // Sin efecto de glow pulsante - más elegante
+    const subtleVariants = {
+        initial: { opacity: 0.9 },
+        animate: {
+            opacity: 1,
+            transition: { duration: 0.5 }
+        }
     };
 
     return (
         <div className="bg-slate-50 dark:bg-black font-body selection:bg-cyan-500/30">
 
-            {/* Hero Section - Full Screen & Centered */}
-            <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 z-0">
-                    <img
-                        src="/media/family-hero.jpg"
-                        alt="Familia Ghara"
-                        className="w-full h-full object-cover object-center scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/90"></div>
-                </div>
+            {/* Hero Section - Full Screen con Fondo Animado */}
+            <section
+                className="relative min-h-screen flex items-center justify-center overflow-hidden"
+                onMouseMove={handleMouseMove}
+            >
+                {/* Fondo con gradiente dinámico que sigue al mouse */}
+                <div
+                    className="absolute inset-0 z-0 transition-all duration-500"
+                    style={{
+                        background: `
+                            radial-gradient(
+                                circle at ${mousePosition.x}% ${mousePosition.y}%,
+                                rgba(55,198,216,0.15) 0%,
+                                transparent 50%
+                            ),
+                            linear-gradient(
+                                135deg,
+                                #0C4D89 0%,
+                                #0d3a5f 25%,
+                                #0a2a42 50%,
+                                #081b2b 75%,
+                                #050e15 100%
+                            )
+                        `
+                    }}
+                />
 
+                {/* Elementos decorativos profesionales */}
+                <SubtleGradientOrbs />
+                <ElegantLines />
+                <NoiseTexture />
+                <ScanLine />
+                <MinimalParticles />
+                <Vignette />
+
+                {/* Contenido */}
                 <div className="container mx-auto px-4 md:px-6 relative z-10 text-center text-white pt-20">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        initial="hidden"
+                        animate="visible"
+                        variants={containerVariants}
                     >
-                        <span className="inline-block px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-xs font-bold uppercase tracking-[0.2em] mb-6">
+                        {/* Badge */}
+                        <span
+                            className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 backdrop-blur-md text-xs font-bold uppercase tracking-[0.2em] mb-8"
+                        >
+                            <span className="w-2 h-2 rounded-full bg-cyan-400" />
                             Familia Ghara
                         </span>
-                        <h1 className="font-display font-bold text-5xl md:text-7xl lg:text-8xl mb-8 leading-tight">
-                            ¿Quiénes <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 italic">somos?</span>
-                        </h1>
-                        <p className="text-lg md:text-2xl max-w-2xl mx-auto text-slate-200 font-light leading-relaxed mb-12">
-                            Más que una empresa, somos su aliado. Entendemos el <span className="font-bold text-white">confort</span> como una necesidad esencial, no un lujo.
+
+                        {/* Título con animación sutil */}
+                        <motion.h1
+                            className="font-display font-bold text-5xl md:text-7xl lg:text-8xl mb-8 leading-tight"
+                            variants={containerVariants}
+                        >
+                            <motion.span variants={wordVariants} className="inline-block mr-4">¿Quiénes</motion.span>
+                            <motion.span
+                                variants={wordVariants}
+                                className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-cyan-500 italic"
+                            >
+                                somos?
+                            </motion.span>
+                        </motion.h1>
+
+                        {/* Descripción */}
+                        <p className="text-lg md:text-2xl max-w-2xl mx-auto text-slate-200/90 font-light leading-relaxed mb-12">
+                            Más que una empresa, somos su aliado. Entendemos el{' '}
+                            <span className="font-bold text-cyan-300">
+                                confort
+                            </span>{' '}
+                            como una necesidad esencial, no un lujo.
                         </p>
+
+                        {/* Botones de acción */}
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                            <a
+                                href="#pqr"
+                                className="group relative px-8 py-4 bg-gradient-to-r from-cyan-400 to-cyan-500 text-slate-900 font-bold rounded-full overflow-hidden hover:shadow-lg hover:shadow-cyan-500/30 transition-all"
+                            >
+                                <span className="relative z-10 flex items-center gap-2">
+                                    <span className="material-symbols-outlined">forum</span>
+                                    Contáctanos
+                                </span>
+                            </a>
+                            <button
+                                className="group px-8 py-4 border border-white/30 text-white font-bold rounded-full backdrop-blur-sm hover:bg-white/10 transition-all"
+                                onClick={() => {
+                                    const element = document.querySelector('section:nth-of-type(2)');
+                                    element?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                            >
+                                <span className="flex items-center gap-2">
+                                    Conoce más
+                                    <span className="material-symbols-outlined">arrow_forward</span>
+                                </span>
+                            </button>
+                        </div>
                     </motion.div>
                 </div>
 
                 {/* Scroll Indicator */}
-                <motion.div
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50"
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                >
-                    <span className="material-symbols-outlined text-4xl">expand_more</span>
-                </motion.div>
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+                    <span className="text-xs text-white/50 uppercase tracking-widest">
+                        Desplaza
+                    </span>
+                    <div className="w-6 h-10 rounded-full border-2 border-white/30 flex justify-center pt-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                    </div>
+                </div>
             </section>
 
             {/* Essence Section - 3 Cards Highlight */}
@@ -353,7 +626,7 @@ const FamiliaGharaPage = () => {
                                 </div>
                                 <div className="flex items-center gap-4 text-sm">
                                     <span className="material-symbols-outlined text-cyan-400">mail</span>
-                                    <span>contacto@ghara.co</span>
+                                    <span>gharasas.colombia@gmail.com</span>
                                 </div>
                             </div>
                         </div>
@@ -369,7 +642,8 @@ const FamiliaGharaPage = () => {
                                             value={formData.name}
                                             onChange={handleInputChange}
                                             required
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all"
+                                            disabled={isSending}
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50"
                                             placeholder="Tu nombre completo"
                                         />
                                     </div>
@@ -381,7 +655,8 @@ const FamiliaGharaPage = () => {
                                             value={formData.email}
                                             onChange={handleInputChange}
                                             required
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all"
+                                            disabled={isSending}
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50"
                                             placeholder="tucorreo@ejemplo.com"
                                         />
                                     </div>
@@ -395,7 +670,8 @@ const FamiliaGharaPage = () => {
                                                 name="type"
                                                 value={formData.type}
                                                 onChange={handleInputChange}
-                                                className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all appearance-none"
+                                                disabled={isSending}
+                                                className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all appearance-none disabled:opacity-50"
                                             >
                                                 <option>Petición</option>
                                                 <option>Queja</option>
@@ -407,13 +683,14 @@ const FamiliaGharaPage = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase">Vehículo</label>
+                                        <label className="text-xs font-bold text-slate-500 uppercase">Identificación / Empresa</label>
                                         <input
                                             type="text"
                                             name="id"
                                             value={formData.id}
                                             onChange={handleInputChange}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all"
+                                            disabled={isSending}
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50"
                                             placeholder="Cédula vs, nit..."
                                         />
                                     </div>
@@ -426,14 +703,47 @@ const FamiliaGharaPage = () => {
                                         value={formData.message}
                                         onChange={handleInputChange}
                                         required
-                                        className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all h-32 resize-none"
+                                        disabled={isSending}
+                                        className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all h-32 resize-none disabled:opacity-50"
                                         placeholder="Escribe aquí tu mensaje..."
                                     ></textarea>
                                 </div>
 
-                                <button type="submit" className="bg-[#0b1c2c] text-white px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-slate-800 transition-colors shadow-lg">
-                                    Enviar Mensaje
-                                </button>
+                                <div className="flex flex-col gap-4">
+                                    {submitStatus === 'success' && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-4 py-3 rounded-xl text-sm flex items-center gap-2"
+                                        >
+                                            <span className="material-symbols-outlined text-lg">check_circle</span>
+                                            Solicitud enviada exitosamente. Te responderemos pronto.
+                                        </motion.div>
+                                    )}
+                                    {submitStatus === 'error' && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 px-4 py-3 rounded-xl text-sm flex items-center gap-2"
+                                        >
+                                            <span className="material-symbols-outlined text-lg">error</span>
+                                            Hubo un error al enviar. Por favor intenta nuevamente.
+                                        </motion.div>
+                                    )}
+
+                                    <button
+                                        type="submit"
+                                        disabled={isSending}
+                                        className="bg-[#0b1c2c] text-white px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-slate-800 transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+                                    >
+                                        {isSending ? (
+                                            <>
+                                                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                                Enviando...
+                                            </>
+                                        ) : 'Enviar Mensaje'}
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>

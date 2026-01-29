@@ -30,44 +30,56 @@ const BenefitItem = ({ icon, title, desc, delay }) => (
     </motion.div>
 );
 
-const ServiceCard = ({ icon, title, features, linkText, isEssencial, index }) => (
-    <motion.div
-        className="bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-xl border border-slate-100 dark:border-white/5 relative flex flex-col h-full group"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: index * 0.1, duration: 0.5 }}
-        whileHover={{ y: -8 }}
-    >
-        {isEssencial && (
-            <span className="absolute top-6 right-6 bg-cyan-400 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                Esencial
-            </span>
-        )}
+const WHATSAPP_NUMBER = '573022326569';
 
-        <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30">
-            <span className="material-symbols-outlined text-3xl">{icon}</span>
-        </div>
+const ServiceCard = ({ icon, title, features, linkText, isEssencial, index, whatsappMessage }) => {
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage || `Hola, me interesa el servicio de ${title}`)}`;
 
-        <h3 className="font-display font-bold text-xl text-slate-900 dark:text-white mb-6 pr-8 leading-tight">
-            {title}
-        </h3>
+    return (
+        <motion.div
+            className="bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-xl border border-slate-100 dark:border-white/5 relative flex flex-col h-full group"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1, duration: 0.5 }}
+            whileHover={{ y: -8 }}
+        >
+            {isEssencial && (
+                <span className="absolute top-6 right-6 bg-cyan-400 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    Esencial
+                </span>
+            )}
 
-        <ul className="space-y-3 mb-8 flex-grow">
-            {features.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-3 text-slate-600 dark:text-slate-400 text-sm">
-                    <span className="material-symbols-outlined text-cyan-500 text-base mt-0.5">check_circle</span>
-                    {item}
-                </li>
-            ))}
-        </ul>
+            <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30">
+                <span className="material-symbols-outlined text-3xl">{icon}</span>
+            </div>
 
-        <a href="#" className="flex items-center gap-2 text-blue-600 dark:text-cyan-400 font-bold text-sm group-hover:gap-3 transition-all">
-            {linkText}
-            <span className="material-symbols-outlined text-lg">arrow_forward</span>
-        </a>
-    </motion.div>
-);
+            <h3 className="font-display font-bold text-xl text-slate-900 dark:text-white mb-6 pr-8 leading-tight">
+                {title}
+            </h3>
+
+            <ul className="space-y-3 mb-8 flex-grow">
+                {features.map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-3 text-slate-600 dark:text-slate-400 text-sm">
+                        <span className="material-symbols-outlined text-cyan-500 text-base mt-0.5">check_circle</span>
+                        {item}
+                    </li>
+                ))}
+            </ul>
+
+            <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-blue-600 dark:text-cyan-400 font-bold text-sm group-hover:gap-3 transition-all"
+            >
+                <span className="material-symbols-outlined text-lg text-green-500">chat</span>
+                {linkText}
+                <span className="material-symbols-outlined text-lg">arrow_forward</span>
+            </a>
+        </motion.div>
+    );
+};
 
 const ResidentialServices = () => {
     useEffect(() => {
@@ -81,8 +93,8 @@ const ResidentialServices = () => {
             <div className="relative h-[600px] flex items-center">
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop"
-                        alt="Familia feliz en sala con aire acondicionado"
+                        src="https://img.freepik.com/foto-gratis/hombre-sonriente-tiro-medio-autocaravana_23-2149268838.jpg?t=st=1769721743~exp=1769725343~hmac=334c1a39d2d1e1552f7126c7eab131fc271e5178bb9b93c624603abdc9abe8dd&w=1480"
+                        alt="Cliente disfrutando del confort del aire acondicionado"
                         className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-transparent"></div>
@@ -118,6 +130,7 @@ const ResidentialServices = () => {
                         index={0}
                         icon="mode_fan"
                         title="Suministro de equipos Mini Split y Cortinas"
+                        whatsappMessage="Hola, me interesa cotizar *Suministro de equipos Mini Split y Cortinas* para mi hogar."
                         features={["Marcas líderes del mercado", "Asesoría en dimensionamiento", "Garantía directa"]}
                         linkText="Cotizar Equipo"
                     />
@@ -125,6 +138,7 @@ const ResidentialServices = () => {
                         index={1}
                         icon="build"
                         title="Instalación Profesional Certificada"
+                        whatsappMessage="Hola, me interesa agendar una *Instalación Profesional Certificada*."
                         features={["Técnicos certificados", "Uso de materiales de primera", "Respeto por la estética"]}
                         linkText="Agendar Instalación"
                     />
@@ -133,6 +147,7 @@ const ResidentialServices = () => {
                         icon="shield"
                         title="Mantenimiento Preventivo"
                         isEssencial={true}
+                        whatsappMessage="Hola, deseo programar un *Mantenimiento Preventivo* residencial."
                         features={["Evita pérdida de capacidad", "Limpieza profunda", "Eliminación de bacterias"]}
                         linkText="Programar Mantenimiento"
                     />
@@ -140,6 +155,7 @@ const ResidentialServices = () => {
                         index={3}
                         icon="bolt"
                         title="Reparación y Carga de Gas"
+                        whatsappMessage="Hola, necesito solicitar una revisión para *Reparación y Carga de Gas*."
                         features={["Diagnóstico técnico preciso", "Recarga de refrigerante", "Soluciones rápidas"]}
                         linkText="Solicitar Revisión"
                     />

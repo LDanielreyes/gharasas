@@ -102,7 +102,7 @@ const ContactModal = ({ isOpen, onClose }) => {
                                     </div>
                                     <button
                                         onClick={onClose}
-                                        className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-colors"
+                                        className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-colors"
                                     >
                                         <span className="material-symbols-outlined">close</span>
                                     </button>

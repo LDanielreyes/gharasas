@@ -30,44 +30,56 @@ const BenefitItem = ({ icon, title, desc, delay }) => (
     </motion.div>
 );
 
-const ServiceCard = ({ icon, title, features, linkText, isEssencial, index }) => (
-    <motion.div
-        className="bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-xl border border-slate-100 dark:border-white/5 relative flex flex-col h-full group"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: index * 0.1, duration: 0.5 }}
-        whileHover={{ y: -8 }}
-    >
-        {isEssencial && (
-            <span className="absolute top-6 right-6 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                Corporativo
-            </span>
-        )}
+const WHATSAPP_NUMBER = '573022326569';
 
-        <div className="w-14 h-14 rounded-2xl bg-slate-900 dark:bg-slate-800 text-white dark:text-cyan-400 flex items-center justify-center mb-6 shadow-lg shadow-slate-500/20">
-            <span className="material-symbols-outlined text-3xl">{icon}</span>
-        </div>
+const ServiceCard = ({ icon, title, features, linkText, isEssencial, index, whatsappMessage }) => {
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage || `Hola, me interesa el servicio de ${title}`)}`;
 
-        <h3 className="font-display font-bold text-xl text-slate-900 dark:text-white mb-6 pr-8 leading-tight">
-            {title}
-        </h3>
+    return (
+        <motion.div
+            className="bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-xl border border-slate-100 dark:border-white/5 relative flex flex-col h-full group"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1, duration: 0.5 }}
+            whileHover={{ y: -8 }}
+        >
+            {isEssencial && (
+                <span className="absolute top-6 right-6 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    Corporativo
+                </span>
+            )}
 
-        <ul className="space-y-3 mb-8 flex-grow">
-            {features.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-3 text-slate-600 dark:text-slate-400 text-sm">
-                    <span className="material-symbols-outlined text-blue-500 text-base mt-0.5">check_circle</span>
-                    {item}
-                </li>
-            ))}
-        </ul>
+            <div className="w-14 h-14 rounded-2xl bg-slate-900 dark:bg-slate-800 text-white dark:text-cyan-400 flex items-center justify-center mb-6 shadow-lg shadow-slate-500/20">
+                <span className="material-symbols-outlined text-3xl">{icon}</span>
+            </div>
 
-        <a href="#" className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-sm group-hover:gap-3 transition-all hover:text-blue-600 dark:hover:text-cyan-400">
-            {linkText}
-            <span className="material-symbols-outlined text-lg">arrow_forward</span>
-        </a>
-    </motion.div>
-);
+            <h3 className="font-display font-bold text-xl text-slate-900 dark:text-white mb-6 pr-8 leading-tight">
+                {title}
+            </h3>
+
+            <ul className="space-y-3 mb-8 flex-grow">
+                {features.map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-3 text-slate-600 dark:text-slate-400 text-sm">
+                        <span className="material-symbols-outlined text-blue-500 text-base mt-0.5">check_circle</span>
+                        {item}
+                    </li>
+                ))}
+            </ul>
+
+            <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-sm group-hover:gap-3 transition-all hover:text-blue-600 dark:hover:text-cyan-400"
+            >
+                <span className="material-symbols-outlined text-lg text-green-500">chat</span>
+                {linkText}
+                <span className="material-symbols-outlined text-lg">arrow_forward</span>
+            </a>
+        </motion.div>
+    );
+};
 
 const EnterpriseServices = () => {
     useEffect(() => {
@@ -118,6 +130,7 @@ const EnterpriseServices = () => {
                         index={0}
                         icon="factory"
                         title="Mantenimiento Industrial"
+                        whatsappMessage="Hola, me interesa gestionar un contrato de *Mantenimiento Industrial*."
                         features={["Protocolos ISO", "Gestión de activos", "Informes técnicos detallados"]}
                         linkText="Gestionar Contrato"
                     />
@@ -125,6 +138,7 @@ const EnterpriseServices = () => {
                         index={1}
                         icon="hub"
                         title="Proyectos VRF y Chillers"
+                        whatsappMessage="Hola, quiero cotizar un *Proyecto VRF y Chillers*."
                         features={["Diseño de ingeniería", "Instalación certificada", "Puesta en marcha"]}
                         linkText="Cotizar Proyecto"
                     />
@@ -132,6 +146,7 @@ const EnterpriseServices = () => {
                         index={2}
                         icon="air"
                         title="Sistemas de Ventilación"
+                        whatsappMessage="Hola, me interesa ver soluciones de *Sistemas de Ventilación*."
                         features={["Extracción industrial", "Filtrado HEPA", "Calidad de aire interior"]}
                         linkText="Ver Soluciones"
                     />
@@ -140,6 +155,7 @@ const EnterpriseServices = () => {
                         icon="query_stats"
                         title="Auditoría Energética"
                         isEssencial={true}
+                        whatsappMessage="Hola, quiero solicitar una *Auditoría Energética* para mi empresa."
                         features={["Análisis de consumo", "Optimización ROI", "Automatización BMS"]}
                         linkText="Solicitar Auditoría"
                     />

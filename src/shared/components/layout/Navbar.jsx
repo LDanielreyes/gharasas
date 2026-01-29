@@ -315,7 +315,7 @@ const Navbar = () => {
                         {/* Theme Toggle */}
                         <motion.button
                             onClick={toggleTheme}
-                            className={`p-2.5 rounded-full transition-colors ${useDarkText ? 'hover:bg-slate-100 text-slate-700' : 'hover:bg-white/20 text-white'}`}
+                            className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${useDarkText ? 'hover:bg-slate-100 text-slate-700' : 'hover:bg-white/20 text-white'}`}
                             whileHover={{ rotate: 15, scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             aria-label="Alternar tema"

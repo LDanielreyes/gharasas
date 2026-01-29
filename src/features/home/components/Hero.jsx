@@ -34,7 +34,7 @@ const Hero = () => {
                         className="font-display font-bold text-6xl lg:text-7xl xl:text-8xl leading-none text-white mb-8 tracking-tight drop-shadow-lg"
                     >
                         Expertos en <br />
-                        <span className="text-cyan-400 drop-shadow-[0_0_30px_rgba(34,211,238,0.4)]">Aires Acondicionados</span>
+                        <span className="text-cyan-400">Aires Acondicionados</span>
                     </motion.h1>
 
                     <motion.p

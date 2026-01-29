@@ -28,63 +28,7 @@ const BenefitCard = ({ icon, title, description, index }) => {
     );
 };
 
-const GrowthCard = ({ isCompany, title, perks, linkText, index }) => {
-    const ref = React.useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-    return (
-        <motion.div
-            ref={ref}
-            initial={{ opacity: 0, x: isCompany ? 50 : -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isCompany ? 50 : -50 }}
-            transition={{ duration: 0.6, delay: index * 0.2 }}
-            className={`p-10 rounded-[2.5rem] relative overflow-hidden transition-all duration-500 hover:shadow-2xl
-        ${isCompany
-                    ? 'bg-slate-900 text-white dark:bg-black dark:border dark:border-cyber-cyan/30'
-                    : 'bg-white text-slate-900 border border-slate-100 shadow-xl dark:bg-slate-900 dark:text-white dark:border-white/10'
-                }
-    `}>
-            {/* Badge */}
-            <div className={`inline-block px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6
-            ${isCompany ? 'bg-white/10 text-white' : 'bg-blue-50 text-primary dark:bg-cyber-cyan/10 dark:text-cyber-cyan'}
-        `}>
-                {isCompany ? 'Para Organizaciones' : 'Para Profesionales'}
-            </div>
-
-            <h3 className="font-display font-bold text-3xl mb-8">{title}</h3>
-
-            <ul className="space-y-4 mb-10">
-                {perks.map((perk, idx) => (
-                    <motion.li
-                        key={idx}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                        transition={{ duration: 0.4, delay: 0.4 + idx * 0.1 }}
-                        className="flex items-start gap-3 text-sm"
-                    >
-                        <span className={`material-symbols-outlined text-lg mt-0.5
-                        ${isCompany ? 'text-cyan-400 dark:text-cyber-cyan' : 'text-primary dark:text-cyber-cyan'}
-                    `}>check_circle</span>
-                        <span className={isCompany ? 'text-slate-300' : 'text-slate-600 dark:text-slate-300'}>{perk}</span>
-                    </motion.li>
-                ))}
-            </ul>
-
-            <a href={isCompany ? "https://ukyk65xb.forms.app/untitled-form" : "#"} target={isCompany ? "_blank" : "_self"} className={`inline-flex items-center gap-2 font-bold text-sm transition-all hover:gap-3
-            ${isCompany ? 'text-white hover:text-cyan-400' : 'text-primary hover:text-secondary dark:text-cyber-cyan'}
-        `}>
-                {linkText} <span className="material-symbols-outlined text-lg">arrow_forward</span>
-            </a>
-
-            {/* Decorative Icon */}
-            <span className={`material-symbols-outlined absolute bottom-4 right-4 text-[10rem] opacity-5 pointer-events-none
-            ${isCompany ? 'text-white' : 'text-slate-900 dark:text-white'}
-        `}>
-                {isCompany ? 'domain' : 'engineering'}
-            </span>
-        </motion.div>
-    );
-};
 
 const FaqItem = ({ question, answer }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -144,10 +88,10 @@ const AfiliadosPage = () => {
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={activeTab}
-                            initial={{ opacity: 0 }}
+                            initial={{ opacity: 1 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 1 }}
+                            transition={{ duration: 0.3 }}
                             className="absolute inset-0"
                         >
                             <img
@@ -170,9 +114,9 @@ const AfiliadosPage = () => {
                         {/* Badge */}
                         <motion.div
                             key={`badge-${activeTab}`}
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 1, y: 0 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6 }}
+                            transition={{ duration: 0 }}
                             className="mb-6"
                         >
                             <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase text-white bg-gradient-to-r ${activeColorClass}`}>
@@ -184,9 +128,9 @@ const AfiliadosPage = () => {
                         <motion.h1
                             key={`title-${activeTab}`}
                             className="font-display font-bold text-5xl md:text-7xl text-white leading-tight mb-6"
-                            initial={{ opacity: 0, x: -30 }}
+                            initial={{ opacity: 1, x: 0 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
+                            transition={{ duration: 0 }}
                         >
                             {activeTab === 'tecnicos' ? (
                                 <>
@@ -205,9 +149,9 @@ const AfiliadosPage = () => {
                         <motion.p
                             key={`desc-${activeTab}`}
                             className="text-xl text-slate-200 leading-relaxed mb-10 border-l-4 border-cyan-400 pl-6"
-                            initial={{ opacity: 0, x: -30 }}
+                            initial={{ opacity: 1, x: 0 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, delay: 0.3 }}
+                            transition={{ duration: 0 }}
                         >
                             {activeTab === 'tecnicos'
                                 ? 'Accede a proyectos exclusivos, capacitación continua y herramientas profesionales.'
@@ -218,9 +162,9 @@ const AfiliadosPage = () => {
                         {/* CTA Buttons */}
                         <motion.div
                             key={`cta-${activeTab}`}
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 1, y: 0 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.4 }}
+                            transition={{ duration: 0 }}
                             className="flex flex-col sm:flex-row items-start gap-6"
                         >
                             <button
@@ -281,49 +225,126 @@ const AfiliadosPage = () => {
                                         </button>
                                     </div>
 
-                                    <form className="space-y-4">
-                                        <div className="grid grid-cols-2 gap-4">
+                                    {activeTab === 'tecnicos' ? (
+                                        /* Formulario para Técnicos */
+                                        <form className="space-y-4">
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nombre *</label>
-                                                <input type="text" required placeholder="Tu nombre" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nombre completo *</label>
+                                                <input type="text" required placeholder="Tu nombre completo" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
                                             </div>
+
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Número de cédula *</label>
+                                                    <input type="text" required placeholder="Ej: 1234567890" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Número de celular *</label>
+                                                    <input type="tel" required placeholder="Ej: 300 123 4567" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                </div>
+                                            </div>
+
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Ciudad de residencia *</label>
+                                                    <input type="text" required placeholder="Ej: Barranquilla" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Departamento *</label>
+                                                    <input type="text" required placeholder="Ej: Atlántico" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                </div>
+                                            </div>
+
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Apellido *</label>
-                                                <input type="text" required placeholder="Tu apellido" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Dirección *</label>
+                                                <input type="text" required placeholder="Ej: Calle 45 #23-10" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
                                             </div>
-                                        </div>
 
-                                        <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{activeTab === 'tecnicos' ? 'Cédula / NIT *' : 'Razón Social / NIT *'}</label>
-                                            <input type="text" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
-                                        </div>
-
-                                        <div className="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Celular *</label>
-                                                <input type="tel" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Correo electrónico</label>
+                                                <input type="email" placeholder="tucorreo@ejemplo.com" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
                                             </div>
+
+                                            {/* Sección de documentos */}
+                                            <div className="pt-4 border-t border-slate-200 dark:border-white/10">
+                                                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Documentos adjuntos</p>
+
+                                                <div className="space-y-3">
+                                                    <div>
+                                                        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Hoja de vida (HV) *</label>
+                                                        <input type="file" required accept=".pdf,.doc,.docx" className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary dark:file:bg-cyber-cyan/10 dark:file:text-cyber-cyan hover:file:bg-primary/20 cursor-pointer" />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Certificados de estudio *</label>
+                                                        <input type="file" required accept=".pdf,.jpg,.jpeg,.png" className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary dark:file:bg-cyber-cyan/10 dark:file:text-cyber-cyan hover:file:bg-primary/20 cursor-pointer" />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Certificado de trabajo en altura</label>
+                                                        <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary dark:file:bg-cyber-cyan/10 dark:file:text-cyber-cyan hover:file:bg-primary/20 cursor-pointer" />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">Certificado de ARL</label>
+                                                        <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary dark:file:bg-cyber-cyan/10 dark:file:text-cyber-cyan hover:file:bg-primary/20 cursor-pointer" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                type="submit"
+                                                className={`w-full py-4 mt-4 rounded-xl font-bold text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 bg-gradient-to-r ${activeColorClass}`}
+                                            >
+                                                Enviar Solicitud
+                                            </button>
+                                            <p className="text-center text-xs text-slate-400 mt-4">
+                                                Al enviar aceptas nuestra política de tratamiento de datos.
+                                            </p>
+                                        </form>
+                                    ) : (
+                                        /* Formulario para Distribuidores */
+                                        <form className="space-y-4">
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nombre *</label>
+                                                    <input type="text" required placeholder="Tu nombre" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Apellido *</label>
+                                                    <input type="text" required placeholder="Tu apellido" className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                </div>
+                                            </div>
+
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Email *</label>
-                                                <input type="email" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Razón Social / NIT *</label>
+                                                <input type="text" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
                                             </div>
-                                        </div>
 
-                                        <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Ciudad *</label>
-                                            <input type="text" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
-                                        </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Celular *</label>
+                                                    <input type="tel" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Email *</label>
+                                                    <input type="email" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                                </div>
+                                            </div>
 
-                                        <button
-                                            type="submit"
-                                            className={`w-full py-4 mt-4 rounded-xl font-bold text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 bg-gradient-to-r ${activeColorClass}`}
-                                        >
-                                            Enviar Solicitud
-                                        </button>
-                                        <p className="text-center text-xs text-slate-400 mt-4">
-                                            Al enviar aceptas nuestra política de tratamiento de datos.
-                                        </p>
-                                    </form>
+                                            <div>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Ciudad *</label>
+                                                <input type="text" required className="w-full bg-slate-50 dark:bg-black border border-slate-200 dark:border-white/20 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary dark:focus:border-cyber-cyan transition-colors" />
+                                            </div>
+
+                                            <button
+                                                type="submit"
+                                                className={`w-full py-4 mt-4 rounded-xl font-bold text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 bg-gradient-to-r ${activeColorClass}`}
+                                            >
+                                                Enviar Solicitud
+                                            </button>
+                                            <p className="text-center text-xs text-slate-400 mt-4">
+                                                Al enviar aceptas nuestra política de tratamiento de datos.
+                                            </p>
+                                        </form>
+                                    )}
                                 </div>
                             </motion.div>
                         </div>
@@ -405,80 +426,7 @@ const AfiliadosPage = () => {
             </section>
 
             {/* Growth Path - Conditional Rendering */}
-            <section className="py-24 bg-slate-50 dark:bg-surface-dark">
-                <div className="container mx-auto px-4 md:px-6">
-                    <motion.div
-                        className="text-center mb-16"
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <h2 className="font-display font-bold text-4xl text-slate-900 dark:text-white mb-4">
-                            {activeTab === 'tecnicos' ? 'Tu Camino Profesional' : 'Modelos de Distribución'}
-                        </h2>
-                        <p className="text-slate-500 max-w-2xl mx-auto">
-                            {activeTab === 'tecnicos'
-                                ? 'Diseñamos un plan de carrera para acompañar tu crecimiento desde nivel junior hasta master.'
-                                : 'Opciones flexibles adaptadas al tamaño y capacidad operativa de tu empresa.'}
-                        </p>
-                    </motion.div>
 
-                    <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                        {activeTab === 'tecnicos' ? (
-                            <>
-                                <GrowthCard
-                                    isCompany={false}
-                                    title="Técnico Aliado"
-                                    perks={[
-                                        "Acceso a capacitaciones básicas",
-                                        "Descuentos en repuestos",
-                                        "Uniforme oficial básico"
-                                    ]}
-                                    linkText="Aplicar Ahora"
-                                    index={0}
-                                />
-                                <GrowthCard
-                                    isCompany={false}
-                                    title="Técnico Master"
-                                    perks={[
-                                        "Prioridad en asignación de servicios",
-                                        "Certificación avanzada VRF",
-                                        "Herramientas especializadas a crédito"
-                                    ]}
-                                    linkText="Ver Requisitos Master"
-                                    index={1}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <GrowthCard
-                                    isCompany={true}
-                                    title="Distribuidor Autorizado"
-                                    perks={[
-                                        "Acceso a lista de precios mayorista",
-                                        "Material POP para punto de venta",
-                                        "Capacitación para fuerza de ventas"
-                                    ]}
-                                    linkText="Ser Distribuidor"
-                                    index={0}
-                                />
-                                <GrowthCard
-                                    isCompany={true}
-                                    title="Premium Partner"
-                                    perks={[
-                                        "Los mejores márgenes del mercado",
-                                        "Línea de crédito extendida",
-                                        "Rebates anuales por volumen de venta"
-                                    ]}
-                                    linkText="Aplicar a Premium"
-                                    index={1}
-                                />
-                            </>
-                        )}
-                    </div>
-                </div>
-            </section>
 
             {/* Process Steps */}
             <section className="py-24 bg-white dark:bg-black">
@@ -566,12 +514,23 @@ const AfiliadosPage = () => {
                         No pierdas la oportunidad de ser parte de la red de climatización más robusta y moderna de la región.
                     </p>
                     <div className="flex justify-center gap-4">
-                        <button className="bg-primary hover:bg-white hover:text-primary dark:bg-cyber-cyan dark:hover:bg-white dark:text-black font-bold py-4 px-8 rounded-xl transition-all shadow-lg">
+                        <button
+                            onClick={() => {
+                                setIsFormOpen(true);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                            className="bg-primary hover:bg-white hover:text-primary dark:bg-cyber-cyan dark:hover:bg-white dark:text-black font-bold py-4 px-8 rounded-xl transition-all shadow-lg"
+                        >
                             Postular Ahora
                         </button>
-                        <button className="bg-transparent border border-white/30 hover:bg-white/10 py-4 px-8 rounded-xl font-bold transition-all">
+                        <a
+                            href="https://wa.me/573022326569"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-transparent border border-white/30 hover:bg-white/10 py-4 px-8 rounded-xl font-bold transition-all inline-block"
+                        >
                             Hablar con Ventas
-                        </button>
+                        </a>
                     </div>
                 </div>
             </section>

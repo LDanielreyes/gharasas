@@ -14,7 +14,7 @@ const DistributionCenter = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
                     className="relative h-[500px] rounded-3xl overflow-hidden group shadow-2xl cursor-pointer"
-                    onClick={() => navigate('/aliados')}
+                    onClick={() => navigate('/aliados?tab=distribuidores')}
                 >
                     <div className="absolute inset-0">
                         <img
@@ -61,7 +61,7 @@ const DistributionCenter = () => {
                             whileTap={{ scale: 0.95 }}
                             onClick={(e) => {
                                 e.stopPropagation();
-                                navigate('/aliados');
+                                navigate('/aliados?tab=distribuidores');
                             }}
                             className="bg-white/90 backdrop-blur-md text-slate-900 hover:bg-white px-10 py-4 rounded-full font-bold text-lg transition-all shadow-2xl border border-white/50"
                         >
