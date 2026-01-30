@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
+import { useSEO } from '../../shared/hooks/useSEO';
 
 // Gradientes de fondo sutiles y profesionales
 const SubtleGradientOrbs = () => (
@@ -125,7 +126,149 @@ const NoiseTexture = () => (
     />
 );
 
+// Componente Carrusel de Equipo
+const TeamCarousel = () => {
+    const [activeIndex, setActiveIndex] = useState(0); // Start with CEO (index 0)
+
+    const members = [
+        { name: 'Raquel Ariza', role: 'CEO', img: '/media/EquipoGhara/tarjeta raqueljpeg.jpeg' },
+        { name: 'Álvaro Ariza', role: 'Operaciones y Mantenimiento', img: '/media/EquipoGhara/tarjeta alvaro.jpeg' },
+        { name: 'Cesar Ariza', role: 'Operaciones y Mantenimiento', img: '/media/EquipoGhara/tarjeta cesar.jpeg' },
+        { name: 'Argemiro Paternina', role: 'Compras & Abastecimiento', img: '/media/EquipoGhara/tarjeta argemiro.jpeg' },
+        { name: 'Victoria Acosta', role: 'Marketing', img: '/media/EquipoGhara/tarjeta victoriajpeg.jpeg' }
+    ];
+
+    const nextSlide = () => {
+        setActiveIndex((prev) => (prev + 1) % members.length);
+    };
+
+    const prevSlide = () => {
+        setActiveIndex((prev) => (prev - 1 + members.length) % members.length);
+    };
+
+    return (
+        <div className="relative w-full max-w-5xl mx-auto h-[500px] flex items-center justify-center perspective-1000">
+            {/* Left Arrow */}
+            <button
+                onClick={prevSlide}
+                className="absolute left-4 z-30 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 dark:text-white hover:bg-white/20 transition-all shadow-lg hidden md:flex"
+            >
+                <span className="material-symbols-outlined">chevron_left</span>
+            </button>
+
+            {/* Right Arrow */}
+            <button
+                onClick={nextSlide}
+                className="absolute right-4 z-30 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 dark:text-white hover:bg-white/20 transition-all shadow-lg hidden md:flex"
+            >
+                <span className="material-symbols-outlined">chevron_right</span>
+            </button>
+
+            {/* Cards Container */}
+            <div className="relative w-full h-full flex items-center justify-center">
+                <div className="flex items-center justify-center w-full h-full relative">
+                    {members.map((member, index) => {
+                        // Calculate position relative to active index
+                        // We want to show: prev, current, next.
+                        // But getting circular distance is better for 3D effect
+
+                        let offset = (index - activeIndex);
+                        // Adjust for circular logic
+                        if (offset > members.length / 2) offset -= members.length;
+                        if (offset < -members.length / 2) offset += members.length;
+
+                        // Only render if close to center (optimization)
+                        if (Math.abs(offset) > 2) return null;
+
+                        const styles = {
+                            '0': { scale: 1.1, opacity: 1, zIndex: 20, x: 0, rotateY: 0, blur: 0 },
+                            '1': { scale: 0.85, opacity: 0.6, zIndex: 10, x: 200, rotateY: -15, blur: '2px' },
+                            '-1': { scale: 0.85, opacity: 0.6, zIndex: 10, x: -200, rotateY: 15, blur: '2px' },
+                            '2': { scale: 0.7, opacity: 0.3, zIndex: 5, x: 350, rotateY: -30, blur: '5px' },
+                            '-2': { scale: 0.7, opacity: 0.3, zIndex: 5, x: -350, rotateY: 30, blur: '5px' }
+                        };
+
+                        const currentStyle = styles[offset] || { scale: 0, opacity: 0 };
+
+                        // Mobile adjustment
+                        const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+                        const xOffset = isMobile ? (offset * 100) : currentStyle.x;
+
+                        return (
+                            <motion.div
+                                key={index}
+                                layout
+                                initial={false}
+                                animate={{
+                                    scale: currentStyle.scale,
+                                    opacity: currentStyle.opacity,
+                                    zIndex: currentStyle.zIndex,
+                                    x: xOffset,
+                                    rotateY: currentStyle.rotateY,
+                                    filter: `blur(${currentStyle.blur})`
+                                }}
+                                transition={{ type: "spring", stiffness: 120, damping: 20, mass: 1.1 }}
+                                className="absolute top-0 w-72 md:w-80 h-[450px] shadow-2xl rounded-2xl overflow-hidden cursor-pointer"
+                                onClick={() => setActiveIndex(index)}
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                    backgroundColor: 'rgba(255, 255, 255, 0.05)', // Fallback
+                                }}
+                            >
+                                <img
+                                    src={member.img}
+                                    alt={member.name}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex flex-col justify-end p-8">
+                                    <motion.div
+                                        animate={{ y: offset === 0 ? 0 : 20, opacity: offset === 0 ? 1 : 0 }}
+                                    >
+                                        <h3 className="font-display font-bold text-2xl text-white mb-2">{member.name}</h3>
+                                        <p className="text-cyan-400 font-bold uppercase tracking-wider text-xs">{member.role}</p>
+                                        {offset === 0 && (
+                                            <div className="mt-4 pt-4 border-t border-white/20">
+                                                <div className="flex items-center gap-2 text-white/80 text-sm">
+                                                    <span className="material-symbols-outlined text-sm">verified</span>
+                                                    <span>Miembro Ghara</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                </div>
+                                {offset !== 0 && (
+                                    <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] transition-all hover:bg-black/20"></div>
+                                )}
+                            </motion.div>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* Pagination Indicators */}
+            <div className="flex justify-center gap-3 mt-12 relative z-20">
+                {members.map((_, idx) => (
+                    <button
+                        key={idx}
+                        onClick={() => setActiveIndex(idx)}
+                        className={`transition-all duration-300 rounded-full ${idx === activeIndex
+                            ? 'w-10 h-2 bg-gradient-to-r from-cyan-400 to-blue-500 shadow-lg shadow-cyan-500/50'
+                            : 'w-2 h-2 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400'
+                            }`}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
+
 const FamiliaGharaPage = () => {
+    useSEO({
+        title: "Familia Ghara - Liderazgo y Valores | Ghara SAS",
+        description: "Conoce a la Familia Ghara. Nuestro equipo de liderazgo, nuestra esencia, misión, visión y valores corporativos. Documentación legal y transparencia.",
+        image: "https://gharasas.com/media/family-hero.jpg"
+    });
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -495,111 +638,87 @@ const FamiliaGharaPage = () => {
                 </div>
             </section>
 
-            {/* Team Section - PRESERVED EXACTLY */}
-            <section className="py-24 bg-slate-50 dark:bg-slate-900/30">
-                <div className="container mx-auto px-4 md:px-6">
+            {/* Team Section - Carousel Interactivo */}
+            <section className="py-24 bg-white dark:bg-black overflow-hidden relative">
+                {/* Background Elements */}
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                    <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2"></div>
+                    <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl translate-x-1/2"></div>
+                </div>
+
+                <div className="container mx-auto px-4 md:px-6 relative z-10">
                     <div className="text-center mb-16">
-                        <h2 className="font-display font-bold text-3xl md:text-4xl text-slate-900 dark:text-white mb-2">Liderazgo Ghara</h2>
+                        <h2 className="font-display font-bold text-3xl md:text-5xl text-slate-900 dark:text-white mb-4">Liderazgo Ghara</h2>
+                        <p className="text-slate-500 max-w-lg mx-auto text-sm">
+                            Profesionales comprometidos con garantizar tu confort.
+                        </p>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                        {[
-                            { name: 'Raquel Ariza', role: 'CEO', img: '/media/EquipoGhara/tarjeta raqueljpeg.jpeg' },
-                            { name: 'Álvaro Ariza', role: 'Operaciones y Mantenimiento', img: '/media/EquipoGhara/tarjeta alvaro.jpeg' },
-                            { name: 'Cesar Ariza', role: 'Operaciones y Mantenimiento', img: '/media/EquipoGhara/tarjeta cesar.jpeg' },
-                            { name: 'Argemiro Paternina', role: 'Compras & Abastecimiento', img: '/media/EquipoGhara/tarjeta argemiro.jpeg' },
-                            { name: 'Victoria Acosta', role: 'Marketing', img: '/media/EquipoGhara/tarjeta victoriajpeg.jpeg' }
-                        ].map((member, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                whileHover={{ y: -5 }}
-                                className="group"
-                            >
-                                <div className="aspect-[3/4] rounded-lg overflow-hidden mb-4 relative bg-slate-200 grayscale hover:grayscale-0 transition-all duration-500 shadow-md">
-                                    <img
-                                        src={member.img}
-                                        alt={member.name}
-                                        className="w-full h-full object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-100 flex flex-col justify-end p-4">
-                                        <h3 className="font-bold text-white text-sm leading-tight">{member.name}</h3>
-                                        <p className="text-[10px] text-cyan-400 uppercase tracking-wider font-bold mt-1">{member.role}</p>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                    <TeamCarousel />
+
                 </div>
             </section>
 
-            {/* Documentos Legales - Horizontal Strip */}
-            <section className="py-20 bg-white dark:bg-black border-y border-slate-100 dark:border-white/5">
+            {/* Documentos Legales - Políticas de Datos */}
+            <section className="py-24 bg-slate-50 dark:bg-slate-900/50">
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-                        <h2 className="font-display font-bold text-2xl text-slate-900 dark:text-white">Transparencia</h2>
-                        <span className="text-xs text-slate-400">Documentación oficial actualizada 2024</span>
+                    <div className="text-center mb-12">
+                        <span className="text-primary font-bold text-xs uppercase tracking-widest mb-2 block">Transparencia</span>
+                        <h2 className="font-display font-bold text-3xl text-slate-900 dark:text-white mb-4">Políticas y Autorizaciones</h2>
+                        <p className="text-slate-500 max-w-2xl mx-auto">
+                            En Ghara valoramos tu privacidad. Consulta nuestra documentación oficial.
+                        </p>
                     </div>
 
-                    <div className="grid md:grid-cols-4 gap-6">
-                        {/* Política de Tratamiento de Datos */}
-                        <a
-                            href="/media/documentos/politica-tratamiento-datos.pdf"
-                            download
-                            className="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 transition-colors flex items-center gap-4"
-                        >
-                            <div className="w-10 h-10 bg-white dark:bg-black rounded-lg flex items-center justify-center shadow-sm text-slate-700 dark:text-white">
-                                <span className="material-symbols-outlined text-xl">description</span>
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Política de Privacidad</h3>
-                                <p className="text-[10px] text-slate-500">Descargar PDF</p>
-                            </div>
-                            <span className="material-symbols-outlined text-slate-400 group-hover:text-primary ml-auto text-sm">download</span>
-                        </a>
-
-                        {/* Autorización */}
-                        <a
-                            href="/media/documentos/autorizacion-tratamiento-datos.pdf"
-                            download
-                            className="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 transition-colors flex items-center gap-4"
-                        >
-                            <div className="w-10 h-10 bg-white dark:bg-black rounded-lg flex items-center justify-center shadow-sm text-slate-700 dark:text-white">
-                                <span className="material-symbols-outlined text-xl">verified_user</span>
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Cámaras de Sonrisa</h3>
-                                <p className="text-[10px] text-slate-500">Descargar PDF</p>
-                            </div>
-                            <span className="material-symbols-outlined text-slate-400 group-hover:text-primary ml-auto text-sm">download</span>
-                        </a>
-
-                        {/* Cámara comercio dummy */}
-                        <div className="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 opacity-50 flex items-center gap-4 cursor-not-allowed">
-                            <div className="w-10 h-10 bg-white dark:bg-black rounded-lg flex items-center justify-center shadow-sm text-slate-700 dark:text-white">
-                                <span className="material-symbols-outlined text-xl">store</span>
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Cámara Comercio</h3>
-                                <p className="text-[10px] text-slate-500">Descargar PDF</p>
-                            </div>
-                            <span className="material-symbols-outlined text-slate-400 ml-auto text-sm">lock</span>
-                        </div>
-
-                        {/* Reporte anual dummy */}
-                        <div className="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 opacity-50 flex items-center gap-4 cursor-not-allowed">
-                            <div className="w-10 h-10 bg-white dark:bg-black rounded-lg flex items-center justify-center shadow-sm text-slate-700 dark:text-white">
-                                <span className="material-symbols-outlined text-xl">bar_chart</span>
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-sm text-slate-900 dark:text-white">Reporte Anual</h3>
-                                <p className="text-[10px] text-slate-500">Descargar PDF</p>
-                            </div>
-                            <span className="material-symbols-outlined text-slate-400 ml-auto text-sm">lock</span>
-                        </div>
+                    <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                        {[
+                            {
+                                title: 'Autorización Tratamiento Datos Clientes',
+                                file: 'AUTORIZACIÓN DE TRATAMIENTO DE DATOS CLIENTES V1.docx',
+                                type: 'DOCX',
+                                icon: 'description',
+                                color: 'text-blue-500'
+                            },
+                            {
+                                title: 'Autorización Tratamiento Datos Proveedores',
+                                file: 'AUTORIZACIÓN DE TRATAMIENTO DE DATOS PROVEEDORES V1.docx',
+                                type: 'DOCX',
+                                icon: 'local_shipping',
+                                color: 'text-indigo-500'
+                            },
+                            {
+                                title: 'Autorización Uso Imagen Clientes',
+                                file: 'AUTORIZACIÓN DE USO Y MANEJO DE IMAGEN CLIENTES V1.docx',
+                                type: 'DOCX',
+                                icon: 'image',
+                                color: 'text-purple-500'
+                            },
+                            {
+                                title: 'Política Tratamiento Datos Personales',
+                                file: 'POLÍTICA DE TRATAMIENTO DE DATOS PERSONALES GHARA S.pdf',
+                                type: 'PDF',
+                                icon: 'verified_user',
+                                color: 'text-teal-500'
+                            }
+                        ].map((doc, i) => (
+                            <motion.a
+                                key={i}
+                                href={`/media/documentos/${doc.file}`}
+                                download
+                                whileHover={{ y: -5, scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                className="bg-white dark:bg-black p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-white/5 flex items-center gap-6 group hover:shadow-xl transition-shadow cursor-pointer"
+                            >
+                                <div className={`w-14 h-14 bg-slate-50 dark:bg-slate-900 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-opacity-80 transition-colors`}>
+                                    <span className={`material-symbols-outlined text-3xl ${doc.color}`}>{doc.icon}</span>
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="font-bold text-base text-slate-900 dark:text-white mb-1 leading-snug">{doc.title}</h3>
+                                    <p className="text-[10px] bg-slate-100 dark:bg-slate-800 inline-block px-2 py-1 rounded-md text-slate-500 font-bold uppercase tracking-wider">{doc.type}</p>
+                                </div>
+                                <span className="material-symbols-outlined text-2xl text-slate-300 group-hover:text-primary transition-colors">download</span>
+                            </motion.a>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -750,21 +869,7 @@ const FamiliaGharaPage = () => {
                 </div>
             </section>
 
-            {/* Final CTA */}
-            <section className="py-24 bg-[#08131e] text-center">
-                <div className="container mx-auto px-4">
-                    <h2 className="font-display font-bold text-3xl md:text-5xl text-white mb-10">¿Listo para unirte a la familia?</h2>
-                    <div className="flex items-center justify-center gap-6">
-                        <button className="bg-cyan-400 text-[#08131e] px-10 py-4 rounded-none font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors">
-                            Agendar Visita
-                        </button>
-                        <button className="border border-white/20 text-white px-10 py-4 rounded-none font-bold uppercase tracking-widest text-sm hover:bg-white/10 transition-colors">
-                            Agendar Cita
-                        </button>
-                    </div>
-                </div>
-            </section>
-        </div>
+        </div >
     );
 };
 
