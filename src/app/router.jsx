@@ -9,6 +9,8 @@ import FamiliaGharaPage from '../features/familia';
 import CalculatorPage from '../features/calculator';
 import ResidentialServices from '../features/services/pages/ResidentialServices';
 import EnterpriseServices from '../features/services/pages/EnterpriseServices';
+import DescargablesPage from '../features/descargables';
+import PQRPage from '../features/pqr';
 
 export const router = createBrowserRouter([
     {
@@ -46,6 +48,14 @@ export const router = createBrowserRouter([
             {
                 path: 'calculadora',
                 element: <CalculatorPage />,
+            },
+            {
+                path: 'descargables',
+                element: <DescargablesPage />,
+            },
+            {
+                path: 'pqr',
+                element: <PQRPage />,
             },
         ],
     },

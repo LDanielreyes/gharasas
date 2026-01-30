@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const WHATSAPP_NUMBER = '573022326569'; // Número de WhatsApp de Ghara
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER; // Número de WhatsApp de Ghara
 
 const ServiceCard = ({ icon, title, features, recommended, index, whatsappMessage }) => {
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage || `Hola, me interesa el servicio de ${title}`)}`;
@@ -254,59 +254,6 @@ const Services = () => {
                     />
                 </div>
             </div>
-
-            {/* Emergency Banner */}
-            <motion.div
-                className="w-full bg-primary dark:bg-slate-900 py-12 md:py-16 relative overflow-hidden mb-32"
-                initial={{ opacity: 0, scaleY: 0.8 }}
-                whileInView={{ opacity: 1, scaleY: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-            >
-                <div className="absolute inset-0 bg-[url('/media/pattern.svg')] opacity-10"></div>
-                <div className="container mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-                    <motion.div
-                        className="flex items-center gap-6"
-                        initial={{ x: -50, opacity: 0 }}
-                        whileInView={{ x: 0, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                    >
-                        <motion.div
-                            className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white"
-                            animate={{
-                                scale: [1, 1.1, 1],
-                                rotate: [0, 5, -5, 0]
-                            }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                        >
-                            <span className="material-symbols-outlined text-3xl">notifications_active</span>
-                        </motion.div>
-                        <div>
-                            <h3 className="font-display font-bold text-2xl md:text-3xl text-white mb-2">Atención de Emergencia 24/7</h3>
-                            <p className="text-white/80">¿Tu equipo falló en el peor momento? Estamos listos para ayudarte.</p>
-                        </div>
-                    </motion.div>
-                    <motion.button
-                        className="bg-white text-primary font-bold py-4 px-8 rounded-full shadow-lg flex items-center gap-2 group"
-                        initial={{ x: 50, opacity: 0 }}
-                        whileInView={{ x: 0, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.3 }}
-                        whileHover={{ scale: 1.05, boxShadow: "0 10px 30px -5px rgba(0, 0, 0, 0.3)" }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <motion.span
-                            className="material-symbols-outlined"
-                            animate={{ rotate: [0, 15, -15, 0] }}
-                            transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 2 }}
-                        >
-                            call
-                        </motion.span>
-                        Llamar Ahora
-                    </motion.button>
-                </div>
-            </motion.div>
 
             {/* Process Steps */}
             <div className="container mx-auto px-4 md:px-6 mb-32">

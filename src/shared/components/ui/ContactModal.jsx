@@ -18,9 +18,9 @@ const ContactModal = ({ isOpen, onClose }) => {
 
         // --- CONFIGURACIÓN EMAILJS ---
         // Pega aquí tus datos de EmailJS
-        const serviceId = 'service_n6c86pz';
-        const templateId = 'template_7zljcxk';
-        const publicKey = 'Kj5T5N8Q9CEk299Ne';
+        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
+        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT;
         // -----------------------------
 
         // Lógica real de envío

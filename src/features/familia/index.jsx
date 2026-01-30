@@ -308,13 +308,13 @@ const FamiliaGharaPage = () => {
         setSubmitStatus(null);
 
         // CONFIGURACIÓN DE EMAILJS
-        const SERVICE_ID = 'service_n6c86pz';
-        const TEMPLATE_ID = 'template_8mmbr0b';
-        const PUBLIC_KEY = 'Kj5T5N8Q9CEk299Ne';
+        const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
+        const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_FAMILIA;
+        const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT;
 
         try {
             // Si no hay keys configuradas, simulamos éxito (para desarrollo)
-            if (PUBLIC_KEY === 'user_ghara_key') {
+            if (!PUBLIC_KEY) {
                 console.warn('⚠️ Credenciales de EmailJS no configuradas. Simulando envío.');
                 await new Promise(resolve => setTimeout(resolve, 2000));
             } else {

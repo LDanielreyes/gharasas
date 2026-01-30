@@ -242,7 +242,7 @@ const EnterpriseServices = () => {
                                 className="bg-white hover:bg-slate-100 text-slate-900 font-bold py-4 px-10 rounded-full shadow-xl flex items-center justify-center gap-3 mx-auto transition-all"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                onClick={() => window.open('https://wa.me/573022326569', '_blank')}
+                                onClick={() => window.open('https://wa.me/573022326569', '_blank', 'noopener,noreferrer')}
                             >
                                 <span className="material-symbols-outlined text-2xl">rocket_launch</span>
                                 Cotizar Proyecto

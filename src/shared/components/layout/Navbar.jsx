@@ -94,6 +94,10 @@ const Navbar = () => {
             navigate('/aliados');
         } else if (targetId === 'catálogo') {
             navigate('/catalogo');
+        } else if (targetId === 'descargables') {
+            navigate('/descargables');
+        } else if (targetId === 'pqr') {
+            navigate('/pqr');
         } else {
             if (isHomePage) {
                 const element = document.getElementById(targetId);
@@ -202,7 +206,7 @@ const Navbar = () => {
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center gap-1">
-                        {['Inicio', 'Familia Ghara', 'Aliados', 'Servicios'].map((item) => {
+                        {['Inicio', 'Familia Ghara', 'Aliados', 'Servicios', 'Descargables', 'PQR'].map((item) => {
                             const isHovered = hoveredItem === item;
 
                             if (item === 'Servicios' || item === 'Aliados') {
@@ -374,7 +378,7 @@ const Navbar = () => {
                     {/* Navigation Links */}
                     <nav className="p-6">
                         <div className="space-y-2">
-                            {['Inicio', 'Familia Ghara', 'Aliados', 'Servicios'].map((item) => (
+                            {['Inicio', 'Familia Ghara', 'Aliados', 'Servicios', 'Descargables', 'PQR'].map((item) => (
                                 <a
                                     key={item}
                                     href={`#${item.toLowerCase().split(' ')[0]}`}
