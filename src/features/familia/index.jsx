@@ -597,14 +597,14 @@ const FamiliaGharaPage = () => {
                 </div>
             </section>
 
-            {/* Pillars - Minimalist */}
+            {/* Valores - Minimalist */}
             <section className="py-32 bg-white dark:bg-black">
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
                         <div className="max-w-xl">
                             <h2 className="font-display font-bold text-4xl md:text-5xl text-slate-900 dark:text-white leading-tight mb-4">
                                 Nuestros <br />
-                                <span className="text-slate-400">Pilares</span>
+                                <span className="text-slate-400">Valores</span>
                             </h2>
                         </div>
                         <p className="text-right text-slate-500 max-w-sm text-sm border-t border-slate-200 dark:border-white/10 pt-4">
@@ -612,26 +612,26 @@ const FamiliaGharaPage = () => {
                         </p>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-px bg-slate-100 dark:bg-white/5 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-white/5">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-100 dark:bg-white/5 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-white/5">
                         {[
-                            { title: 'Confianza', desc: 'Relaciones transparentes y duraderas con respaldo de nuestro mentor y aliados.', num: '01' },
-                            { title: 'Cuidado', desc: 'Minuciosidad imparcial. Diseño y protección del medioambiente en nuestros usuarios.', num: '02' },
-                            { title: 'Compromiso', desc: 'Responsabilidad real con los resultados y la satisfacción del cliente.', num: '03' }
+                            { title: 'Pasión', desc: 'Agendamiento fácil desde tu comodidad y recibe un servicio puerta a puerta con técnicos uniformados y plenamente identificados, para mayor seguridad y confianza.', num: '01' },
+                            { title: 'Integridad', desc: 'Técnicos certificados y calificados por clientes. Siendo transparentes con nuestros clientes, manteniendo un cumplimiento constante.', num: '02' },
+                            { title: 'Innovación', desc: 'Incorporamos tecnologías y prácticas actualizadas para optimizar nuestros procesos operacionales y de servicio al cliente.', num: '03' },
+                            { title: 'Orientación al Servicio', desc: 'Escuchamos, orientamos y acompañamos al cliente antes, durante y después del servicio, respondemos con soluciones personalizadas para cada necesidad, garantizando su total satisfacción.', num: '04' }
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ delay: i * 0.2 }}
-                                className="bg-white dark:bg-black p-12 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors group"
+                                transition={{ delay: i * 0.15 }}
+                                className="bg-white dark:bg-black p-10 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors group"
                             >
-                                <div className="flex justify-between items-start mb-8">
-                                    <h3 className="font-bold text-xl text-slate-900 dark:text-white">{item.title}</h3>
-                                    {/* <span className="material-symbols-outlined text-slate-300 group-hover:text-cyan-500 transition-colors">arrow_outward</span> */}
+                                <div className="flex justify-between items-start mb-6">
+                                    <h3 className="font-bold text-lg text-slate-900 dark:text-white">{item.title}</h3>
                                 </div>
-                                <p className="text-slate-500 text-sm leading-relaxed mb-12 h-16">{item.desc}</p>
-                                <span className="text-6xl font-display font-bold text-slate-100 dark:text-slate-800 group-hover:text-cyan-500/20 transition-colors block text-right">{item.num}</span>
+                                <p className="text-slate-500 text-sm leading-relaxed mb-10">{item.desc}</p>
+                                <span className="text-5xl font-display font-bold text-slate-100 dark:text-slate-800 group-hover:text-cyan-500/20 transition-colors block text-right">{item.num}</span>
                             </motion.div>
                         ))}
                     </div>
