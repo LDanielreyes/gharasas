@@ -1,149 +1,515 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useSEO } from '../../shared/hooks/useSEO';
+import documentsData from '../../data/documentsConfig.json';
 
 const DescargablesPage = () => {
     useSEO({
-        title: 'Descargables | Ghara - Documentos y Políticas',
-        description: 'Descarga nuestras autorizaciones de tratamiento de datos, políticas de privacidad y documentos legales oficiales de Ghara.',
-        keywords: ['descargables', 'políticas', 'tratamiento de datos', 'Ghara', 'documentos legales'],
+        title: 'Biblioteca Técnica | Ghara - Documentación y Recursos',
+        description: 'Accede a nuestra biblioteca técnica completa: fichas técnicas, manuales, códigos de error, catálogos y documentos legales.',
+        keywords: ['biblioteca técnica', 'documentación', 'fichas técnicas', 'manuales', 'Ghara'],
         ogImage: '/media/logo-ghara.svg'
     });
 
-    const documents = [
-        {
-            title: 'Autorización Tratamiento Datos Clientes',
-            description: 'Autorización para el tratamiento de datos personales de nuestros clientes.',
-            file: 'AUTORIZACIÓN DE TRATAMIENTO DE DATOS CLIENTES V1.docx',
-            type: 'DOCX',
-            icon: 'description',
-            color: 'from-blue-500 to-blue-600'
-        },
-        {
-            title: 'Autorización Tratamiento Datos Proveedores',
-            description: 'Autorización para el tratamiento de datos personales de proveedores y aliados.',
-            file: 'AUTORIZACIÓN DE TRATAMIENTO DE DATOS PROVEEDORES V1.docx',
-            type: 'DOCX',
-            icon: 'local_shipping',
-            color: 'from-indigo-500 to-indigo-600'
-        },
-        {
-            title: 'Autorización Uso de Imagen Clientes',
-            description: 'Autorización para el uso y manejo de imagen de nuestros clientes.',
-            file: 'AUTORIZACIÓN DE USO Y MANEJO DE IMAGEN CLIENTES V1.docx',
-            type: 'DOCX',
-            icon: 'image',
-            color: 'from-purple-500 to-purple-600'
-        },
-        {
-            title: 'Política Tratamiento Datos Personales',
-            description: 'Política oficial de tratamiento de datos personales de Ghara S.A.S.',
-            file: 'POLÍTICA DE TRATAMIENTO DE DATOS PERSONALES GHARA S.pdf',
-            type: 'PDF',
-            icon: 'verified_user',
-            color: 'from-teal-500 to-teal-600'
+    // States
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedYear, setSelectedYear] = useState('all');
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [sortBy, setSortBy] = useState('date-desc'); // date-desc, date-asc, name-asc, name-desc
+    const itemsPerPage = 9;
+
+    // Get available years
+    const availableYears = useMemo(() => {
+        const years = [...new Set(documentsData.documents.map(doc => doc.year))];
+        return years.sort((a, b) => b - a);
+    }, []);
+
+    // Filter and search logic
+    const filteredDocuments = useMemo(() => {
+        let filtered = documentsData.documents;
+
+        // Search filter
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            filtered = filtered.filter(doc =>
+                doc.title.toLowerCase().includes(query) ||
+                doc.description.toLowerCase().includes(query) ||
+                doc.tags.some(tag => tag.toLowerCase().includes(query))
+            );
         }
-    ];
+
+        // Year filter
+        if (selectedYear !== 'all') {
+            filtered = filtered.filter(doc => doc.year === parseInt(selectedYear));
+        }
+
+        // Category filter
+        if (selectedCategories.length > 0) {
+            filtered = filtered.filter(doc => selectedCategories.includes(doc.category));
+        }
+
+        // Sorting
+        filtered = [...filtered].sort((a, b) => {
+            switch (sortBy) {
+                case 'date-desc':
+                    return new Date(b.date) - new Date(a.date);
+                case 'date-asc':
+                    return new Date(a.date) - new Date(b.date);
+                case 'name-asc':
+                    return a.title.localeCompare(b.title);
+                case 'name-desc':
+                    return b.title.localeCompare(a.title);
+                default:
+                    return 0;
+            }
+        });
+
+        return filtered;
+    }, [searchQuery, selectedYear, selectedCategories, sortBy]);
+
+    // Pagination
+    const totalPages = Math.ceil(filteredDocuments.length / itemsPerPage);
+    const paginatedDocuments = filteredDocuments.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
+    // Reset to page 1 when filters change
+    React.useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, selectedYear, selectedCategories]);
+
+    // Scroll to top when page changes
+    React.useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [currentPage]);
+
+    // Toggle category
+    const toggleCategory = (categoryId) => {
+        setSelectedCategories(prev =>
+            prev.includes(categoryId)
+                ? prev.filter(id => id !== categoryId)
+                : [...prev, categoryId]
+        );
+    };
+
+    // Get file type color
+    const getFileTypeColor = (type) => {
+        switch (type) {
+            case 'PDF': return 'from-red-500 to-red-600';
+            case 'DOCX': return 'from-blue-500 to-blue-600';
+            case 'MP4': return 'from-purple-500 to-purple-600';
+            case 'BIN': return 'from-green-500 to-green-600';
+            default: return 'from-gray-500 to-gray-600';
+        }
+    };
+
+    // Get category data
+    const getCategoryData = (categoryId) => {
+        return documentsData.categories.find(cat => cat.id === categoryId) || {};
+    };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-black pt-24 pb-16">
-            {/* Hero Section */}
-            <section className="container mx-auto px-4 md:px-6 mb-16">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center max-w-3xl mx-auto"
-                >
-                    <span className="inline-block px-4 py-1.5 bg-primary/10 dark:bg-cyan-500/10 text-primary dark:text-cyan-400 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-                        Documentos Oficiales
-                    </span>
-                    <h1 className="font-display font-bold text-4xl md:text-6xl text-slate-900 dark:text-white mb-6">
-                        Centro de <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Descargables</span>
-                    </h1>
-                    <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Accede a todos nuestros documentos legales, políticas de privacidad y autorizaciones de manera transparente.
-                    </p>
-                </motion.div>
-            </section>
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-32">
+            <div className="container mx-auto px-4 md:px-6 py-8">
+                <div className="flex gap-6">
+                    {/* Sidebar - Desktop */}
+                    <aside className="hidden lg:block w-64 flex-shrink-0">
+                        <div className="sticky top-24 bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-slate-800">
+                            <h3 className="font-display font-bold text-lg mb-6 text-slate-900 dark:text-white">
+                                Filtros
+                            </h3>
 
-            {/* Documents Grid */}
-            <section className="container mx-auto px-4 md:px-6">
-                <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    {documents.map((doc, index) => (
-                        <motion.a
-                            key={index}
-                            href={`/media/documentos/${doc.file}`}
-                            download
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            whileHover={{ y: -8, scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-lg border border-slate-100 dark:border-white/5 group hover:shadow-2xl transition-all duration-300 cursor-pointer relative overflow-hidden"
-                        >
-                            {/* Background Gradient on Hover */}
-                            <div className={`absolute inset-0 bg-gradient-to-br ${doc.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
+                            {/* Year Filter */}
+                            <div className="mb-8">
+                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                                    Año de Publicación
+                                </label>
+                                <select
+                                    value={selectedYear}
+                                    onChange={(e) => setSelectedYear(e.target.value)}
+                                    className="w-full px-4 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                >
+                                    <option value="all">Todos los años</option>
+                                    {availableYears.map(year => (
+                                        <option key={year} value={year}>{year}</option>
+                                    ))}
+                                </select>
+                            </div>
 
-                            <div className="relative z-10 flex items-start gap-6">
-                                {/* Icon */}
-                                <div className={`w-16 h-16 bg-gradient-to-br ${doc.color} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                                    <span className="material-symbols-outlined text-3xl text-white">{doc.icon}</span>
-                                </div>
-
-                                {/* Content */}
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-primary dark:group-hover:text-cyan-400 transition-colors">
-                                            {doc.title}
-                                        </h3>
-                                        <span className="text-[10px] bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md text-slate-500 font-bold uppercase tracking-wider">
-                                            {doc.type}
-                                        </span>
-                                    </div>
-                                    <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-4">
-                                        {doc.description}
-                                    </p>
-                                    <div className="flex items-center gap-2 text-primary dark:text-cyan-400 text-sm font-bold">
-                                        <span className="material-symbols-outlined text-lg">download</span>
-                                        Descargar documento
-                                        <motion.span
-                                            className="material-symbols-outlined text-lg"
-                                            animate={{ x: [0, 4, 0] }}
-                                            transition={{ duration: 1.5, repeat: Infinity }}
+                            {/* Category Filter */}
+                            <div>
+                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                                    Categorías
+                                </label>
+                                <div className="space-y-2">
+                                    {documentsData.categories.map(category => (
+                                        <label
+                                            key={category.id}
+                                            className="flex items-center gap-3 cursor-pointer group"
                                         >
-                                            arrow_forward
-                                        </motion.span>
-                                    </div>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedCategories.includes(category.id)}
+                                                onChange={() => toggleCategory(category.id)}
+                                                className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-0"
+                                            />
+                                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                                                {category.name}
+                                            </span>
+                                        </label>
+                                    ))}
                                 </div>
                             </div>
-                        </motion.a>
-                    ))}
+
+                            {/* Clear Filters */}
+                            {(selectedYear !== 'all' || selectedCategories.length > 0) && (
+                                <button
+                                    onClick={() => {
+                                        setSelectedYear('all');
+                                        setSelectedCategories([]);
+                                    }}
+                                    className="w-full mt-6 px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium transition-colors"
+                                >
+                                    Limpiar filtros
+                                </button>
+                            )}
+                        </div>
+                    </aside>
+
+                    {/* Main Content */}
+                    <main className="flex-1 min-w-0">
+                        {/* Header */}
+                        <div className="mb-8">
+                            <div className="flex items-start justify-between mb-4">
+                                <div>
+                                    <h1 className="font-display font-bold text-3xl md:text-5xl text-slate-900 dark:text-white mb-3">
+                                        Biblioteca Técnica <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">2026</span>
+                                    </h1>
+                                    <p className="text-slate-600 dark:text-slate-400 flex items-center gap-2">
+                                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                        Sistema actualizado: {filteredDocuments.length} documentos disponibles
+                                    </p>
+                                </div>
+
+                                {/* Mobile Filter Button */}
+                                <button
+                                    onClick={() => setSidebarOpen(true)}
+                                    className="lg:hidden flex items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-slate-800 text-white rounded-lg text-sm font-medium"
+                                >
+                                    <span className="material-symbols-outlined text-lg">tune</span>
+                                    Filtros
+                                </button>
+                            </div>
+
+                            {/* Search and Sort */}
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                {/* Search Bar */}
+                                <div className="flex-1 relative">
+                                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                        search
+                                    </span>
+                                    <input
+                                        type="text"
+                                        placeholder="Buscar manuales, esquemas, firmware..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 shadow-sm"
+                                    />
+                                </div>
+
+                                {/* Sort */}
+                                <select
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value)}
+                                    className="px-4 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 shadow-sm"
+                                >
+                                    <option value="date-desc">Más reciente</option>
+                                    <option value="date-asc">Más antiguo</option>
+                                    <option value="name-asc">A-Z</option>
+                                    <option value="name-desc">Z-A</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* Active Filters */}
+                        {(selectedYear !== 'all' || selectedCategories.length > 0) && (
+                            <div className="flex flex-wrap gap-2 mb-6">
+                                {selectedYear !== 'all' && (
+                                    <span className="inline-flex items-center gap-2 px-3 py-1 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 rounded-full text-sm font-medium">
+                                        Año: {selectedYear}
+                                        <button onClick={() => setSelectedYear('all')} className="hover:text-cyan-700">
+                                            <span className="material-symbols-outlined text-sm">close</span>
+                                        </button>
+                                    </span>
+                                )}
+                                {selectedCategories.map(catId => {
+                                    const cat = getCategoryData(catId);
+                                    return (
+                                        <span key={catId} className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-full text-sm font-medium">
+                                            {cat.name}
+                                            <button onClick={() => toggleCategory(catId)} className="hover:text-blue-700">
+                                                <span className="material-symbols-outlined text-sm">close</span>
+                                            </button>
+                                        </span>
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        {/* Documents Grid */}
+                        {paginatedDocuments.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                                <AnimatePresence mode="popLayout">
+                                    {paginatedDocuments.map((doc, index) => {
+                                        const categoryData = getCategoryData(doc.category);
+                                        return (
+                                            <motion.a
+                                                key={doc.id}
+                                                href={`/media/documentos/${doc.filePath}`}
+                                                download
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, scale: 0.9 }}
+                                                transition={{ duration: 0.3, delay: index * 0.05 }}
+                                                whileHover={{ y: -8 }}
+                                                className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-lg border border-slate-100 dark:border-slate-800 hover:shadow-2xl hover:border-cyan-500/50 dark:hover:border-cyan-500/50 transition-all group cursor-pointer relative overflow-hidden"
+                                            >
+                                                {/* Background Gradient */}
+                                                <div className={`absolute inset-0 bg-gradient-to-br ${getFileTypeColor(doc.fileType)} opacity-0 group-hover:opacity-5 transition-opacity`}></div>
+
+                                                {/* Content */}
+                                                <div className="relative z-10">
+                                                    {/* Header */}
+                                                    <div className="flex items-start justify-between mb-4">
+                                                        <div className={`w-12 h-12 bg-gradient-to-br ${getFileTypeColor(doc.fileType)} rounded-xl flex items-center justify-center shadow-md`}>
+                                                            <span className="material-symbols-outlined text-white text-xl">
+                                                                {categoryData.icon || 'description'}
+                                                            </span>
+                                                        </div>
+                                                        <span className="px-2 py-1 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 rounded-md text-xs font-bold">
+                                                            Ver. {doc.year}
+                                                        </span>
+                                                    </div>
+
+                                                    {/* Title */}
+                                                    <h3 className="font-bold text-base text-slate-900 dark:text-white mb-2 leading-tight group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                                                        {doc.title}
+                                                    </h3>
+
+                                                    {/* Description */}
+                                                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2 leading-relaxed">
+                                                        {doc.description}
+                                                    </p>
+
+                                                    {/* Footer */}
+                                                    <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+                                                        <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+                                                            <span className="flex items-center gap-1">
+                                                                <span className="material-symbols-outlined text-sm">description</span>
+                                                                {doc.fileType}
+                                                            </span>
+                                                            <span className="flex items-center gap-1">
+                                                                <span className="material-symbols-outlined text-sm">data_usage</span>
+                                                                {doc.fileSize}
+                                                            </span>
+                                                            <span className="flex items-center gap-1">
+                                                                <span className="material-symbols-outlined text-sm">calendar_today</span>
+                                                                {doc.date}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Download Icon */}
+                                                    <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <span className="material-symbols-outlined text-cyan-500 text-2xl">
+                                                            download
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </motion.a>
+                                        );
+                                    })}
+                                </AnimatePresence>
+                            </div>
+                        ) : (
+                            <div className="text-center py-16">
+                                <span className="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-700 mb-4 block">
+                                    search_off
+                                </span>
+                                <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2">
+                                    No se encontraron documentos
+                                </h3>
+                                <p className="text-slate-500 dark:text-slate-400 mb-4">
+                                    Intenta ajustar los filtros o la búsqueda
+                                </p>
+                                <button
+                                    onClick={() => {
+                                        setSearchQuery('');
+                                        setSelectedYear('all');
+                                        setSelectedCategories([]);
+                                    }}
+                                    className="px-6 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg font-medium transition-colors"
+                                >
+                                    Limpiar filtros
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Pagination */}
+                        {totalPages > 1 && (
+                            <div className="flex justify-center items-center gap-2">
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                    disabled={currentPage === 1}
+                                    className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                >
+                                    <span className="material-symbols-outlined">chevron_left</span>
+                                </button>
+
+                                {[...Array(totalPages)].map((_, i) => {
+                                    const pageNum = i + 1;
+                                    // Show first, last, current, and adjacent pages
+                                    if (
+                                        pageNum === 1 ||
+                                        pageNum === totalPages ||
+                                        Math.abs(pageNum - currentPage) <= 1
+                                    ) {
+                                        return (
+                                            <button
+                                                key={pageNum}
+                                                onClick={() => setCurrentPage(pageNum)}
+                                                className={`min-w-[40px] h-10 rounded-lg font-medium transition-colors ${currentPage === pageNum
+                                                    ? 'bg-cyan-500 text-white'
+                                                    : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                                    }`}
+                                            >
+                                                {pageNum}
+                                            </button>
+                                        );
+                                    } else if (
+                                        pageNum === currentPage - 2 ||
+                                        pageNum === currentPage + 2
+                                    ) {
+                                        return <span key={pageNum} className="text-slate-400">...</span>;
+                                    }
+                                    return null;
+                                })}
+
+                                <button
+                                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                    disabled={currentPage === totalPages}
+                                    className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                >
+                                    <span className="material-symbols-outlined">chevron_right</span>
+                                </button>
+                            </div>
+                        )}
+                    </main>
                 </div>
-            </section>
+            </div>
 
-            {/* Info Section */}
-            <section className="container mx-auto px-4 md:px-6 mt-16">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="bg-gradient-to-br from-primary to-blue-700 dark:from-slate-800 dark:to-slate-900 rounded-3xl p-10 md:p-16 text-center max-w-4xl mx-auto relative overflow-hidden"
-                >
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
-                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-400/20 rounded-full blur-3xl -ml-24 -mb-24"></div>
+            {/* Mobile Sidebar Overlay */}
+            <AnimatePresence>
+                {sidebarOpen && (
+                    <>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSidebarOpen(false)}
+                            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                        />
+                        <motion.div
+                            initial={{ x: -300 }}
+                            animate={{ x: 0 }}
+                            exit={{ x: -300 }}
+                            transition={{ type: 'spring', damping: 25 }}
+                            className="fixed left-0 top-0 bottom-0 w-80 bg-white dark:bg-slate-900 z-50 lg:hidden p-6 overflow-y-auto shadow-2xl"
+                        >
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="font-display font-bold text-lg text-slate-900 dark:text-white">
+                                    Filtros
+                                </h3>
+                                <button
+                                    onClick={() => setSidebarOpen(false)}
+                                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                >
+                                    <span className="material-symbols-outlined">close</span>
+                                </button>
+                            </div>
 
-                    <div className="relative z-10">
-                        <span className="material-symbols-outlined text-5xl text-white/80 mb-6 block">shield</span>
-                        <h2 className="font-display font-bold text-2xl md:text-3xl text-white mb-4">
-                            Tu privacidad es nuestra prioridad
-                        </h2>
-                        <p className="text-white/80 max-w-xl mx-auto leading-relaxed">
-                            En Ghara nos comprometemos a proteger tu información personal. Estos documentos reflejan nuestro compromiso con la transparencia y el cumplimiento de las normativas de protección de datos.
-                        </p>
-                    </div>
-                </motion.div>
-            </section>
+                            {/* Year Filter */}
+                            <div className="mb-8">
+                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                                    Año de Publicación
+                                </label>
+                                <select
+                                    value={selectedYear}
+                                    onChange={(e) => {
+                                        setSelectedYear(e.target.value);
+                                        setSidebarOpen(false);
+                                    }}
+                                    className="w-full px-4 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                >
+                                    <option value="all">Todos los años</option>
+                                    {availableYears.map(year => (
+                                        <option key={year} value={year}>{year}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* Category Filter */}
+                            <div className="mb-8">
+                                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-3">
+                                    Categorías
+                                </label>
+                                <div className="space-y-3">
+                                    {documentsData.categories.map(category => (
+                                        <label
+                                            key={category.id}
+                                            className="flex items-center gap-3 cursor-pointer group"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedCategories.includes(category.id)}
+                                                onChange={() => toggleCategory(category.id)}
+                                                className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-cyan-500 focus:ring-cyan-500 focus:ring-offset-0"
+                                            />
+                                            <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                                                {category.name}
+                                            </span>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Clear & Apply */}
+                            <div className="space-y-3">
+                                {(selectedYear !== 'all' || selectedCategories.length > 0) && (
+                                    <button
+                                        onClick={() => {
+                                            setSelectedYear('all');
+                                            setSelectedCategories([]);
+                                        }}
+                                        className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium transition-colors"
+                                    >
+                                        Limpiar filtros
+                                    </button>
+                                )}
+                                <button
+                                    onClick={() => setSidebarOpen(false)}
+                                    className="w-full px-4 py-3 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg font-medium transition-colors"
+                                >
+                                    Aplicar filtros
+                                </button>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
