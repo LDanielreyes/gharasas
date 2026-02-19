@@ -12,6 +12,9 @@ const Home = () => {
     return (
         <>
             <Hero />
+            <div className="md:hidden">
+                <BrandLogos />
+            </div>
 
             {/* <ScrollReveal>
                 <BestSellers />
@@ -21,7 +24,9 @@ const Home = () => {
                 <MaintenanceBanner />
             </ScrollReveal>
 
-            <BrandLogos />
+            <div className="hidden md:block">
+                <BrandLogos />
+            </div>
 
             <ScrollReveal>
                 <OurApproaches />

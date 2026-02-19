@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import emailjs from '@emailjs/browser';
 import { useSEO } from '../../shared/hooks/useSEO';
 
 // Gradientes de fondo sutiles y profesionales
@@ -147,11 +146,11 @@ const TeamCarousel = () => {
     };
 
     return (
-        <div className="relative w-full max-w-5xl mx-auto h-[500px] flex items-center justify-center perspective-1000">
+        <div className="relative w-full max-w-5xl mx-auto h-[450px] md:h-[500px] flex items-center justify-center perspective-1000">
             {/* Left Arrow */}
             <button
                 onClick={prevSlide}
-                className="absolute left-4 z-30 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 dark:text-white hover:bg-white/20 transition-all shadow-lg hidden md:flex"
+                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-40 p-3 md:p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 dark:text-white hover:bg-white/20 transition-all shadow-lg flex"
             >
                 <span className="material-symbols-outlined">chevron_left</span>
             </button>
@@ -159,7 +158,7 @@ const TeamCarousel = () => {
             {/* Right Arrow */}
             <button
                 onClick={nextSlide}
-                className="absolute right-4 z-30 p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 dark:text-white hover:bg-white/20 transition-all shadow-lg hidden md:flex"
+                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-40 p-3 md:p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-slate-800 dark:text-white hover:bg-white/20 transition-all shadow-lg flex"
             >
                 <span className="material-symbols-outlined">chevron_right</span>
             </button>
@@ -168,16 +167,10 @@ const TeamCarousel = () => {
             <div className="relative w-full h-full flex items-center justify-center">
                 <div className="flex items-center justify-center w-full h-full relative">
                     {members.map((member, index) => {
-                        // Calculate position relative to active index
-                        // We want to show: prev, current, next.
-                        // But getting circular distance is better for 3D effect
-
                         let offset = (index - activeIndex);
-                        // Adjust for circular logic
                         if (offset > members.length / 2) offset -= members.length;
                         if (offset < -members.length / 2) offset += members.length;
 
-                        // Only render if close to center (optimization)
                         if (Math.abs(offset) > 2) return null;
 
                         const styles = {
@@ -192,7 +185,7 @@ const TeamCarousel = () => {
 
                         // Mobile adjustment
                         const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-                        const xOffset = isMobile ? (offset * 100) : currentStyle.x;
+                        const xOffset = isMobile ? (offset * 80) : currentStyle.x; // Tighter stack on mobile
 
                         return (
                             <motion.div
@@ -207,28 +200,29 @@ const TeamCarousel = () => {
                                     rotateY: currentStyle.rotateY,
                                     filter: `blur(${currentStyle.blur})`
                                 }}
-                                transition={{ type: "spring", stiffness: 120, damping: 20, mass: 1.1 }}
-                                className="absolute top-0 w-72 md:w-80 h-[450px] shadow-2xl rounded-2xl overflow-hidden cursor-pointer"
+                                transition={{ duration: 0.4, ease: "easeOut" }} // Snappier transition
+                                className="absolute top-4 md:top-0 w-[260px] md:w-80 h-[380px] md:h-[450px] shadow-2xl rounded-2xl overflow-hidden cursor-pointer"
                                 onClick={() => setActiveIndex(index)}
                                 style={{
                                     transformStyle: 'preserve-3d',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.05)', // Fallback
+                                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
                                 }}
                             >
                                 <img
                                     src={member.img}
                                     alt={member.name}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover object-center"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex flex-col justify-end p-8">
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex flex-col justify-end p-6 md:p-8 items-center text-center">
                                     <motion.div
                                         animate={{ y: offset === 0 ? 0 : 20, opacity: offset === 0 ? 1 : 0 }}
+                                        className="w-full"
                                     >
-                                        <h3 className="font-display font-bold text-2xl text-white mb-2">{member.name}</h3>
-                                        <p className="text-cyan-400 font-bold uppercase tracking-wider text-xs">{member.role}</p>
+                                        <h3 className="font-display font-bold text-xl md:text-2xl text-white mb-2">{member.name}</h3>
+                                        <p className="text-cyan-400 font-bold uppercase tracking-wider text-[10px] md:text-xs">{member.role}</p>
                                         {offset === 0 && (
-                                            <div className="mt-4 pt-4 border-t border-white/20">
-                                                <div className="flex items-center gap-2 text-white/80 text-sm">
+                                            <div className="mt-4 pt-4 border-t border-white/20 w-full">
+                                                <div className="flex items-center justify-center gap-2 text-white/80 text-xs md:text-sm">
                                                     <span className="material-symbols-outlined text-sm">verified</span>
                                                     <span>Miembro Ghara</span>
                                                 </div>
@@ -246,7 +240,7 @@ const TeamCarousel = () => {
             </div>
 
             {/* Pagination Indicators */}
-            <div className="flex justify-center gap-3 mt-12 relative z-20">
+            <div className="flex justify-center gap-3 mt-4 md:mt-12 relative z-20">
                 {members.map((_, idx) => (
                     <button
                         key={idx}
@@ -284,56 +278,7 @@ const FamiliaGharaPage = () => {
         });
     };
 
-    // Form State
-    const [formData, setFormData] = useState({
-        type: 'Petición',
-        name: '',
-        id: '',
-        email: '',
-        message: ''
-    });
 
-    // Estado para el envío del formulario
-    const [isSending, setIsSending] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSending(true);
-        setSubmitStatus(null);
-
-        // CONFIGURACIÓN DE EMAILJS
-        const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
-        const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_FAMILIA;
-        const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT;
-
-        try {
-            // Si no hay keys configuradas, simulamos éxito (para desarrollo)
-            if (!PUBLIC_KEY) {
-                console.warn('⚠️ Credenciales de EmailJS no configuradas. Simulando envío.');
-                await new Promise(resolve => setTimeout(resolve, 2000));
-            } else {
-                await emailjs.send(SERVICE_ID, TEMPLATE_ID, formData, PUBLIC_KEY);
-            }
-
-            setSubmitStatus('success');
-            setFormData({ type: 'Petición', name: '', id: '', email: '', message: '' });
-
-            // Limpiar mensaje de éxito después de 5 segundos
-            setTimeout(() => setSubmitStatus(null), 5000);
-
-        } catch (error) {
-            console.error('Error al enviar email:', error);
-            setSubmitStatus('error');
-        } finally {
-            setIsSending(false);
-        }
-    };
 
     // Variantes de animación para texto - carga inmediata
     const containerVariants = {
@@ -719,152 +664,6 @@ const FamiliaGharaPage = () => {
                                 <span className="material-symbols-outlined text-2xl text-slate-300 group-hover:text-primary transition-colors">download</span>
                             </motion.a>
                         ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* PQR Section - Modern Clean */}
-            <section className="py-24 bg-slate-50 dark:bg-slate-900/50" id="pqr">
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="bg-white dark:bg-black rounded-[3rem] shadow-2xl overflow-hidden border border-slate-100 dark:border-white/5 flex flex-col lg:flex-row">
-                        <div className="lg:w-1/3 bg-[#0d1b2a] p-12 text-white relative flex flex-col justify-between">
-                            <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
-
-                            <div>
-                                <span className="inline-block px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 border border-white/20">Te escuchamos</span>
-                                <h2 className="font-display font-bold text-3xl mb-4">Tu voz nos ayuda a mejorar</h2>
-                                <p className="text-slate-400 text-sm leading-relaxed mb-8">
-                                    Utiliza este canal formal para Peticiones, Quejas, Reclamos o Sugerencias.
-                                </p>
-                            </div>
-
-                            <div className="space-y-6">
-                                <div className="flex items-center gap-4 text-sm">
-                                    <span className="material-symbols-outlined text-cyan-400">call</span>
-                                    <span>+57 302 232 6569</span>
-                                </div>
-                                <div className="flex items-center gap-4 text-sm">
-                                    <span className="material-symbols-outlined text-cyan-400">mail</span>
-                                    <span>gharasas.colombia@gmail.com</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="lg:w-2/3 p-12">
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase">Nombre</label>
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleInputChange}
-                                            required
-                                            disabled={isSending}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50"
-                                            placeholder="Tu nombre completo"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase">Email</label>
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleInputChange}
-                                            required
-                                            disabled={isSending}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50"
-                                            placeholder="tucorreo@ejemplo.com"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase">Tipo solicitud</label>
-                                        <div className="relative">
-                                            <select
-                                                name="type"
-                                                value={formData.type}
-                                                onChange={handleInputChange}
-                                                disabled={isSending}
-                                                className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all appearance-none disabled:opacity-50"
-                                            >
-                                                <option>Petición</option>
-                                                <option>Queja</option>
-                                                <option>Reclamo</option>
-                                                <option>Sugerencia</option>
-                                                <option>Felicitación</option>
-                                            </select>
-                                            <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">expand_more</span>
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-slate-500 uppercase">Identificación / Empresa</label>
-                                        <input
-                                            type="text"
-                                            name="id"
-                                            value={formData.id}
-                                            onChange={handleInputChange}
-                                            disabled={isSending}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all disabled:opacity-50"
-                                            placeholder="Cédula vs, nit..."
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-500 uppercase">Mensaje</label>
-                                    <textarea
-                                        name="message"
-                                        value={formData.message}
-                                        onChange={handleInputChange}
-                                        required
-                                        disabled={isSending}
-                                        className="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-500 transition-all h-32 resize-none disabled:opacity-50"
-                                        placeholder="Escribe aquí tu mensaje..."
-                                    ></textarea>
-                                </div>
-
-                                <div className="flex flex-col gap-4">
-                                    {submitStatus === 'success' && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: -10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-4 py-3 rounded-xl text-sm flex items-center gap-2"
-                                        >
-                                            <span className="material-symbols-outlined text-lg">check_circle</span>
-                                            Solicitud enviada exitosamente. Te responderemos pronto.
-                                        </motion.div>
-                                    )}
-                                    {submitStatus === 'error' && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: -10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 px-4 py-3 rounded-xl text-sm flex items-center gap-2"
-                                        >
-                                            <span className="material-symbols-outlined text-lg">error</span>
-                                            Hubo un error al enviar. Por favor intenta nuevamente.
-                                        </motion.div>
-                                    )}
-
-                                    <button
-                                        type="submit"
-                                        disabled={isSending}
-                                        className="bg-[#0b1c2c] text-white px-8 py-4 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-slate-800 transition-colors shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
-                                    >
-                                        {isSending ? (
-                                            <>
-                                                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                                                Enviando...
-                                            </>
-                                        ) : 'Enviar Mensaje'}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </section>

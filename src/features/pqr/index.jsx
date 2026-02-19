@@ -45,8 +45,8 @@ const PQRPage = () => {
 
         try {
             await emailjs.send(
-                import.meta.env.VITE_EMAILJS_SERVICE_ID_PQR,
-                import.meta.env.VITE_EMAILJS_TEMPLATE_ID_PQR,
+                import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT,
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID_FAMILIA,
                 {
                     type: formData.type,
                     name: formData.name,
@@ -55,7 +55,7 @@ const PQRPage = () => {
                     subject: formData.subject,
                     message: formData.message,
                 },
-                import.meta.env.VITE_EMAILJS_PUBLIC_KEY_PQR
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT
             );
             setSubmitStatus('success');
             setFormData({ type: '', name: '', email: '', phone: '', subject: '', message: '' });
@@ -68,7 +68,7 @@ const PQRPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-black pt-24 pb-16">
+        <div className="min-h-screen bg-slate-50 dark:bg-black pt-32 pb-16">
             {/* Hero Section */}
             <section className="container mx-auto px-4 md:px-6 mb-16">
                 <motion.div

@@ -7,9 +7,7 @@ export default function useTheme() {
             if (savedTheme) {
                 return savedTheme;
             }
-            return window.matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light";
+            return "light";
         }
         return "light";
     });

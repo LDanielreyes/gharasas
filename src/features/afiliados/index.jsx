@@ -108,7 +108,7 @@ const AfiliadosPage = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/60 to-transparent"></div>
                 </div>
 
-                <div className="container mx-auto px-4 md:px-6 relative z-10 pt-20">
+                <div className="container mx-auto px-4 md:px-6 relative z-10 pt-32 md:pt-40">
                     <div className="max-w-3xl">
 
                         {/* Badge */}
@@ -177,13 +177,6 @@ const AfiliadosPage = () => {
                                 </span>
                             </button>
 
-                            <button
-                                onClick={() => document.getElementById('beneficios')?.scrollIntoView({ behavior: 'smooth' })}
-                                className="flex items-center gap-2 font-bold text-slate-300 hover:text-white transition-colors px-6 py-4"
-                            >
-                                Ver beneficios
-                                <span className="material-symbols-outlined text-sm">expand_more</span>
-                            </button>
                         </motion.div>
 
                     </div>

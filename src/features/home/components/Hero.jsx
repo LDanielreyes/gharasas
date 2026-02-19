@@ -6,7 +6,7 @@ const Hero = () => {
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
     return (
-        <section id="inicio" className="relative h-screen min-h-[850px] flex items-center overflow-hidden bg-slate-900 pb-20">
+        <section id="inicio" className="relative h-auto md:h-screen md:min-h-[850px] flex items-center overflow-hidden bg-slate-900 pb-12 pt-28 md:py-0">
             <ContactModal
                 isOpen={isContactModalOpen}
                 onClose={() => setIsContactModalOpen(false)}
@@ -16,22 +16,24 @@ const Hero = () => {
                 <video
                     autoPlay
                     muted
+                    loop
                     playsInline
-                    className="w-full h-full object-cover"
+                    poster="https://images.unsplash.com/photo-1516216628859-9bc659bd1daf?q=80&w=2076&auto=format&fit=crop"
+                    className="w-full h-full object-cover opacity-80 md:opacity-100 transition-opacity duration-300"
                 >
                     <source src="/media/hero-video.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/50 to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-900/40 to-transparent z-10 pointer-events-none"></div>
             </div>
 
-            <div className="container mx-auto px-4 md:px-6 relative z-20 h-full flex flex-col justify-center pt-32">
+            <div className="container mx-auto px-6 md:px-6 relative z-20 h-full flex flex-col justify-center md:pt-32">
                 <div className="max-w-xl">
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-                        className="font-display font-bold text-6xl lg:text-7xl xl:text-8xl leading-none text-white mb-8 tracking-tight drop-shadow-lg"
+                        className="font-display font-bold text-4xl sm:text-5xl lg:text-7xl xl:text-8xl leading-none text-white mb-6 md:mb-8 tracking-tight drop-shadow-lg"
                     >
                         Expertos en <br />
                         <span className="text-cyan-400">Aires Acondicionados</span>
@@ -41,7 +43,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
-                        className="text-xl text-slate-100 font-body leading-relaxed mb-10 max-w-lg font-light drop-shadow-md"
+                        className="text-lg md:text-xl text-slate-100 font-body leading-relaxed mb-8 md:mb-10 max-w-lg font-light drop-shadow-md pr-4 md:pr-0"
                     >
                         Venta, instalación y mantenimiento de aires acondicionados en Barranquilla. Más de 20 años de experiencia en climatización HVAC.
                     </motion.p>
@@ -50,7 +52,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-                        className="backdrop-blur-xl bg-white/10 border border-white/20 p-8 rounded-3xl shadow-2xl relative overflow-hidden group"
+                        className="backdrop-blur-xl bg-white/10 border border-white/20 p-6 md:p-8 rounded-3xl shadow-2xl relative overflow-hidden group"
                     >
                         <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
                         <h3 className="font-display font-bold text-xl mb-6 text-white flex items-center gap-2">

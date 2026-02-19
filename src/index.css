@@ -256,4 +256,62 @@
   .dark .input-underline:focus {
     box-shadow: 0 10px 20px -10px rgba(0, 240, 255, 0.3);
   }
+
+  /* ========================================
+     BROWSER-SPECIFIC OPTIMIZATIONS
+     ======================================== */
+
+  /* Safari-specific optimizations */
+  .browser-safari .glass,
+  .browser-safari .glass-panel,
+  .browser-safari .glass-dark {
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .browser-safari button,
+  .browser-safari a {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  /* Chrome/Edge - Enable GPU acceleration for animations */
+  .browser-chrome *[class*="motion"],
+  .browser-edge *[class*="motion"] {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+
+  /* Firefox - Optimize scrolling */
+  .browser-firefox {
+    scroll-behavior: smooth;
+  }
+
+  .browser-firefox * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  }
+
+  /* Mobile optimizations */
+  .is-mobile * {
+    /* Reduce animation complexity on mobile */
+    animation-duration: 0.5s !important;
+  }
+
+  .is-mobile .glass,
+  .is-mobile .glass-panel {
+    /* Simplify backdrop-filter on mobile for better performance */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Navegadores sin soporte de backdrop-filter */
+  html:not(.supports-backdrop-filter) .glass,
+  html:not(.supports-backdrop-filter) .glass-panel {
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  html:not(.supports-backdrop-filter) .dark .glass,
+  html:not(.supports-backdrop-filter) .dark .glass-panel {
+    background: rgba(0, 0, 0, 0.95);
+  }
 }

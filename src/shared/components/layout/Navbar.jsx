@@ -124,32 +124,32 @@ const Navbar = () => {
         if (isHomePage) {
             if (isScrollDark) {
                 // Scrolled on Dark Home Section -> Dark Glass
-                navClasses = 'glass-dark shadow-lg border-white/5 py-3';
+                navClasses = 'glass-dark shadow-lg border-white/5 py-2 md:py-3';
             } else {
                 // Scrolled on Light Home Section -> Light Glass
-                navClasses = 'glass shadow-lg border-white/20 py-3';
+                navClasses = 'glass shadow-lg border-white/20 py-2 md:py-3';
             }
         } else {
             // Not Home (Services, etc)
             // If Dark Mode -> Dark Glass
             if (isDarkMode) {
-                navClasses = 'glass-dark shadow-lg border-white/5 py-3';
+                navClasses = 'glass-dark shadow-lg border-white/5 py-2 md:py-3';
             } else {
                 // Light Mode -> Light Glass
-                navClasses = 'glass shadow-lg border-white/20 py-3';
+                navClasses = 'glass shadow-lg border-white/20 py-2 md:py-3';
             }
         }
     } else {
         // TOP STATE (Not Scrolled)
         if (hasTransparentHero) {
             // Transparent for Hero
-            navClasses = 'bg-transparent py-5 border-transparent';
+            navClasses = 'bg-transparent py-3 md:py-5 border-transparent';
         } else {
             // Regular Pages Top
             if (isDarkMode) {
-                navClasses = 'glass-dark shadow-lg border-white/5 py-4';
+                navClasses = 'glass-dark shadow-lg border-white/5 py-3 md:py-4';
             } else {
-                navClasses = 'glass shadow-lg border-white/20 py-4';
+                navClasses = 'glass shadow-lg border-white/20 py-3 md:py-4';
             }
         }
     }
@@ -377,17 +377,92 @@ const Navbar = () => {
 
                     {/* Navigation Links */}
                     <nav className="p-6">
-                        <div className="space-y-2">
-                            {['Inicio', 'Familia Ghara', 'Aliados', 'Servicios', 'Descargables', 'PQR'].map((item) => (
-                                <a
-                                    key={item}
-                                    href={`#${item.toLowerCase().split(' ')[0]}`}
-                                    onClick={(e) => handleNavClick(e, item)}
-                                    className="block px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-cyber-cyan rounded-xl transition-all"
+                        <div className="space-y-1">
+                            <a
+                                href="#inicio"
+                                onClick={(e) => handleNavClick(e, 'Inicio')}
+                                className="flex items-center gap-3 px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-cyber-cyan rounded-xl transition-all"
+                            >
+                                <span className="material-symbols-outlined">home</span>
+                                Inicio
+                            </a>
+                            <a
+                                href="#familia"
+                                onClick={(e) => handleNavClick(e, 'Familia Ghara')}
+                                className="flex items-center gap-3 px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-cyber-cyan rounded-xl transition-all"
+                            >
+                                <span className="material-symbols-outlined">diversity_3</span>
+                                Familia Ghara
+                            </a>
+
+                            <div className="my-3 border-t border-slate-100 dark:border-white/5" />
+                            <p className="px-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Aliados</p>
+
+                            <a
+                                href="/aliados?tab=tecnicos"
+                                onClick={(e) => { e.preventDefault(); navigate('/aliados?tab=tecnicos'); setIsMobileMenuOpen(false); }}
+                                className="flex items-center gap-3 px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-cyber-cyan rounded-xl transition-all"
+                            >
+                                <span className="material-symbols-outlined">engineering</span>
+                                Técnicos
+                            </a>
+                            <a
+                                href="/aliados?tab=distribuidores"
+                                onClick={(e) => { e.preventDefault(); navigate('/aliados?tab=distribuidores'); setIsMobileMenuOpen(false); }}
+                                className="flex items-center gap-3 px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-cyber-cyan rounded-xl transition-all"
+                            >
+                                <span className="material-symbols-outlined">local_shipping</span>
+                                Distribuidores
+                            </a>
+
+                            <div className="my-3 border-t border-slate-100 dark:border-white/5" />
+                            <p className="px-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Servicios</p>
+
+                            <a
+                                href="/servicios/residenciales"
+                                onClick={(e) => { e.preventDefault(); navigate('/servicios/residenciales'); setIsMobileMenuOpen(false); }}
+                                className="flex items-center gap-3 px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-cyber-cyan rounded-xl transition-all"
+                            >
+                                <span className="material-symbols-outlined">house</span>
+                                Residenciales
+                            </a>
+                            <a
+                                href="/servicios/empresariales"
+                                onClick={(e) => { e.preventDefault(); navigate('/servicios/empresariales'); setIsMobileMenuOpen(false); }}
+                                className="flex items-center gap-3 px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-cyber-cyan rounded-xl transition-all"
+                            >
+                                <span className="material-symbols-outlined">business</span>
+                                Empresariales
+                            </a>
+
+                            <div className="my-3 border-t border-slate-100 dark:border-white/5" />
+
+                            <a
+                                href="#descargables"
+                                onClick={(e) => handleNavClick(e, 'Descargables')}
+                                className="flex items-center gap-3 px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-cyber-cyan rounded-xl transition-all"
+                            >
+                                <span className="material-symbols-outlined">download</span>
+                                Descargables
+                            </a>
+                            <a
+                                href="#pqr"
+                                onClick={(e) => handleNavClick(e, 'PQR')}
+                                className="flex items-center gap-3 px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-cyber-cyan rounded-xl transition-all"
+                            >
+                                <span className="material-symbols-outlined">forum</span>
+                                PQR
+                            </a>
+
+                            <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5">
+                                <button
+                                    onClick={() => { navigate('/calculadora'); setIsMobileMenuOpen(false); }}
+                                    className="w-full btn-primary-glow text-white px-6 py-4 rounded-2xl font-bold shadow-lg flex items-center justify-center gap-3 active:scale-95 transition-all"
                                 >
-                                    {item}
-                                </a>
-                            ))}
+                                    <span className="material-symbols-outlined">calculate</span>
+                                    Calcula tu aire
+                                </button>
+                            </div>
                         </div>
                     </nav>
 
