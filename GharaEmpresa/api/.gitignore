@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.example
+!.env.production
+logs/
+uploads/productos/
+uploads/fichas/
+dist/
+*.log

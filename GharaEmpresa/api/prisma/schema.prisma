@@ -1,0 +1,332 @@
+// ==========================================
+// GHARA SAS - SCHEMA PRISMA (13 Tablas)
+// MySQL / cPanel
+// Soft Delete en productos y ventas
+// Sin busquedas_web (tracking via GA4)
+// Reseñas entran como 'Pendiente'
+// ==========================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── 1. CATÁLOGO ────────────────────────────────────────
+
+model Marca {
+  idMarca   Int        @id @default(autoincrement()) @map("id_marca")
+  nombre    String     @unique @db.VarChar(50)
+  productos Producto[]
+
+  @@map("marcas")
+}
+
+model Producto {
+  idProducto       Int      @id @default(autoincrement()) @map("id_producto")
+  idMarca          Int      @map("id_marca")
+  modelo           String   @db.VarChar(150)
+  tecnologia       String   @db.VarChar(50)
+  lineaSerie       String?  @map("linea_serie") @db.VarChar(100)
+  capacidadBtu     Int      @map("capacidad_btu")
+  voltaje          String   @db.VarChar(20)
+  refrigerante     String?  @db.VarChar(20)
+  seer             Decimal? @db.Decimal(4, 2)
+  claseEnergetica  String?  @map("clase_energetica") @db.VarChar(5)
+  tieneWifi        Boolean  @default(false) @map("tiene_wifi")
+  color            String   @default("Blanco") @db.VarChar(30)
+  precioContado    Decimal  @map("precio_contado") @db.Decimal(12, 2)
+  estadoInventario String   @default("DISPONIBLES") @map("estado_inventario") @db.VarChar(50)
+  estadoRegistro   Boolean  @default(true) @map("estado_registro")
+  fechaCreacion    DateTime @default(now()) @map("fecha_creacion")
+  fichaTecnica     String?  @map("ficha_tecnica") @db.VarChar(255)
+
+  // ── SEO ─────────────────────────
+  slug             String?  @unique @db.VarChar(200)
+  metaTitulo       String?  @map("meta_titulo") @db.VarChar(70)
+  metaDescripcion  String?  @map("meta_descripcion") @db.VarChar(160)
+
+  marca     Marca              @relation(fields: [idMarca], references: [idMarca], onDelete: Restrict)
+  imagenes  ImagenProducto[]
+  resenas   Resena[]
+  preguntas PreguntaRespuesta[]
+  vistas    VistaProducto[]
+  leads     LeadContacto[]
+  detalles  DetalleVenta[]
+  promociones PromocionProducto[]
+
+  @@index([idMarca])
+  @@map("productos")
+}
+
+model ImagenProducto {
+  idImagen    Int      @id @default(autoincrement()) @map("id_imagen")
+  idProducto  Int      @map("id_producto")
+  rutaImagen  String   @map("ruta_imagen") @db.VarChar(255)
+  esPrincipal Boolean  @default(false) @map("es_principal")
+  orden       Int      @default(0)
+  fechaSubida DateTime @default(now()) @map("fecha_subida")
+
+  producto Producto @relation(fields: [idProducto], references: [idProducto], onDelete: Cascade)
+
+  @@index([idProducto])
+  @@map("imagenes_producto")
+}
+
+// ─── 2. INTERACCIÓN ANÓNIMA ─────────────────────────────
+
+model Resena {
+  idResena         Int      @id @default(autoincrement()) @map("id_resena")
+  idProducto       Int      @map("id_producto")
+  aliasAutor       String   @default("Anónimo") @map("alias_autor") @db.VarChar(50)
+  ipAutor          String?  @map("ip_autor") @db.VarChar(45)
+  calificacion     Int
+  comentario       String?  @db.Text
+  estadoModeracion String   @default("Pendiente") @map("estado_moderacion") @db.VarChar(20)
+  fechaResena      DateTime @default(now()) @map("fecha_resena")
+
+  producto Producto @relation(fields: [idProducto], references: [idProducto], onDelete: Cascade)
+
+  @@index([idProducto])
+  @@map("resenas")
+}
+
+model PreguntaRespuesta {
+  idPregunta     Int       @id @default(autoincrement()) @map("id_pregunta")
+  idProducto     Int       @map("id_producto")
+  aliasAutor     String    @default("Anónimo") @map("alias_autor") @db.VarChar(50)
+  pregunta       String    @db.Text
+  respuesta      String?   @db.Text
+  fechaPregunta  DateTime  @default(now()) @map("fecha_pregunta")
+  fechaRespuesta DateTime? @map("fecha_respuesta")
+
+  producto Producto @relation(fields: [idProducto], references: [idProducto], onDelete: Cascade)
+
+  @@index([idProducto])
+  @@map("preguntas_respuestas")
+}
+
+// ─── 3. ANALÍTICAS WEB ──────────────────────────────────
+
+model VistaProducto {
+  idVista        Int      @id @default(autoincrement()) @map("id_vista")
+  idProducto     Int      @map("id_producto")
+  fechaVista     DateTime @default(now()) @map("fecha_vista") @db.Date
+  cantidadVistas Int      @default(1) @map("cantidad_vistas")
+
+  producto Producto @relation(fields: [idProducto], references: [idProducto], onDelete: Cascade)
+
+  @@unique([idProducto, fechaVista])
+  @@map("vistas_producto")
+}
+
+// ─── 4. CRM Y CONVERSIÓN ────────────────────────────────
+
+model Cliente {
+  idCliente      Int      @id @default(autoincrement()) @map("id_cliente")
+  nombreCompleto String   @map("nombre_completo") @db.VarChar(150)
+  telefono       String?  @db.VarChar(20)
+  email          String?  @db.VarChar(150)
+  fechaRegistro  DateTime @default(now()) @map("fecha_registro")
+
+  ventas Venta[]
+
+  @@map("clientes")
+}
+
+model LeadContacto {
+  idLead        Int      @id @default(autoincrement()) @map("id_lead")
+  idProducto    Int?     @map("id_producto")
+  
+  // CRM Contact Info
+  nombreCliente String?  @map("nombre_cliente") @db.VarChar(150)
+  telefono      String?  @db.VarChar(50)
+  email         String?  @db.VarChar(150)
+  mensaje       String?  @db.Text
+  
+  // CRM Status and Tracking
+  estadoLead    String   @default("NUEVO") @map("estado_lead") @db.VarChar(50) // NUEVO, EN_CONTACTO, COTIZACION, CERRADO_GANADO, CERRADO_PERDIDO
+  notasAsesor   String?  @map("notas_asesor") @db.Text
+  productosInteres String? @map("productos_interes") @db.Text // JSON o texto del carrito
+  
+  // Analytics Tracking
+  canalContacto String   @default("WhatsApp") @map("canal_contacto") @db.VarChar(50)
+  utmSource     String?  @map("utm_source") @db.VarChar(100)
+  utmMedium     String?  @map("utm_medium") @db.VarChar(100)
+  utmCampaign   String?  @map("utm_campaign") @db.VarChar(150)
+  fechaContacto DateTime @default(now()) @map("fecha_contacto")
+
+  producto Producto? @relation(fields: [idProducto], references: [idProducto])
+
+  @@index([idProducto])
+  @@map("leads_contacto")
+}
+
+model Venta {
+  idVenta        Int      @id @default(autoincrement()) @map("id_venta")
+  idCliente      Int?     @map("id_cliente")
+  total          Decimal  @db.Decimal(12, 2)
+  canalCierre    String   @default("WhatsApp") @map("canal_cierre") @db.VarChar(50)
+  estadoVenta    String   @default("COMPLETADA") @map("estado_venta") @db.VarChar(50)
+  estadoRegistro Boolean  @default(true) @map("estado_registro")
+  fechaVenta     DateTime @default(now()) @map("fecha_venta")
+
+  cliente  Cliente?       @relation(fields: [idCliente], references: [idCliente])
+  detalles DetalleVenta[]
+  pqrs     PqrContacto[]
+
+  @@index([idCliente])
+  @@map("ventas")
+}
+
+model DetalleVenta {
+  idDetalle      Int     @id @default(autoincrement()) @map("id_detalle")
+  idVenta        Int     @map("id_venta")
+  idProducto     Int     @map("id_producto")
+  cantidad       Int
+  precioUnitario Decimal @map("precio_unitario") @db.Decimal(12, 2)
+
+  venta    Venta    @relation(fields: [idVenta], references: [idVenta], onDelete: Cascade)
+  producto Producto @relation(fields: [idProducto], references: [idProducto], onDelete: Restrict)
+
+  @@index([idVenta])
+  @@index([idProducto])
+  @@map("detalles_venta")
+}
+
+// ─── 5. ATENCIÓN AL CLIENTE ─────────────────────────────
+
+model PreguntaFrecuente {
+  idFaq              Int     @id @default(autoincrement()) @map("id_faq")
+  categoria          String  @db.VarChar(50)
+  pregunta           String  @db.VarChar(255)
+  respuesta          String  @db.Text
+  ordenVisualizacion Int     @default(0) @map("orden_visualizacion")
+  estadoPublicacion  Boolean @default(true) @map("estado_publicacion")
+
+  @@map("preguntas_frecuentes")
+}
+
+model PqrContacto {
+  idPqr                    Int       @id @default(autoincrement()) @map("id_pqr")
+  radicado                 String    @unique @db.VarChar(20)
+  tipoSolicitud            String    @map("tipo_solicitud") @db.VarChar(20)
+  nombreRemitente          String    @map("nombre_remitente") @db.VarChar(150)
+  emailRemitente           String    @map("email_remitente") @db.VarChar(150)
+  telefonoRemitente        String    @map("telefono_remitente") @db.VarChar(20)
+  asunto                   String    @db.VarChar(150)
+  mensaje                  String    @db.Text
+  idVenta                  Int?      @map("id_venta")
+  estadoTicket             String    @default("Abierto") @map("estado_ticket") @db.VarChar(20)
+  respuestaEquipoGharasas  String?   @map("respuesta_equipo_gharasas") @db.Text
+  aceptoHabeasData         Boolean   @default(false) @map("acepto_habeas_data")
+  fechaRadicado            DateTime  @default(now()) @map("fecha_radicado")
+  fechaResolucion          DateTime? @map("fecha_resolucion")
+
+  venta Venta? @relation(fields: [idVenta], references: [idVenta], onDelete: SetNull)
+
+  @@index([idVenta])
+  @@map("pqr_contactos")
+}
+
+// ─── 6. PROMOCIONES Y PUBLICIDAD ────────────────────────
+
+model Promocion {
+  idPromocion    Int       @id @default(autoincrement()) @map("id_promocion")
+  titulo         String    @db.VarChar(150)
+  descripcion    String?   @db.Text
+  tipoDescuento  String    @default("BANNER") @map("tipo_descuento") @db.VarChar(20)
+  valorDescuento Decimal?  @map("valor_descuento") @db.Decimal(12, 2)
+  imagenBanner   String?   @map("imagen_banner") @db.VarChar(255)
+  linkDestino    String?   @map("link_destino") @db.VarChar(255)
+  colorFondo     String?   @map("color_fondo") @db.VarChar(30)
+  fechaInicio    DateTime  @map("fecha_inicio")
+  fechaFin       DateTime  @map("fecha_fin")
+  activa         Boolean   @default(true)
+  orden          Int       @default(0)
+  fechaCreacion  DateTime  @default(now()) @map("fecha_creacion")
+
+  productos PromocionProducto[]
+
+  @@map("promociones")
+}
+
+model PromocionProducto {
+  idPromocionProducto Int @id @default(autoincrement()) @map("id_promocion_producto")
+  idPromocion         Int @map("id_promocion")
+  idProducto          Int @map("id_producto")
+
+  promocion Promocion @relation(fields: [idPromocion], references: [idPromocion], onDelete: Cascade)
+  producto  Producto  @relation(fields: [idProducto], references: [idProducto], onDelete: Cascade)
+
+  @@unique([idPromocion, idProducto])
+  @@index([idProducto])
+  @@map("promociones_productos")
+}
+
+// ─── 7. ADMIN USUARIOS ──────────────────────────────────
+
+model AdminUsuario {
+  idAdmin      Int    @id @default(autoincrement()) @map("id_admin")
+  nombre       String @db.VarChar(100)
+  email        String @unique @db.VarChar(150)
+  passwordHash String @map("password_hash") @db.VarChar(255)
+  rol          String @default("Asesor") @db.VarChar(50)
+
+  @@map("admin_usuarios")
+}
+
+// ─── 8. CUPONES Y DESCUENTOS ────────────────────────────
+
+model Cupon {
+  idCupon         Int       @id @default(autoincrement()) @map("id_cupon")
+  codigo          String    @unique @db.VarChar(50)
+  tipoDescuento   String    @map("tipo_descuento") @db.VarChar(20) // PORCENTAJE, VALOR_FIJO, ENVIO_GRATIS
+  valorDescuento  Decimal   @map("valor_descuento") @db.Decimal(12, 2)
+  minimoCompra    Decimal?  @map("minimo_compra") @db.Decimal(12, 2)
+  limiteUsos      Int       @default(0) @map("limite_usos") // 0 = ilimitado
+  usosActuales    Int       @default(0) @map("usos_actuales")
+  fechaInicio     DateTime  @map("fecha_inicio")
+  fechaExpiracion DateTime  @map("fecha_expiracion")
+  activo          Boolean   @default(true)
+  fechaCreacion   DateTime  @default(now()) @map("fecha_creacion")
+
+  usos UsoCupon[]
+
+  @@map("cupones")
+}
+
+model UsoCupon {
+  idUsoCupon   Int      @id @default(autoincrement()) @map("id_uso_cupon")
+  idCupon      Int      @map("id_cupon")
+  idVenta      Int?     @map("id_venta")
+  emailCliente String?  @map("email_cliente") @db.VarChar(150)
+  montoAhorro  Decimal  @map("monto_ahorro") @db.Decimal(12, 2)
+  fechaUso     DateTime @default(now()) @map("fecha_uso")
+
+  cupon Cupon @relation(fields: [idCupon], references: [idCupon], onDelete: Cascade)
+
+  @@index([idCupon])
+  @@index([idVenta])
+  @@map("usos_cupon")
+}
+
+// ─── 9. DESCARGABLES Y MANUALES ─────────────────────────
+
+model Descargable {
+  idDescargable Int      @id @default(autoincrement()) @map("id_descargable")
+  titulo        String   @db.VarChar(150)
+  descripcion   String?  @db.Text
+  categoria     String   @db.VarChar(50) 
+  tipoArchivo   String   @map("tipo_archivo") @db.VarChar(10) 
+  pesoArchivo   String   @map("peso_archivo") @db.VarChar(20) 
+  rutaArchivo   String   @map("ruta_archivo") @db.VarChar(255)
+  version       Int      @default(2026)
+  tags          String?  @db.VarChar(255) 
+  fechaCreacion DateTime @default(now()) @map("fecha_creacion")
+
+  @@map("descargables")
+}

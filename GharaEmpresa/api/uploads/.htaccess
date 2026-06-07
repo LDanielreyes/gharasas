@@ -1,0 +1,6 @@
+# Bloqueo de ejecución de scripts - OBLIGATORIO en cPanel
+# Previene ejecución de Web Shells disfrazados de imágenes
+php_flag engine off
+Options -Indexes
+AddHandler cgi-script .php .pl .jsp .asp .sh .cgi
+Options -ExecCGI

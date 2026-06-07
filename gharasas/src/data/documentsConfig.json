@@ -1,0 +1,275 @@
+{
+    "documents": [
+        {
+            "id": "1",
+            "title": "Autorización Tratamiento Datos Clientes",
+            "description": "Autorización para el tratamiento de datos personales de nuestros clientes según RGPD.",
+            "category": "legal",
+            "year": 2026,
+            "fileType": "DOCX",
+            "fileSize": "45 KB",
+            "date": "Ene. 2024",
+            "filePath": "AUTORIZACIÓN DE TRATAMIENTO DE DATOS CLIENTES V1.docx",
+            "tags": [
+                "datos",
+                "clientes",
+                "privacidad",
+                "legal"
+            ]
+        },
+        {
+            "id": "2",
+            "title": "Autorización Tratamiento Datos Proveedores",
+            "description": "Autorización para el tratamiento de datos personales de proveedores y aliados comerciales.",
+            "category": "legal",
+            "year": 2026,
+            "fileType": "DOCX",
+            "fileSize": "44 KB",
+            "date": "Ene. 2024",
+            "filePath": "AUTORIZACIÓN DE TRATAMIENTO DE DATOS PROVEEDORES V1.docx",
+            "tags": [
+                "datos",
+                "proveedores",
+                "privacidad",
+                "legal"
+            ]
+        },
+        {
+            "id": "3",
+            "title": "Autorización Uso de Imagen Clientes",
+            "description": "Autorización para el uso y manejo de imagen de nuestros clientes en campañas comerciales.",
+            "category": "legal",
+            "year": 2026,
+            "fileType": "DOCX",
+            "fileSize": "42 KB",
+            "date": "Ene. 2024",
+            "filePath": "AUTORIZACIÓN DE USO Y MANEJO DE IMAGEN CLIENTES V1.docx",
+            "tags": [
+                "imagen",
+                "clientes",
+                "marketing",
+                "legal"
+            ]
+        },
+        {
+            "id": "4",
+            "title": "Política Tratamiento Datos Personales",
+            "description": "Política oficial de tratamiento de datos personales de Ghara S.A.S. conforme a normativa colombiana.",
+            "category": "legal",
+            "year": 2026,
+            "fileType": "PDF",
+            "fileSize": "312 KB",
+            "date": "Ene. 2024",
+            "filePath": "POLÍTICA DE TRATAMIENTO DE DATOS PERSONALES GHARA S.pdf",
+            "tags": [
+                "política",
+                "datos",
+                "privacidad",
+                "legal"
+            ]
+        },
+        {
+            "id": "5",
+            "title": "Códigos de Error Hisense RAC",
+            "description": "Guía completa de códigos de error para equipos Hisense RAC con diagnóstico y soluciones paso a paso.",
+            "category": "codigo-error",
+            "year": 2026,
+            "fileType": "PDF",
+            "fileSize": "853 KB",
+            "date": "Feb. 2024",
+            "filePath": "tecnico/Hisense RAC- Codigos de Error.pdf",
+            "tags": [
+                "hisense",
+                "error",
+                "diagnóstico",
+                "solución",
+                "rac"
+            ]
+        },
+        {
+            "id": "6",
+            "title": "Ficha Técnica DANL0325R32S DR",
+            "description": "Especificaciones técnicas completas y características operativas del modelo DANL0325R32S.",
+            "category": "ficha-tecnica",
+            "year": 2026,
+            "fileType": "PDF",
+            "fileSize": "731 KB",
+            "date": "Feb. 2024",
+            "filePath": "tecnico/DANL0325R32S_DR (1) (2).pdf",
+            "tags": [
+                "danl",
+                "ficha técnica",
+                "especificaciones",
+                "r32"
+            ]
+        },
+        {
+            "id": "7",
+            "title": "Ficha Técnica MQT18-36K0625R32SDR",
+            "description": "Información técnica detallada del modelo MQT18-36K0625R32SDR con refrigerante R32.",
+            "category": "ficha-tecnica",
+            "year": 2026,
+            "fileType": "PDF",
+            "fileSize": "737 KB",
+            "date": "Feb. 2024",
+            "filePath": "tecnico/MQT18_36K0625R32SDR.pdf",
+            "tags": [
+                "mqt",
+                "ficha técnica",
+                "r32",
+                "inverter"
+            ]
+        },
+        {
+            "id": "8",
+            "title": "Ficha Técnica MQTON-OFF0625R32SDR V2",
+            "description": "Especificaciones del sistema MQTON-OFF0625R32SDR versión 2 con tecnología On-Off.",
+            "category": "ficha-tecnica",
+            "year": 2026,
+            "fileType": "PDF",
+            "fileSize": "764 KB",
+            "date": "Feb. 2024",
+            "filePath": "tecnico/MQTON-OFF0625R32SDR V2.pdf",
+            "tags": [
+                "mqt",
+                "on-off",
+                "ficha técnica",
+                "r32"
+            ]
+        },
+        {
+            "id": "9",
+            "title": "Ficha Técnica X32 Mirage",
+            "description": "Características técnicas y especificaciones del equipo X32 Mirage de última generación.",
+            "category": "ficha-tecnica",
+            "year": 2026,
+            "fileType": "PDF",
+            "fileSize": "3.3 MB",
+            "date": "Feb. 2024",
+            "filePath": "tecnico/FICHA TECNICA X32 MIRAGE.pdf",
+            "tags": [
+                "x32",
+                "mirage",
+                "ficha técnica",
+                "premium"
+            ]
+        },
+        {
+            "id": "10",
+            "title": "Ficha Técnica XLIFE Colombia 2024",
+            "description": "Especificaciones completas de la línea XLIFE adaptada para el mercado colombiano.",
+            "category": "ficha-tecnica",
+            "year": 2026,
+            "fileType": "PDF",
+            "fileSize": "5.5 MB",
+            "date": "Feb. 2024",
+            "filePath": "tecnico/FICHA TECNICA XLIFE COLOMBIA 2024.pdf",
+            "tags": [
+                "xlife",
+                "colombia",
+                "ficha técnica",
+                "2024"
+            ]
+        },
+        {
+            "id": "11",
+            "title": "Ficha Mini Split Inverter Brissa Hisense",
+            "description": "Información técnica del sistema Mini Split Inverter Brissa de Hisense con tecnología de última generación.",
+            "category": "ficha-tecnica",
+            "year": 2026,
+            "fileType": "PDF",
+            "fileSize": "196 KB",
+            "date": "Feb. 2024",
+            "filePath": "tecnico/Ficha Mini Split Inverter Brissa Hisense.pdf",
+            "tags": [
+                "hisense",
+                "brissa",
+                "mini split",
+                "inverter",
+                "ficha técnica"
+            ]
+        },
+        {
+            "id": "12",
+            "title": "Catálogo MIDEA SEER Inverter",
+            "description": "Catálogo completo de productos MIDEA con tecnología SEER Inverter de alta eficiencia energética.",
+            "category": "catalogo",
+            "year": 2026,
+            "fileType": "PDF",
+            "fileSize": "6.4 MB",
+            "date": "Feb. 2024",
+            "filePath": "tecnico/CATALOGO MIDEA_SEER INVERTER.pdf",
+            "tags": [
+                "midea",
+                "catálogo",
+                "seer",
+                "inverter",
+                "eficiencia"
+            ]
+        },
+        {
+            "id": "13",
+            "title": "Catálogo Serie Perla R-32",
+            "description": "Catálogo de la Serie Perla con refrigerante ecológico R-32 de bajo impacto ambiental.",
+            "category": "catalogo",
+            "year": 2026,
+            "fileType": "PDF",
+            "fileSize": "691 KB",
+            "date": "Feb. 2024",
+            "filePath": "tecnico/Catalogo Serie Perla R-32.pdf",
+            "tags": [
+                "perla",
+                "catálogo",
+                "r32",
+                "ecológico"
+            ]
+        }
+    ],
+    "categories": [
+        {
+            "id": "legal",
+            "name": "Documentos Legales",
+            "icon": "gavel"
+        },
+        {
+            "id": "ficha-tecnica",
+            "name": "Fichas Técnicas",
+            "icon": "assignment"
+        },
+        {
+            "id": "catalogo",
+            "name": "Catálogos",
+            "icon": "menu_book"
+        },
+        {
+            "id": "codigo-error",
+            "name": "Códigos de Error",
+            "icon": "error"
+        },
+        {
+            "id": "manual",
+            "name": "Manuales de Usuario",
+            "icon": "description"
+        },
+        {
+            "id": "firmware",
+            "name": "Firmware",
+            "icon": "system_update"
+        },
+        {
+            "id": "esquema",
+            "name": "Esquemas Eléctricos",
+            "icon": "electrical_services"
+        },
+        {
+            "id": "politicas",
+            "name": "Políticas de tratamiento de datos",
+            "icon": "policy"
+        },
+        {
+            "id": "autorizaciones",
+            "name": "Autorizaciones de tratamiento de datos",
+            "icon": "verified_user"
+        }
+    ]
+}

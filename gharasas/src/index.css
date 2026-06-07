@@ -1,0 +1,483 @@
+@import "tailwindcss";
+
+
+
+
+
+
+/* Web Fonts cargadas de forma no-bloqueante desde index.html (ver <link> tags) */
+
+@theme {
+  /* Colors - Refined for Premium Feel */
+  --color-primary: #0C4D89;
+  --color-secondary: #2678A4;
+  --color-accent: #3BA2C5;
+  --color-cyan: #37C6D8;
+
+  /* Cyber / Tech Mode Colors (Dark Only) */
+  --color-cyber-cyan: #38BDF8;
+  /* Sky 400 - Electric but closer to blue than pure Cyan */
+  --color-cyber-purple: #818CF8;
+  /* Indigo 400 - Softer purple */
+
+  --color-background-light: #F8FAFC;
+  /* Slate 50 */
+  --color-background-dark: #000000;
+  /* Pure Black for Cyber feel */
+  --color-background-black: #000000;
+
+  --color-surface-light: #ffffff;
+  --color-surface-dark: #050505;
+  /* Near Black */
+
+  --color-text-primary-light: #0f172a;
+  --color-text-primary-dark: #f1f5f9;
+
+  --color-border-light: #e2e8f0;
+  --color-border-dark: #1e293b;
+
+  /* Typography — Precisión Industrial */
+  --font-display: "Syne", "Outfit", sans-serif;
+  --font-body: "IBM Plex Sans", "Arimo", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  /* Shadows */
+  --shadow-card-hover: 0 20px 40px -10px rgba(14, 86, 142, 0.15);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  --shadow-glow: 0 0 50px -10px rgba(12, 77, 137, 0.5);
+  /* Tech Glows */
+  --shadow-tech-cyan: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.3);
+  --shadow-tech-purple: 0 0 10px rgba(189, 0, 255, 0.5), 0 0 20px rgba(189, 0, 255, 0.3);
+}
+
+:root {
+  /* ── PALETA DE MARCA ── */
+  --gh-brand-1: #2DC4C4;  /* Cyan claro */
+  --gh-brand-2: #2AABCC;  /* Cyan medio */
+  --gh-brand-3: #1A75B5;  /* Azul medio */
+  --gh-brand-4: #154B8A;  /* Azul oscuro */
+  --gh-brand-5: #FFFFFF;  /* Blanco */
+
+  /* ── ACENTO PRINCIPAL ── */
+  --gh-accent:       var(--gh-brand-1);
+  --gh-accent-dark:  var(--gh-brand-4);
+
+  /* ── SISTEMA DE UI — MODO CLARO ── */
+  --gh-bg:           #F4FAFA;
+  --gh-surface-1:    #FFFFFF;
+  --gh-surface-2:    #EAF6F7;
+  --gh-text-primary:   #0D2137;
+  --gh-text-secondary: #1A4A6B;
+  --gh-text-muted:     #5B8FA8;
+  --gh-border:       rgba(42, 171, 204, 0.12);
+
+  /* ── ESTADOS ── */
+  --gh-success: #0E9E6E;
+  --gh-danger:  #DC2626;
+  --gh-warning: #D97706;
+
+  /* ── FUENTES ── */
+  --font-display: 'Fraunces', serif;
+  --font-body:    'DM Sans', sans-serif;
+}
+
+[data-theme="dark"] {
+  /* ── SISTEMA DE UI — MODO OSCURO ── */
+  --gh-bg:           #0A1628;
+  --gh-surface-1:    #0F2040;
+  --gh-surface-2:    #152B54;
+  --gh-text-primary:   #EDF6F9;
+  --gh-text-secondary: #A8D4E6;
+  --gh-text-muted:     #5B8FA8;
+  --gh-border:       rgba(45, 196, 196, 0.1);
+  --gh-success:      #34D399;
+  --gh-danger:       #F87171;
+  --gh-warning:      #FACC15;
+  --gh-accent:       var(--gh-brand-1);
+}
+
+/* ── COMPONENTES GLOBALES ── */
+body {
+  background-color: var(--gh-bg);
+  color: var(--gh-text-primary);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.gh-input {
+  width: 100%;
+  height: 42px;
+  background: var(--gh-surface-2);
+  border: 1px solid var(--gh-border);
+  border-radius: 6px;
+  padding: 0 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--gh-text-primary);
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.gh-input:focus {
+  border-color: var(--gh-accent);
+  background: var(--gh-surface-1);
+  box-shadow: 0 0 0 3px rgba(45, 196, 196, 0.15);
+}
+.gh-input::placeholder { color: var(--gh-text-muted); }
+
+.gh-btn-primary {
+  height: 42px;
+  padding: 0 20px;
+  background: var(--gh-accent);
+  color: var(--gh-brand-4);
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s, transform 0.1s;
+}
+.gh-btn-primary:hover  { background: var(--gh-brand-2); }
+.gh-btn-primary:active { transform: scale(0.99); }
+
+.gh-btn-secondary {
+  height: 42px;
+  padding: 0 20px;
+  background: transparent;
+  border: 1px solid var(--gh-border);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--gh-text-secondary);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.gh-btn-secondary:hover {
+  background: var(--gh-surface-2);
+  border-color: var(--gh-accent);
+}
+
+.gh-card {
+  background: var(--gh-surface-1);
+  border: 1px solid var(--gh-border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.gh-panel-dark {
+  background: var(--gh-accent-dark);
+  color: var(--gh-brand-5);
+}
+.gh-panel-dark .accent-text { color: var(--gh-brand-1); }
+
+.gh-badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.gh-badge-info    { background: rgba(26,117,181,0.1); color: var(--gh-brand-3); }
+.gh-badge-success { background: rgba(14,158,110,0.1); color: var(--gh-success); }
+.gh-badge-danger  { background: rgba(220,38,38,0.1);  color: var(--gh-danger);  }
+.gh-badge-warning { background: rgba(217,119,6,0.1);  color: var(--gh-warning); }
+
+
+
+/* Force class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Smooth transitions for theme changes */
+    transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  
+
+
+
+
+  /* Global smooth transitions for all color-related properties */
+  * {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* View Transition API Styles - Advanced smooth theme transitions */
+@supports (view-transition-name: none) {
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 500ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Fade transition for theme changes */
+  ::view-transition-old(root) {
+    animation-name: fade-out;
+  }
+
+  ::view-transition-new(root) {
+    animation-name: fade-in;
+  }
+
+  @keyframes fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+@layer utilities {
+
+  /* Typography Utilities */
+  .text-huge-footer {
+    font-size: clamp(4rem, 15vw, 16rem);
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    font-weight: 800;
+  }
+
+  /* Tech Text Gradient */
+  .text-tech-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cyber-cyan to-cyber-purple;
+  }
+
+  /* Premium Glassmorphism - Light Mode */
+  .glass {
+    background: rgba(255, 255, 255, 0.25);
+    /* Lower opacity for better glassmorphism */
+    backdrop-filter: blur(32px);
+    /* Stronger blur */
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    /* Subtle border */
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+    /* Minimal shadow */
+  }
+
+  /* Cyber Glass - Dark Mode */
+  .glass-dark {
+    background: rgba(5, 5, 5, 0.35);
+    /* Lower opacity */
+    backdrop-filter: blur(32px);
+    /* Stronger blur */
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(0, 240, 255, 0.12);
+    /* Subtle tech border */
+    box-shadow: 0 0 24px rgba(0, 240, 255, 0.05);
+    /* Soft glow */
+  }
+
+  /* Universal Glass Utility */
+  .glass-panel {
+    @apply transition-all duration-300;
+
+    /* Default (Light) - Corp Style */
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  }
+
+  /* Dark mode override for glass-panel -> Tech Style */
+  .dark .glass-panel {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    /* Tech Border */
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+    /* Tech Glow */
+  }
+
+  /* Glass Button Variant - Adaptive */
+  .btn-glass {
+    @apply px-6 py-3 rounded-xl font-bold transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95;
+    /* Light Mode Base */
+    background: rgba(12, 77, 137, 0.1);
+    /* Primary Tint */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(12, 77, 137, 0.2);
+    color: var(--color-primary);
+  }
+
+  .dark .btn-glass {
+    /* Cyber Mode Base */
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    color: var(--color-cyber-cyan);
+    text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+  }
+
+  .btn-glass:hover {
+    /* Light Mode Hover */
+    background: rgba(12, 77, 137, 0.2);
+    box-shadow: 0 4px 12px rgba(12, 77, 137, 0.2);
+  }
+
+  .dark .btn-glass:hover {
+    /* Cyber Mode Hover */
+    background: rgba(0, 240, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2);
+    border-color: var(--color-cyber-cyan);
+  }
+
+  /* Primary Button - Adaptive */
+  .btn-primary-glow {
+    @apply transition-all duration-300;
+    /* Light Mode: Corporate Blue */
+    background-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 14px 0 rgba(12, 77, 137, 0.39);
+  }
+
+  .btn-primary-glow:hover {
+    background-color: var(--color-secondary);
+    box-shadow: 0 6px 20px rgba(12, 77, 137, 0.23);
+  }
+
+  .dark .btn-primary-glow {
+    /* Cyber Mode: Neon Cyan */
+    background-color: transparent;
+    border: 1px solid var(--color-cyber-cyan);
+    color: var(--color-cyber-cyan);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.2), inset 0 0 5px rgba(0, 240, 255, 0.1);
+    text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+  }
+
+  .dark .btn-primary-glow:hover {
+    background-color: rgba(0, 240, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.6), inset 0 0 10px rgba(0, 240, 255, 0.3);
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
+  }
+
+  .input-underline {
+    /* Light Mode Default */
+    @apply bg-transparent border-b border-primary/30 py-3 text-slate-800 placeholder-slate-400 focus:border-primary focus:outline-none transition-all w-full;
+  }
+
+  .dark .input-underline {
+    /* Cyber Mode */
+    @apply border-white/30 text-white placeholder-white/40 focus:border-cyber-cyan;
+    transition: all 0.3s ease;
+  }
+
+  .dark .input-underline:focus {
+    box-shadow: 0 10px 20px -10px rgba(0, 240, 255, 0.3);
+  }
+
+  /* ========================================
+     BROWSER-SPECIFIC OPTIMIZATIONS
+     ======================================== */
+
+  /* Safari-specific optimizations */
+  .browser-safari .glass,
+  .browser-safari .glass-panel,
+  .browser-safari .glass-dark {
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .browser-safari button,
+  .browser-safari a {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  /* Chrome/Edge - Enable GPU acceleration for animations */
+  .browser-chrome *[class*="motion"],
+  .browser-edge *[class*="motion"] {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+
+  /* Firefox - Optimize scrolling */
+  .browser-firefox {
+    scroll-behavior: smooth;
+  }
+
+  .browser-firefox * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  }
+
+  /* Mobile optimizations */
+  .is-mobile * {
+    /* Reduce animation complexity on mobile */
+    animation-duration: 0.5s !important;
+  }
+
+  .is-mobile .glass,
+  .is-mobile .glass-panel {
+    /* Simplify backdrop-filter on mobile for better performance */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Navegadores sin soporte de backdrop-filter */
+  html:not(.supports-backdrop-filter) .glass,
+  html:not(.supports-backdrop-filter) .glass-panel {
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  html:not(.supports-backdrop-filter) .dark .glass,
+  html:not(.supports-backdrop-filter) .dark .glass-panel {
+    background: rgba(0, 0, 0, 0.95);
+  }
+}
+/* ─── Ghara Design System ─────────────────────────────────── */
+
+
+/* Catálogo industrial — fondo oscuro override para light mode */
+.dark .ghara-dark-forced,
+.ghara-dark-forced {
+  background: var(--ghara-ground);
+  color: var(--ghara-type);
+}
+
+/* ─── Product Detail Responsive ─────────────────────────── */
+@media (max-width: 680px) {
+  .product-detail-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .reviews-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

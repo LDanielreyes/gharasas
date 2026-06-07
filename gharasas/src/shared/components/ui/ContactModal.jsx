@@ -1,0 +1,247 @@
+import Swal from 'sweetalert2';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const ContactModal = ({ isOpen, onClose }) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        subject: 'Residencial',
+        message: '',
+        aceptoHabeasData: false
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+
+        // --- CONFIGURACIÓN EMAILJS ---
+        // Pega aquí tus datos de EmailJS
+        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
+        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY_CONTACT;
+        // -----------------------------
+
+        // Lógica real de envío
+        try {
+            // Import dinámico
+            const emailjs = (await import('@emailjs/browser')).default;
+
+            await emailjs.send(serviceId, templateId, {
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                subject: formData.subject,
+                message: formData.message
+            }, publicKey);
+
+        } catch (error) {
+            console.error('Error enviando email:', error);
+
+            // Manejo robusto de errores
+            const errorMessage = error?.text || error?.message || 'Error desconocido';
+
+            if (errorMessage.includes('Invalid login') || error?.status === 412) {
+                Swal.fire({ icon: 'info', title: 'Notificación', text: 'Error de autenticación: Verifica la contraseña en el panel de EmailJS.', confirmButtonColor: '#22c5e8' });
+            } else if (errorMessage.includes('Cannot find module')) {
+                Swal.fire({ icon: 'info', title: 'Notificación', text: 'Falta instalar la librería. Ejecuta: npm install @emailjs/browser', confirmButtonColor: '#22c5e8' });
+            } else {
+                Swal.fire({ icon: 'info', title: 'Aviso', text: `Error al enviar: ${errorMessage}`, confirmButtonColor: '#22c5e8' });
+            }
+
+            setIsSubmitting(false);
+            return;
+        }
+
+        setIsSubmitting(false);
+        setIsSuccess(true);
+        setTimeout(() => {
+            setIsSuccess(false);
+            onClose();
+            setFormData({ name: '', email: '', phone: '', subject: 'Residencial', message: '', aceptoHabeasData: false });
+        }, 3000);
+    };
+
+    return (
+        <AnimatePresence>
+            {isOpen && (
+                <>
+                    {/* Backdrop */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={onClose}
+                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
+                    />
+
+                    {/* Modal Container */}
+                    <div className="fixed inset-0 z-[101] flex items-center justify-center p-4 pointer-events-none">
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="w-full max-w-md pointer-events-auto"
+                        >
+                            <div className="relative glass-panel rounded-3xl p-6 md:p-8 overflow-hidden border border-white/20 dark:border-cyan-500/30">
+                                {/* Decorative Gradients */}
+                                <div className="absolute top-0 right-0 w-48 h-48 bg-primary/10 dark:bg-cyber-cyan/10 rounded-full blur-3xl -z-10 -translate-y-1/2 translate-x-1/2"></div>
+                                <div className="absolute bottom-0 left-0 w-48 h-48 bg-secondary/10 dark:bg-purple-500/10 rounded-full blur-3xl -z-10 translate-y-1/2 -translate-x-1/2"></div>
+
+                                {/* Header */}
+                                <div className="flex justify-between items-start mb-6">
+                                    <div>
+                                        <h3 className="font-display font-bold text-2xl text-primary dark:text-white mb-1 flex items-center gap-2">
+                                            <span className="material-symbols-outlined text-3xl text-cyan-500">mail</span>
+                                            Contáctanos
+                                        </h3>
+                                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                                            Envíanos un mensaje y te responderemos pronto.
+                                        </p>
+                                    </div>
+                                    <button
+                                        onClick={onClose}
+                                        aria-label="Cerrar modal de contacto"
+                                        className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                                    >
+                                        <span className="material-symbols-outlined">close</span>
+                                    </button>
+                                </div>
+
+                                {isSuccess ? (
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="py-12 text-center"
+                                    >
+                                        <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
+                                            <span className="material-symbols-outlined text-4xl">check_circle</span>
+                                        </div>
+                                        <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">¡Mensaje Enviado!</h4>
+                                        <p className="text-slate-600 dark:text-slate-400">Gracias por contactarnos. Te responderemos a la brevedad.</p>
+                                    </motion.div>
+                                ) : (
+                                    <form onSubmit={handleSubmit} className="space-y-5">
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 ml-1 uppercase tracking-wider">Nombre</label>
+                                                <div className="relative">
+                                                    <span className="material-symbols-outlined absolute left-3 top-3 text-slate-400 text-base">person</span>
+                                                    <input
+                                                        type="text"
+                                                        required
+                                                        value={formData.name}
+                                                        onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                                        className="w-full bg-white/50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-lg py-2.5 pl-9 pr-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary dark:focus:ring-cyber-cyan focus:border-transparent outline-none transition-all"
+                                                        placeholder="Tu nombre"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 ml-1 uppercase tracking-wider">Teléfono</label>
+                                                <div className="relative">
+                                                    <span className="material-symbols-outlined absolute left-3 top-3 text-slate-400 text-base">phone</span>
+                                                    <input
+                                                        type="tel"
+                                                        value={formData.phone}
+                                                        onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                                                        className="w-full bg-white/50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-lg py-2.5 pl-9 pr-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary dark:focus:ring-cyber-cyan focus:border-transparent outline-none transition-all"
+                                                        placeholder="Tu teléfono"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-1">
+                                            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 ml-1 uppercase tracking-wider">Correo Electrónico</label>
+                                            <div className="relative">
+                                                <span className="material-symbols-outlined absolute left-3 top-3 text-slate-400 text-base">mail</span>
+                                                <input
+                                                    type="email"
+                                                    required
+                                                    value={formData.email}
+                                                    onChange={e => setFormData({ ...formData, email: e.target.value })}
+                                                    className="w-full bg-white/50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-lg py-2.5 pl-9 pr-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary dark:focus:ring-cyber-cyan focus:border-transparent outline-none transition-all"
+                                                    placeholder="ejemplo@correo.com"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-1">
+                                            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 ml-1 uppercase tracking-wider">Interés</label>
+                                            <div className="relative">
+                                                <span className="material-symbols-outlined absolute left-3 top-3 text-slate-400 text-base">category</span>
+                                                <select
+                                                    value={formData.subject}
+                                                    onChange={e => setFormData({ ...formData, subject: e.target.value })}
+                                                    className="w-full bg-white/50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-lg py-2.5 pl-9 pr-8 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-primary dark:focus:ring-cyber-cyan focus:border-transparent outline-none transition-all appearance-none cursor-pointer"
+                                                >
+                                                    <option>Residencial</option>
+                                                    <option>Comercial</option>
+                                                    <option>Industrial</option>
+                                                    <option>Mantenimiento</option>
+                                                    <option>Otro</option>
+                                                </select>
+                                                <span className="material-symbols-outlined absolute right-3 top-3 text-slate-400 text-base pointer-events-none">expand_more</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-1">
+                                            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 ml-1 uppercase tracking-wider">Mensaje</label>
+                                            <div className="relative">
+                                                <textarea
+                                                    required
+                                                    value={formData.message}
+                                                    onChange={e => setFormData({ ...formData, message: e.target.value })}
+                                                    rows="3"
+                                                    className="w-full bg-white/50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-lg py-2.5 px-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary dark:focus:ring-cyber-cyan focus:border-transparent outline-none transition-all resize-none"
+                                                    placeholder="¿En qué podemos ayudarte?"
+                                                ></textarea>
+                                            </div>
+                                        </div>
+
+                                        <label className="flex items-start gap-2 cursor-pointer mt-3">
+                                            <input 
+                                                type="checkbox" 
+                                                required 
+                                                checked={formData.aceptoHabeasData}
+                                                onChange={e => setFormData({ ...formData, aceptoHabeasData: e.target.checked })}
+                                                className="mt-1" 
+                                            />
+                                            <span className="text-xs text-slate-500">
+                                                Acepto el <a href="/politica-de-datos" className="text-primary dark:text-cyan-400 font-bold hover:underline" target="_blank" rel="noopener noreferrer">Tratamiento de Datos Personales</a>
+                                            </span>
+                                        </label>
+
+                                        <button
+                                            type="submit"
+                                            disabled={isSubmitting}
+                                            className="w-full bg-gradient-to-r from-primary to-secondary hover:from-cyan-500 hover:to-blue-600 text-white text-sm font-bold py-3 rounded-lg shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all transform hover:-translate-y-1 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary dark:focus-visible:ring-offset-slate-900"
+                                        >
+                                            {isSubmitting ? (
+                                                <>
+                                                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                                    Enviando...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span>Enviar Mensaje</span>
+                                                    <span className="material-symbols-outlined">send</span>
+                                                </>
+                                            )}
+                                        </button>
+                                    </form>
+                                )}
+                            </div>
+                        </motion.div>
+                    </div>
+                </>
+            )}
+        </AnimatePresence>
+    );
+};
+
+export default ContactModal;

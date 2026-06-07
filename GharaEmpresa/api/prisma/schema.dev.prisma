@@ -1,0 +1,318 @@
+// ==========================================
+// GHARA SAS - SCHEMA PRISMA (13 Tablas)
+// MySQL / cPanel
+// Soft Delete en productos y ventas
+// Sin busquedas_web (tracking via GA4)
+// Reseñas entran como 'Pendiente'
+// ==========================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url = "file:./dev.db"
+}
+
+// ─── 1. CATÁLOGO ────────────────────────────────────────
+
+model Marca {
+  idMarca   Int        @id @default(autoincrement()) @map("id_marca")
+  nombre    String     @unique 
+  productos Producto[]
+
+  @@map("marcas")
+}
+
+model Producto {
+  idProducto       Int      @id @default(autoincrement()) @map("id_producto")
+  idMarca          Int      @map("id_marca")
+  modelo           String   
+  tecnologia       String   
+  lineaSerie       String?  @map("linea_serie") 
+  capacidadBtu     Int      @map("capacidad_btu")
+  voltaje          String   
+  refrigerante     String?  
+  seer             Decimal? 
+  claseEnergetica  String?  @map("clase_energetica") 
+  tieneWifi        Boolean  @default(false) @map("tiene_wifi")
+  color            String   @default("Blanco") 
+  precioContado    Decimal  @map("precio_contado") 
+  estadoInventario String   @default("DISPONIBLES") @map("estado_inventario") 
+  estadoRegistro   Boolean  @default(true) @map("estado_registro")
+  fechaCreacion    DateTime @default(now()) @map("fecha_creacion")
+  fichaTecnica     String?  @map("ficha_tecnica") 
+
+  // ── SEO ─────────────────────────
+  slug             String?  @unique 
+  metaTitulo       String?  @map("meta_titulo") 
+  metaDescripcion  String?  @map("meta_descripcion") 
+
+  marca     Marca              @relation(fields: [idMarca], references: [idMarca], onDelete: Restrict)
+  imagenes  ImagenProducto[]
+  resenas   Resena[]
+  preguntas PreguntaRespuesta[]
+  vistas    VistaProducto[]
+  leads     LeadContacto[]
+  detalles  DetalleVenta[]
+  promociones PromocionProducto[]
+
+  @@index([idMarca])
+  @@map("productos")
+}
+
+model ImagenProducto {
+  idImagen    Int      @id @default(autoincrement()) @map("id_imagen")
+  idProducto  Int      @map("id_producto")
+  rutaImagen  String   @map("ruta_imagen") 
+  esPrincipal Boolean  @default(false) @map("es_principal")
+  orden       Int      @default(0)
+  fechaSubida DateTime @default(now()) @map("fecha_subida")
+
+  producto Producto @relation(fields: [idProducto], references: [idProducto], onDelete: Cascade)
+
+  @@index([idProducto])
+  @@map("imagenes_producto")
+}
+
+// ─── 2. INTERACCIÓN ANÓNIMA ─────────────────────────────
+
+model Resena {
+  idResena         Int      @id @default(autoincrement()) @map("id_resena")
+  idProducto       Int      @map("id_producto")
+  aliasAutor       String   @default("Anónimo") @map("alias_autor") 
+  calificacion     Int
+  comentario       String?  
+  estadoModeracion String   @default("Pendiente") @map("estado_moderacion") 
+  fechaResena      DateTime @default(now()) @map("fecha_resena")
+
+  producto Producto @relation(fields: [idProducto], references: [idProducto], onDelete: Cascade)
+
+  @@index([idProducto])
+  @@map("resenas")
+}
+
+model PreguntaRespuesta {
+  idPregunta     Int       @id @default(autoincrement()) @map("id_pregunta")
+  idProducto     Int       @map("id_producto")
+  aliasAutor     String    @default("Anónimo") @map("alias_autor") 
+  pregunta       String    
+  respuesta      String?   
+  fechaPregunta  DateTime  @default(now()) @map("fecha_pregunta")
+  fechaRespuesta DateTime? @map("fecha_respuesta")
+
+  producto Producto @relation(fields: [idProducto], references: [idProducto], onDelete: Cascade)
+
+  @@index([idProducto])
+  @@map("preguntas_respuestas")
+}
+
+// ─── 3. ANALÍTICAS WEB ──────────────────────────────────
+
+model VistaProducto {
+  idVista        Int      @id @default(autoincrement()) @map("id_vista")
+  idProducto     Int      @map("id_producto")
+  fechaVista     DateTime @default(now()) @map("fecha_vista") 
+  cantidadVistas Int      @default(1) @map("cantidad_vistas")
+
+  producto Producto @relation(fields: [idProducto], references: [idProducto], onDelete: Cascade)
+
+  @@unique([idProducto, fechaVista])
+  @@map("vistas_producto")
+}
+
+// ─── 4. CRM Y CONVERSIÓN ────────────────────────────────
+
+model Cliente {
+  idCliente      Int      @id @default(autoincrement()) @map("id_cliente")
+  nombreCompleto String   @map("nombre_completo") 
+  telefono       String?  
+  email          String?  
+  fechaRegistro  DateTime @default(now()) @map("fecha_registro")
+
+  ventas Venta[]
+
+  @@map("clientes")
+}
+
+model LeadContacto {
+  idLead        Int      @id @default(autoincrement()) @map("id_lead")
+  idProducto    Int?     @map("id_producto")
+  canalContacto String   @default("WhatsApp") @map("canal_contacto") 
+  utmSource     String?  @map("utm_source") 
+  utmMedium     String?  @map("utm_medium") 
+  utmCampaign   String?  @map("utm_campaign") 
+  fechaContacto DateTime @default(now()) @map("fecha_contacto")
+
+  producto Producto? @relation(fields: [idProducto], references: [idProducto])
+
+  @@index([idProducto])
+  @@map("leads_contacto")
+}
+
+model Venta {
+  idVenta        Int      @id @default(autoincrement()) @map("id_venta")
+  idCliente      Int?     @map("id_cliente")
+  total          Decimal  
+  canalCierre    String   @default("WhatsApp") @map("canal_cierre") 
+  estadoVenta    String   @default("COMPLETADA") @map("estado_venta") 
+  estadoRegistro Boolean  @default(true) @map("estado_registro")
+  fechaVenta     DateTime @default(now()) @map("fecha_venta")
+
+  cliente  Cliente?       @relation(fields: [idCliente], references: [idCliente])
+  detalles DetalleVenta[]
+  pqrs     PqrContacto[]
+
+  @@index([idCliente])
+  @@map("ventas")
+}
+
+model DetalleVenta {
+  idDetalle      Int     @id @default(autoincrement()) @map("id_detalle")
+  idVenta        Int     @map("id_venta")
+  idProducto     Int     @map("id_producto")
+  cantidad       Int
+  precioUnitario Decimal @map("precio_unitario") 
+
+  venta    Venta    @relation(fields: [idVenta], references: [idVenta], onDelete: Cascade)
+  producto Producto @relation(fields: [idProducto], references: [idProducto], onDelete: Restrict)
+
+  @@index([idVenta])
+  @@index([idProducto])
+  @@map("detalles_venta")
+}
+
+// ─── 5. ATENCIÓN AL CLIENTE ─────────────────────────────
+
+model PreguntaFrecuente {
+  idFaq              Int     @id @default(autoincrement()) @map("id_faq")
+  categoria          String  
+  pregunta           String  
+  respuesta          String  
+  ordenVisualizacion Int     @default(0) @map("orden_visualizacion")
+  estadoPublicacion  Boolean @default(true) @map("estado_publicacion")
+
+  @@map("preguntas_frecuentes")
+}
+
+model PqrContacto {
+  idPqr                    Int       @id @default(autoincrement()) @map("id_pqr")
+  radicado                 String    @unique 
+  tipoSolicitud            String    @map("tipo_solicitud") 
+  nombreRemitente          String    @map("nombre_remitente") 
+  emailRemitente           String    @map("email_remitente") 
+  telefonoRemitente        String    @map("telefono_remitente") 
+  asunto                   String    
+  mensaje                  String    
+  idVenta                  Int?      @map("id_venta")
+  estadoTicket             String    @default("Abierto") @map("estado_ticket") 
+  respuestaEquipoGharasas  String?   @map("respuesta_equipo_gharasas") 
+  aceptoHabeasData         Boolean   @default(false) @map("acepto_habeas_data")
+  fechaRadicado            DateTime  @default(now()) @map("fecha_radicado")
+  fechaResolucion          DateTime? @map("fecha_resolucion")
+
+  venta Venta? @relation(fields: [idVenta], references: [idVenta], onDelete: SetNull)
+
+  @@index([idVenta])
+  @@map("pqr_contactos")
+}
+
+// ─── 6. PROMOCIONES Y PUBLICIDAD ────────────────────────
+
+model Promocion {
+  idPromocion    Int       @id @default(autoincrement()) @map("id_promocion")
+  titulo         String    
+  descripcion    String?   
+  tipoDescuento  String    @default("BANNER") @map("tipo_descuento") 
+  valorDescuento Decimal?  @map("valor_descuento") 
+  imagenBanner   String?   @map("imagen_banner") 
+  linkDestino    String?   @map("link_destino") 
+  colorFondo     String?   @map("color_fondo") 
+  fechaInicio    DateTime  @map("fecha_inicio")
+  fechaFin       DateTime  @map("fecha_fin")
+  activa         Boolean   @default(true)
+  orden          Int       @default(0)
+  fechaCreacion  DateTime  @default(now()) @map("fecha_creacion")
+
+  productos PromocionProducto[]
+
+  @@map("promociones")
+}
+
+model PromocionProducto {
+  idPromocionProducto Int @id @default(autoincrement()) @map("id_promocion_producto")
+  idPromocion         Int @map("id_promocion")
+  idProducto          Int @map("id_producto")
+
+  promocion Promocion @relation(fields: [idPromocion], references: [idPromocion], onDelete: Cascade)
+  producto  Producto  @relation(fields: [idProducto], references: [idProducto], onDelete: Cascade)
+
+  @@unique([idPromocion, idProducto])
+  @@index([idProducto])
+  @@map("promociones_productos")
+}
+
+// ─── 7. ADMIN USUARIOS ──────────────────────────────────
+
+model AdminUsuario {
+  idAdmin      Int    @id @default(autoincrement()) @map("id_admin")
+  nombre       String 
+  email        String @unique 
+  passwordHash String @map("password_hash") 
+  rol          String @default("Asesor") 
+
+  @@map("admin_usuarios")
+}
+
+// ─── 8. CUPONES Y DESCUENTOS ────────────────────────────
+
+model Cupon {
+  idCupon         Int       @id @default(autoincrement()) @map("id_cupon")
+  codigo          String    @unique 
+  tipoDescuento   String    @map("tipo_descuento")  // PORCENTAJE, VALOR_FIJO, ENVIO_GRATIS
+  valorDescuento  Decimal   @map("valor_descuento") 
+  minimoCompra    Decimal?  @map("minimo_compra") 
+  limiteUsos      Int       @default(0) @map("limite_usos") // 0 = ilimitado
+  usosActuales    Int       @default(0) @map("usos_actuales")
+  fechaInicio     DateTime  @map("fecha_inicio")
+  fechaExpiracion DateTime  @map("fecha_expiracion")
+  activo          Boolean   @default(true)
+  fechaCreacion   DateTime  @default(now()) @map("fecha_creacion")
+
+  usos UsoCupon[]
+
+  @@map("cupones")
+}
+
+model UsoCupon {
+  idUsoCupon   Int      @id @default(autoincrement()) @map("id_uso_cupon")
+  idCupon      Int      @map("id_cupon")
+  idVenta      Int?     @map("id_venta")
+  emailCliente String?  @map("email_cliente") 
+  montoAhorro  Decimal  @map("monto_ahorro") 
+  fechaUso     DateTime @default(now()) @map("fecha_uso")
+
+  cupon Cupon @relation(fields: [idCupon], references: [idCupon], onDelete: Cascade)
+
+  @@index([idCupon])
+  @@index([idVenta])
+  @@map("usos_cupon")
+}
+
+// ─── 9. DESCARGABLES Y MANUALES ─────────────────────────
+
+model Descargable {
+  idDescargable Int      @id @default(autoincrement()) @map("id_descargable")
+  titulo        String   
+  descripcion   String?  
+  categoria     String   
+  tipoArchivo   String   @map("tipo_archivo") 
+  pesoArchivo   String   @map("peso_archivo") 
+  rutaArchivo   String   @map("ruta_archivo") 
+  version       Int      @default(2026)
+  tags          String?  
+  fechaCreacion DateTime @default(now()) @map("fecha_creacion")
+
+  @@map("descargables")
+}

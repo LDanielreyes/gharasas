@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Bloquear rutas de API o admin accidentalmente publicadas
+Disallow: /api/
+Disallow: /admin/
+
+# Páginas de alta prioridad
+Allow: /catalogo/
+Allow: /servicios/
+Allow: /calculadora/
+Allow: /pqr/
+
+# Sitemap
+Sitemap: https://gharasas.com/sitemap.xml
+
+# Crawl delay (respetar servidores compartidos)
+Crawl-delay: 1
