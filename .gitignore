@@ -1,0 +1,41 @@
+# ========================
+# GITIGNORE GLOBAL - GHARA
+# ========================
+
+# Dependencies
+node_modules/
+.npm/
+
+# Build outputs
+dist/
+build/
+.vite/
+
+# Environment files (NUNCA subir a Git)
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Uploads (archivos subidos por usuarios)
+uploads/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Prisma generated
+prisma/generated/
+
+# Zip files
+*.zip

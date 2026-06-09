@@ -4,8 +4,8 @@ import axios from '../../api/client';
 import { Plus, Edit2, Trash2, Shield, User } from 'lucide-react';
 import Cookies from 'js-cookie';
 
-const API_URL = 'http://localhost:3001/api/admin/usuarios';
-const API_ME  = 'http://localhost:3001/api/admin/usuarios/me/perfil';
+const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/admin/usuarios`;
+const API_ME  = `${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/admin/usuarios/me/perfil`;
 
 export default function AdministradoresPage() {
   const [usuarios, setUsuarios] = useState([]);
