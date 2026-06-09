@@ -15,6 +15,7 @@ const DescargablesPage = lazy(() => import('../features/descargables'));
 const PQRPage = lazy(() => import('../features/pqr'));
 const FaqPage = lazy(() => import('../features/faq'));
 const PoliticaDatosPage = lazy(() => import('../features/politica-datos'));
+const ProductPage = lazy(() => import('../features/catalogo/ProductPage'));
 
 export const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
             {
                 path: 'catalogo',
                 element: <CatalogoPage />,
+            },
+            {
+                path: 'catalogo/:slug',
+                element: <ProductPage />,
             },
             {
                 path: 'familia',

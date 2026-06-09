@@ -23,14 +23,19 @@ const Navbar = () => {
     const isServicesPage = location.pathname.includes('/servicios/');
     const isAliadosPage = location.pathname.includes('/aliados');
     const isFamiliaPage = location.pathname.includes('/familia');
-    const isCatalogoPage = location.pathname.includes('/catalogo');
-    // Hero should be transparent on Home, Services, Aliados, Familia and Catalogo pages
-    const hasTransparentHero = isHomePage || isServicesPage || isAliadosPage || isFamiliaPage || isCatalogoPage;
+    const isCatalogoPage = location.pathname === '/catalogo' || location.pathname.startsWith('/catalogo/');
+    // Hero should be transparent ONLY on pages that have a dark photo hero
+    // Catalogo has a light bg (#F4FAFA) so it is excluded here
+    const hasTransparentHero = isHomePage || isServicesPage || isAliadosPage || isFamiliaPage;
     // Pages that are always light (dark text) except at the footer
     const isAlwaysLightNavPage =
         location.pathname.includes('/pqr') ||
         location.pathname.includes('/descargables') ||
-        location.pathname.includes('/politica-de-datos') || location.pathname.includes('/preguntas-frecuentes');
+        location.pathname.includes('/politica-de-datos') ||
+        location.pathname.includes('/preguntas-frecuentes') ||
+        location.pathname === '/catalogo' ||
+        location.pathname.startsWith('/catalogo/') ||
+        location.pathname.includes('/calculadora');
 
     // Footer visibility — controls text/logo color when footer enters viewport
     const [isFooterVisible, setIsFooterVisible] = useState(false);

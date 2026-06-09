@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const compression = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
 const path = require('path');
@@ -38,6 +39,13 @@ const app = express();
 // ==========================================
 // 1. MIDDDLEWARES GLOBALES
 // ==========================================
+
+// Optimización de Velocidad
+app.use(compression({ filter: (req, res) => {
+  if (req.headers['x-no-compression']) return false;
+  // No comprimir si no es seguro o si es muy pequeño
+  return compression.filter(req, res);
+}}));
 
 // Seguridad (Helmet + CSP)
 app.use(helmet({

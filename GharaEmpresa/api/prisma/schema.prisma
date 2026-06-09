@@ -206,6 +206,9 @@ model PreguntaFrecuente {
   respuesta          String  @db.Text
   ordenVisualizacion Int     @default(0) @map("orden_visualizacion")
   estadoPublicacion  Boolean @default(true) @map("estado_publicacion")
+  esDestacada        Boolean @default(false) @map("es_destacada")
+  votosUtiles        Int     @default(0) @map("votos_utiles")
+  votosNoUtiles      Int     @default(0) @map("votos_no_utiles")
 
   @@map("preguntas_frecuentes")
 }

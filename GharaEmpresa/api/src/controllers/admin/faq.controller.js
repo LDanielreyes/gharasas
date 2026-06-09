@@ -13,9 +13,9 @@ async function getFaqs(req, res, next) {
 
 async function createFaq(req, res, next) {
   try {
-    const { categoria, pregunta, respuesta, estadoPublicacion, ordenVisualizacion } = req.body;
+    const { categoria, pregunta, respuesta, estadoPublicacion, ordenVisualizacion, esDestacada } = req.body;
     const faq = await prisma.preguntaFrecuente.create({
-      data: { categoria, pregunta, respuesta, estadoPublicacion, ordenVisualizacion: ordenVisualizacion || 0 }
+      data: { categoria, pregunta, respuesta, estadoPublicacion, ordenVisualizacion: ordenVisualizacion || 0, esDestacada: esDestacada || false }
     });
     res.json({ success: true, data: faq });
   } catch (error) {
@@ -26,10 +26,10 @@ async function createFaq(req, res, next) {
 async function updateFaq(req, res, next) {
   try {
     const id = parseInt(req.params.id);
-    const { categoria, pregunta, respuesta, estadoPublicacion, ordenVisualizacion } = req.body;
+    const { categoria, pregunta, respuesta, estadoPublicacion, ordenVisualizacion, esDestacada } = req.body;
     const faq = await prisma.preguntaFrecuente.update({
       where: { idFaq: id },
-      data: { categoria, pregunta, respuesta, estadoPublicacion, ordenVisualizacion }
+      data: { categoria, pregunta, respuesta, estadoPublicacion, ordenVisualizacion, esDestacada: esDestacada ?? false }
     });
     res.json({ success: true, data: faq });
   } catch (error) {

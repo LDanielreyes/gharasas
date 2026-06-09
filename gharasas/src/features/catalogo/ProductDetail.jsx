@@ -258,8 +258,8 @@ const ProductDetail = ({ product: productCard, onClose }) => {
     }).catch(err => console.log('Error registrando lead:', err));
 
     // 2. Construir mensaje y abrir WhatsApp
-    const msg = `¡Hola Ghara! %0A%0ASoy *${nombre}*%0AEstoy interesado/a en cotizar:%0A%0A *Equipo:* ${productoNombre}%0A *Tecnología:* ${product?.tecnologia || productCard.tecnologia}%0A *Capacidad:* ${product?.capacidadBtu || productCard.capacidadBtu} BTU%0A *Precio referencia:* $${(product?.precio || productCard.precio || 0).toLocaleString()} COP%0A%0AMi WhatsApp: ${formCot.telefono || 'No especificado'}%0AMi correo: ${formCot.email || 'No especificado'}%0A%0A¿Me pueden dar más información?`;
-    window.open(`https://wa.me/${NUMERO_GHARA}?text=${msg}`, '_blank');
+    const msg = `¡Hola Ghara! \n\nSoy *${nombre}*\nEstoy interesado/a en cotizar:\n\n *Equipo:* ${productoNombre}\n *Tecnología:* ${product?.tecnologia || productCard.tecnologia}\n *Capacidad:* ${product?.capacidadBtu || productCard.capacidadBtu} BTU\n *Precio referencia:* $${(product?.precio || productCard.precio || 0).toLocaleString()} COP\n\nMi WhatsApp: ${formCot.telefono || 'No especificado'}\nMi correo: ${formCot.email || 'No especificado'}\n\n¿Me pueden dar más información?`;
+    window.open(`https://wa.me/${NUMERO_GHARA}?text=${encodeURIComponent(msg)}`, '_blank');
     onClose();
   };
 

@@ -13,6 +13,7 @@ async function getAllPublic(req, res, next) {
       precioMin, 
       precioMax, 
       seer,
+      capacidadBtu,
       pagina = 1, 
       limite = 12 
     } = req.query;
@@ -38,6 +39,11 @@ async function getAllPublic(req, res, next) {
       where.precioContado = {};
       if (precioMin) where.precioContado.gte = parseFloat(precioMin);
       if (precioMax) where.precioContado.lte = parseFloat(precioMax);
+    }
+
+    // Filtro por BTU
+    if (capacidadBtu) {
+      where.capacidadBtu = parseInt(capacidadBtu);
     }
 
     // Filtros de SEER
@@ -71,7 +77,15 @@ async function getAllPublic(req, res, next) {
         skip,
         take,
         orderBy: { fechaCreacion: 'desc' },
-        include: {
+        select: {
+          idProducto: true,
+          slug: true,
+          modelo: true,
+          lineaSerie: true,
+          tecnologia: true,
+          capacidadBtu: true,
+          seer: true,
+          precioContado: true,
           marca: { select: { nombre: true } },
           imagenes: { 
             where: { esPrincipal: true },
