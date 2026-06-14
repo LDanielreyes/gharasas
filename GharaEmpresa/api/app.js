@@ -72,11 +72,13 @@ const allowedOrigins = process.env.CORS_ORIGINS
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Origin no permitido por CORS'));
-    }
+    // Permitir requests sin origin (mobile apps, curl, etc)
+    if (!origin) return callback(null, true);
+    // Permitir origenes exactos de la lista
+    if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+    // Permitir cualquier subdominio de vercel.app (previews)
+    if (origin.endsWith('.vercel.app')) return callback(null, true);
+    callback(new Error('Origin no permitido por CORS'));
   },
   credentials: true
 }));

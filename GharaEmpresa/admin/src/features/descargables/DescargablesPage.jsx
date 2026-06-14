@@ -141,7 +141,7 @@ export default function DescargablesPage() {
           >
             <UploadCloud size={16} /> Carga Masiva
           </button>
-          <button onClick={() => handleOpenModal()} className="gh-button-primary">
+          <button onClick={() => handleOpenModal()} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: 'var(--gh-accent)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: '500', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 2px 4px rgba(0,240,255,0.2)' }} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-1px)'} onMouseOut={e => e.currentTarget.style.transform = 'none'}>
             <Plus size={16} /> Subir Archivo
           </button>
         </div>
@@ -241,7 +241,17 @@ export default function DescargablesPage() {
                 <label style={labelStyle}>
                   Archivo a subir {editingId && <span style={{ color: 'var(--gh-text-muted)', fontWeight: 'normal' }}>(selecciona solo para reemplazar)</span>}
                 </label>
-                <input type="file" accept=".pdf,.doc,.docx" onChange={e => setFileToUpload(e.target.files[0])} style={{...inputStyle, padding: '10px'}} />
+                <label style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px', border: '2px dashed var(--gh-border)', borderRadius: '8px', cursor: 'pointer', background: 'var(--gh-surface)', color: 'var(--gh-text-secondary)', transition: 'all 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--gh-accent)'; e.currentTarget.style.color = 'var(--gh-accent)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--gh-border)'; e.currentTarget.style.color = 'var(--gh-text-secondary)'; }}>
+                  <UploadCloud size={24} style={{ marginBottom: '8px' }} />
+                  <span style={{ fontWeight: '500', textAlign: 'center' }}>{fileToUpload ? fileToUpload.name : '+ Subir Archivo'}</span>
+                  <input type="file" accept=".pdf,.doc,.docx" onChange={e => {
+                    const file = e.target.files[0];
+                    setFileToUpload(file);
+                    if (file && !formData.titulo) {
+                      setFormData(prev => ({ ...prev, titulo: file.name.replace(/\.[^/.]+$/, "") }));
+                    }
+                  }} style={{ display: 'none' }} />
+                </label>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '8px' }}>
                 <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 16px', background: 'var(--gh-surface-2)', border: '1px solid var(--gh-border)', borderRadius: '8px', color: 'var(--gh-text-primary)', fontWeight: '500', cursor: 'pointer' }}>Cancelar</button>
@@ -283,7 +293,11 @@ export default function DescargablesPage() {
               </div>
               <div>
                 <label style={labelStyle}>Seleccionar Archivos (Máx 20 recomendados)</label>
-                <input type="file" multiple accept=".pdf,.doc,.docx" onChange={e => setBulkFiles(e.target.files)} style={{...inputStyle, padding: '10px'}} />
+                <label style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px', border: '2px dashed var(--gh-border)', borderRadius: '8px', cursor: 'pointer', background: 'var(--gh-surface)', color: 'var(--gh-text-secondary)', transition: 'all 0.2s' }} onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--gh-accent)'; e.currentTarget.style.color = 'var(--gh-accent)'; }} onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--gh-border)'; e.currentTarget.style.color = 'var(--gh-text-secondary)'; }}>
+                  <UploadCloud size={24} style={{ marginBottom: '8px' }} />
+                  <span style={{ fontWeight: '500', textAlign: 'center' }}>+ Seleccionar Múltiples Archivos</span>
+                  <input type="file" multiple accept=".pdf,.doc,.docx" onChange={e => setBulkFiles(e.target.files)} style={{ display: 'none' }} />
+                </label>
                 {bulkFiles.length > 0 && (
                   <p style={{ fontSize: '0.8125rem', color: 'var(--gh-success)', marginTop: '8px', fontWeight: '500' }}>{bulkFiles.length} archivos seleccionados listos para subir.</p>
                 )}
