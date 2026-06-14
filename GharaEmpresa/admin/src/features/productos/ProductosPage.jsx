@@ -4,7 +4,7 @@ import {
   Plus, Search, Eye, Star, SlidersHorizontal,
   Download, MoreHorizontal, ChevronLeft, ChevronRight,
   Package, Activity, AlertTriangle, TrendingUp,
-  X, Save, Loader2, Edit3, Trash2,
+  X, Save, Loader2, Edit3, Trash2, UploadCloud,
 } from 'lucide-react';
 import apiClient from '../../api/client';
 

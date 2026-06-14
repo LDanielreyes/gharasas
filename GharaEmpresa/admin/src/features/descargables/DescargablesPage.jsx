@@ -255,7 +255,7 @@ export default function DescargablesPage() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '8px' }}>
                 <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 16px', background: 'var(--gh-surface-2)', border: '1px solid var(--gh-border)', borderRadius: '8px', color: 'var(--gh-text-primary)', fontWeight: '500', cursor: 'pointer' }}>Cancelar</button>
-                <button type="submit" className="gh-button-primary">Guardar Documento</button>
+                <button type="submit" style={{ padding: '10px 16px', background: 'var(--gh-accent)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: '500', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,240,255,0.2)', transition: 'all 0.2s' }} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-1px)'} onMouseOut={e => e.currentTarget.style.transform = 'none'}>Guardar Documento</button>
               </div>
             </form>
           </div>
@@ -304,7 +304,7 @@ export default function DescargablesPage() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '8px' }}>
                 <button type="button" onClick={() => setShowBulkModal(false)} style={{ padding: '10px 16px', background: 'var(--gh-surface-2)', border: '1px solid var(--gh-border)', borderRadius: '8px', color: 'var(--gh-text-primary)', fontWeight: '500', cursor: 'pointer' }}>Cancelar</button>
-                <button type="submit" className="gh-button-primary">
+                <button type="submit" style={{ padding: '10px 16px', background: 'var(--gh-accent)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: '500', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,240,255,0.2)', transition: 'all 0.2s' }} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-1px)'} onMouseOut={e => e.currentTarget.style.transform = 'none'}>
                   Subir {bulkFiles.length > 0 ? bulkFiles.length : ''} Archivos
                 </button>
               </div>
