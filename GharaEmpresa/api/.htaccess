@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Serve /uploads directly without passing through Node.js
+RewriteCond %%{REQUEST_URI} ^/uploads/ [NC]
+RewriteRule ^ - [L]

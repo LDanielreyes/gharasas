@@ -186,7 +186,7 @@ export default function DescargablesPage() {
                   </td>
                   <td style={{ padding: '16px 24px', color: 'var(--gh-text-muted)' }}>{a.pesoArchivo}</td>
                   <td style={{ padding: '16px 24px', textAlign: 'right' }}>
-                    <a href={`${import.meta.env.VITE_API_URL?.replace('/api','') || 'http://localhost:3001'}${a.rutaArchivo}`} target="_blank" rel="noreferrer" style={{ color: 'var(--gh-text-muted)', margin: '0 8px', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color='var(--gh-accent)'} onMouseOut={e => e.currentTarget.style.color='var(--gh-text-muted)'}>
+                    <a href={`${import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:3001'}${a.rutaArchivo}`} target="_blank" rel="noreferrer" style={{ color: 'var(--gh-text-muted)', margin: '0 8px', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color='var(--gh-accent)'} onMouseOut={e => e.currentTarget.style.color='var(--gh-text-muted)'}>
                       <LinkIcon size={18} />
                     </a>
                     <button onClick={() => handleOpenModal(a)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gh-text-muted)', margin: '0 8px', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color='var(--gh-accent)'} onMouseOut={e => e.currentTarget.style.color='var(--gh-text-muted)'}>

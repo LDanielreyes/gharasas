@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Trash2, ToggleLeft, ToggleRight, Edit, Upload, X, Image, Megaphone } from 'lucide-react';
 import apiClient from '../../api/client';
 
-const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:3001/api').replace('/api', '');
+const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:3001/api').replace(/\/api$/, '');
 
 const statusBadge = (promo) => {
   const now = new Date();

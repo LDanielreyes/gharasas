@@ -37,7 +37,7 @@ const DescargablesPage = () => {
                     category: d.categoria,
                     fileType: d.tipoArchivo,
                     fileSize: d.pesoArchivo,
-                    url: `${(import.meta.env.VITE_API_URL || 'http://localhost:3001/api').replace('/api', '')}${d.rutaArchivo}`,
+                    url: `${(import.meta.env.VITE_API_URL || 'http://localhost:3001/api').replace(/\/api$/, '')}${d.rutaArchivo}`,
                     date: d.fechaCreacion,
                     year: d.version,
                     tags: d.tags ? d.tags.split(',').map(t => t.trim()) : []

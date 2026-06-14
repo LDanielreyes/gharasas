@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import client from '../../shared/api/client';
 import ProductDetail from './ProductDetail';
 
-const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:3001/api').replace('/api', '');
+const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:3001/api').replace(/\/api$/, '');
 
 const formatCOP = (v) =>
   new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(v);

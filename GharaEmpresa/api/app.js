@@ -90,7 +90,11 @@ app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 // ==========================================
 // Servir la carpeta de uploads para las imágenes de productos
 // En cPanel esto lo manejaría Apache, pero en desarrollo Node necesita servirlo
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Cache-Control', 'public, max-age=31536000');
+  next();
+}, express.static(path.join(__dirname, 'uploads')));
 
 // ==========================================
 // 3. RUTAS DE LA API

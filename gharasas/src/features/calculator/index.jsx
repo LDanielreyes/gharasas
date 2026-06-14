@@ -586,7 +586,7 @@ const CalculatorPage = () => {
         return `https://wa.me/573022326569?text=${encodeURIComponent(m)}`;
     };
 
-    const API_HOST = (import.meta.env.VITE_API_URL||'http://localhost:3001/api').replace('/api','');
+    const API_HOST = (import.meta.env.VITE_API_URL||'http://localhost:3001/api').replace(/\/api$/, '');
 
     return (
         <div style={{ minHeight:'100vh', background:B.bg, paddingTop:120, paddingBottom:80 }}>

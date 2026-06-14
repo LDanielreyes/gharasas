@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Swal from 'sweetalert2';
 import client from '../../shared/api/client';
 
-const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:3001/api').replace('/api', '');
+const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:3001/api').replace(/\/api$/, '');
 const NUMERO_GHARA = "573022326569";
 
 // ─── Componentes utilitarios ───────────────────────────────

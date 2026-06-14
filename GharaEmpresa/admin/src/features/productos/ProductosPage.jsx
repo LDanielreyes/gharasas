@@ -419,7 +419,7 @@ const ProductoModal = ({ producto, marcas, onClose, onSaved }) => {
                           PRINCIPAL
                         </div>
                       )}
-                      <img src={`${apiClient.defaults.baseURL?.replace('/api', '')}${img.rutaImagen}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Existente" />
+                      <img src={`${apiClient.defaults.baseURL?.replace(/\/api$/, '')}${img.rutaImagen}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Existente" />
                       <div className="img-overlay" style={overlayDeleteStyle} onClick={() => handleRemoveExistingImage(img)}>
                         <Trash2 size={24} />
                       </div>
@@ -462,7 +462,7 @@ const ProductoModal = ({ producto, marcas, onClose, onSaved }) => {
                           </div>
                           <div>
                             <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--gh-text-primary)' }}>Documento Ficha Técnica</p>
-                            <a href={`${apiClient.defaults.baseURL?.replace('/api', '')}${producto.fichaTecnica}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: 'var(--gh-accent)', textDecoration: 'none' }}>Ver PDF en nueva pestaña</a>
+                            <a href={`${apiClient.defaults.baseURL?.replace(/\/api$/, '')}${producto.fichaTecnica}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: 'var(--gh-accent)', textDecoration: 'none' }}>Ver PDF en nueva pestaña</a>
                           </div>
                         </div>
                         <button type="button" onClick={() => handleChange('eliminarFicha', true)} style={{ background: '#fee2e2', border: '1px solid #fca5a5', cursor: 'pointer', color: '#ef4444', padding: '6px', borderRadius: '6px', transition: 'all 0.2s' }} title="Eliminar Ficha">
@@ -621,7 +621,7 @@ const ProductosPage = () => {
 
   // Imagen placeholder
   const getThumb = (p) => {
-    if (p.imagenes?.length > 0) return `${apiClient.defaults.baseURL?.replace('/api', '')}${p.imagenes[0].rutaImagen}`;
+    if (p.imagenes?.length > 0) return `${apiClient.defaults.baseURL?.replace(/\/api$/, '')}${p.imagenes[0].rutaImagen}`;
     return null;
   };
 
