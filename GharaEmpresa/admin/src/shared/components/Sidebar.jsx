@@ -41,13 +41,24 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
   return (
     <>
+      {/* Mobile overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
+          onClick={toggleSidebar}
+        />
+      )}
+
       <aside
-        className={`  borderRight: '1px solid rgba(240,238,232,0.07)' }}
-        fixed inset-y-0 left-0 z-50 w-[220px] flex flex-col
+        className={`fixed inset-y-0 left-0 z-50 w-[250px] flex flex-col
           transform transition-transform duration-300 ease-in-out
-          lg:translate-x-0
+          lg:translate-x-0 shadow-2xl lg:shadow-none
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
+        style={{
+          background: 'var(--gh-surface)',
+          borderRight: '1px solid rgba(240,238,232,0.07)'
+        }}
       >
         {/* Logo */}
         <div style={{ padding: '22px 20px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
