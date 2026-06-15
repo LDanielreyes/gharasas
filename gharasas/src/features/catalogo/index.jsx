@@ -277,40 +277,24 @@ const CatalogoPage = () => {
           .ghara-catalog-grid { grid-template-columns: 1fr !important; }
           .ghara-catalog-sidebar { display: none !important; }
         }
-        @media (max-width: 899px) {
-          .ghara-product-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 10px !important;
-          }
-          .ghara-product-grid article > div:first-child {
-            height: 150px !important;
-          }
-          .ghara-product-grid article > div:last-child {
-            padding: 10px 12px !important;
-            gap: 6px !important;
-          }
-          .ghara-product-grid article h3 {
-            font-size: 0.78rem !important;
-            line-height: 1.25 !important;
-          }
-          .ghara-product-grid article button {
-            padding: 5px 8px !important;
-            font-size: 0.6rem !important;
-          }
-        }
         @media (max-width: 380px) {
           .ghara-product-grid { grid-template-columns: 1fr !important; }
+        }
+        .ghara-product-grid {
+          width: 100%;
+          box-sizing: border-box;
         }
       `}</style>
 
       <div style={{
         minHeight: '100vh', background: 'var(--gh-bg)',
         paddingTop: '72px', paddingBottom: '60px',
+        overflowX: 'hidden',
         fontFamily: 'var(--font-body)',
       }}>
         {selectedProduct && <ProductDetail product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
 
-        <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 16px' }} className="catalog-outer">
+        <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 16px', overflowX: 'hidden' }} className="catalog-outer">
 
           {/* Header */}
           <header style={{ marginBottom: '16px', paddingTop: '8px' }}>
@@ -496,8 +480,8 @@ const CatalogoPage = () => {
             </aside>
 
             {/* Main */}
-            <main>
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '6px', flexWrap: 'nowrap', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
+            <main style={{ minWidth: 0, overflow: 'hidden' }}>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '2px', flexWrap: 'nowrap', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {CATEGORIES.map(cat => (
                   <FilterChip key={cat} label={cat} active={selectedCategory === cat}
                     onClick={() => { setSelectedCategory(cat); setPage(1); }} />
@@ -513,7 +497,7 @@ const CatalogoPage = () => {
                   </button>
                 </div>
               ) : loading ? (
-                <div className="ghara-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
+                <div className="ghara-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(250px, calc(50% - 5px)), 1fr))', gap: '12px' }}>
                   {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
                 </div>
               ) : products.length === 0 ? (
@@ -524,7 +508,7 @@ const CatalogoPage = () => {
               ) : (
                 <>
                   <motion.div layout className="ghara-product-grid"
-                    style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
+                    style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(250px, calc(50% - 5px)), 1fr))', gap: '12px' }}>
                     <AnimatePresence mode="popLayout">
                       {products.map((product, i) => (
                         <ProductCard key={product.idProducto} product={product} onSelect={setSelectedProduct} index={i} />
