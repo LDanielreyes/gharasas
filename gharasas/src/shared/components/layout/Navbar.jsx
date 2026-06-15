@@ -524,7 +524,22 @@ const Navbar = () => {
                                 Preguntas Frecuentes
                             </a>
 
-                            <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5">
+                            <div className="mt-4 pt-4 border-t border-slate-100 dark:border-white/5">
+                                <div className="flex items-center justify-between px-1 mb-4">
+                                    <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Tema</span>
+                                    <button
+                                        onClick={toggleTheme}
+                                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium text-sm transition-all ${isDarkMode
+                                            ? 'bg-slate-800 text-yellow-400'
+                                            : 'bg-slate-100 text-slate-700'
+                                            }`}
+                                    >
+                                        <span className="material-symbols-outlined text-lg">
+                                            {isDarkMode ? 'dark_mode' : 'light_mode'}
+                                        </span>
+                                        <span>{isDarkMode ? 'Oscuro' : 'Claro'}</span>
+                                    </button>
+                                </div>
                                 <button
                                     onClick={() => { navigate('/calculadora'); setIsMobileMenuOpen(false); }}
                                     className="w-full btn-primary-glow text-white px-6 py-4 rounded-2xl font-bold shadow-lg flex items-center justify-center gap-3 active:scale-95 transition-all"
@@ -536,24 +551,7 @@ const Navbar = () => {
                         </div>
                     </nav>
 
-                    {/* Theme Toggle */}
-                    <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-                        <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Tema</span>
-                            <button
-                                onClick={toggleTheme}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all ${isDarkMode
-                                    ? 'bg-slate-800 text-yellow-400'
-                                    : 'bg-slate-100 text-slate-700'
-                                    }`}
-                            >
-                                <span className="material-symbols-outlined text-lg">
-                                    {isDarkMode ? 'dark_mode' : 'light_mode'}
-                                </span>
-                                <span>{isDarkMode ? 'Oscuro' : 'Claro'}</span>
-                            </button>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </>
