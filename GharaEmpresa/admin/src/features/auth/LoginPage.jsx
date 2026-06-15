@@ -60,20 +60,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', }}>
+    <div className="flex min-h-screen">
       {/* ── LEFT panel ── */}
-      <div
-        style={{
-          flex: '0 0 48%',
-          position: 'relative',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          padding: '48px',
-        }}
-        className="hidden lg:flex"
-      >
+      <div className="hidden lg:flex flex-col justify-end relative overflow-hidden p-12 w-[48%] shrink-0">
         {/* Background image */}
         <img
           src="/media/centro-de-distribucion.webp"
@@ -129,14 +118,7 @@ const LoginPage = () => {
       </div>
 
       {/* ── RIGHT panel ── */}
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'var(--gh-surface-1)',
-        padding: '40px 32px',
-      }}>
+      <div className="flex-1 flex items-center justify-center p-6 md:p-10" style={{ background: 'var(--gh-surface-1)' }}>
         <div style={{ width: '100%', maxWidth: '400px' }}>
           {/* Mobile logo */}
           <div className="lg:hidden mb-8">
