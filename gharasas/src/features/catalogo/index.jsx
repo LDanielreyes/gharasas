@@ -26,7 +26,7 @@ const SkeletonCard = () => (
     background: 'var(--gh-surface-1)', border: '1px solid rgba(240,238,232,0.07)',
     borderRadius: '16px', overflow: 'hidden',
   }}>
-    <div style={{ height: '160px', background: 'var(--gh-bg)', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ height: '220px', background: 'var(--gh-bg)', position: 'relative', overflow: 'hidden' }}>
       <div style={{
         position: 'absolute', inset: 0,
         background: 'var(--gh-brand-4)',
@@ -63,7 +63,7 @@ const ProductCard = ({ product, onSelect, index }) => {
       whileHover={{ borderColor: 'rgba(45, 196, 196,0.35)', y: -4, transition: { duration: 0.2 } }}
     >
       <div style={{
-        position: 'relative', height: '160px', background: 'var(--gh-bg)',
+        position: 'relative', height: '220px', background: 'var(--gh-bg)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         overflow: 'hidden', flexShrink: 0,
       }}>
@@ -97,9 +97,9 @@ const ProductCard = ({ product, onSelect, index }) => {
         )}
       </div>
 
-      <div style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', flex: 1, gap: '8px' }}>
+      <div style={{ padding: '18px 20px', display: 'flex', flexDirection: 'column', flex: 1, gap: '10px' }}>
         <h3 style={{
-          fontFamily: 'var(--font-display)', fontSize: '0.8rem', fontWeight: 500,
+          fontFamily: 'var(--font-display)', fontSize: '0.95rem', fontWeight: 500,
           color: 'var(--gh-text-primary)', letterSpacing: '-0.01em', lineHeight: 1.3, margin: 0,
         }}>
           {product.nombre}
@@ -145,7 +145,7 @@ const ProductCard = ({ product, onSelect, index }) => {
           borderTop: '1px solid rgba(240,238,232,0.06)',
         }}>
           <span style={{
-            fontFamily: 'var(--font-display)', fontSize: '0.9rem', fontWeight: 500,
+            fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 500,
             color: 'var(--gh-text-primary)', letterSpacing: '-0.02em',
           }}>
             {formatCOP(product.precio)}
@@ -153,8 +153,8 @@ const ProductCard = ({ product, onSelect, index }) => {
           <button
             style={{
               background: 'var(--gh-accent)', color: 'var(--gh-bg)', border: 'none',
-              borderRadius: '6px', padding: '5px 10px',
-              fontSize: '0.62rem', fontWeight: 500,
+              borderRadius: '7px', padding: '7px 14px',
+              fontSize: '0.7rem', fontWeight: 500,
               fontFamily: 'var(--font-body)', letterSpacing: '0.07em',
               textTransform: 'uppercase', cursor: 'pointer',
             }}
@@ -276,6 +276,27 @@ const CatalogoPage = () => {
         @media (max-width: 900px) {
           .ghara-catalog-grid { grid-template-columns: 1fr !important; }
           .ghara-catalog-sidebar { display: none !important; }
+        }
+        @media (max-width: 899px) {
+          .ghara-product-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+          }
+          .ghara-product-grid article > div:first-child {
+            height: 150px !important;
+          }
+          .ghara-product-grid article > div:last-child {
+            padding: 10px 12px !important;
+            gap: 6px !important;
+          }
+          .ghara-product-grid article h3 {
+            font-size: 0.78rem !important;
+            line-height: 1.25 !important;
+          }
+          .ghara-product-grid article button {
+            padding: 5px 8px !important;
+            font-size: 0.6rem !important;
+          }
         }
         @media (max-width: 380px) {
           .ghara-product-grid { grid-template-columns: 1fr !important; }
@@ -492,7 +513,7 @@ const CatalogoPage = () => {
                   </button>
                 </div>
               ) : loading ? (
-                <div className="ghara-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))', gap: '12px' }}>
+                <div className="ghara-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
                   {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
                 </div>
               ) : products.length === 0 ? (
@@ -503,7 +524,7 @@ const CatalogoPage = () => {
               ) : (
                 <>
                   <motion.div layout className="ghara-product-grid"
-                    style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))', gap: '12px' }}>
+                    style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
                     <AnimatePresence mode="popLayout">
                       {products.map((product, i) => (
                         <ProductCard key={product.idProducto} product={product} onSelect={setSelectedProduct} index={i} />
