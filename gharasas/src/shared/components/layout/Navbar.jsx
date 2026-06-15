@@ -204,20 +204,20 @@ const Navbar = () => {
     if (isScrolled) {
         // Scrolled state
         if (useDarkText) {
-            navClasses += 'bg-white/70 backdrop-blur-xl shadow-xl border-white/40 ring-1 ring-black/5';
+            navClasses += 'bg-white/70 backdrop-blur-xl border-white/30 shadow-none';
         } else {
-            navClasses += 'bg-slate-900/70 backdrop-blur-xl shadow-xl border-white/10 ring-1 ring-white/10';
+            navClasses += 'bg-slate-900/70 backdrop-blur-xl border-white/10 shadow-none';
         }
     } else {
         // Top state
         if (hasTransparentHero) {
-            // Glass muy sutil en top — permite ver el hero pero da presencia a la navbar
-            navClasses += 'bg-white/10 dark:bg-black/20 border-white/20 backdrop-blur-md shadow-sm';
+            // Glass muy sutil en top
+            navClasses += 'bg-white/10 dark:bg-black/20 border-white/10 backdrop-blur-md shadow-none';
         } else {
             if (useDarkText) {
-                navClasses += 'bg-white/80 backdrop-blur-xl shadow-md border-white/30';
+                navClasses += 'bg-white/80 backdrop-blur-xl border-white/20 shadow-none';
             } else {
-                navClasses += 'bg-slate-900/80 backdrop-blur-xl shadow-md border-white/10';
+                navClasses += 'bg-slate-900/80 backdrop-blur-xl border-white/10 shadow-none';
             }
         }
     }
