@@ -26,7 +26,7 @@ const SkeletonCard = () => (
     background: 'var(--gh-surface-1)', border: '1px solid rgba(240,238,232,0.07)',
     borderRadius: '16px', overflow: 'hidden',
   }}>
-    <div style={{ height: '220px', background: 'var(--gh-bg)', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ height: '160px', background: 'var(--gh-bg)', position: 'relative', overflow: 'hidden' }}>
       <div style={{
         position: 'absolute', inset: 0,
         background: 'var(--gh-brand-4)',
@@ -63,7 +63,7 @@ const ProductCard = ({ product, onSelect, index }) => {
       whileHover={{ borderColor: 'rgba(45, 196, 196,0.35)', y: -4, transition: { duration: 0.2 } }}
     >
       <div style={{
-        position: 'relative', height: '220px', background: 'var(--gh-bg)',
+        position: 'relative', height: '160px', background: 'var(--gh-bg)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         overflow: 'hidden', flexShrink: 0,
       }}>
@@ -97,9 +97,9 @@ const ProductCard = ({ product, onSelect, index }) => {
         )}
       </div>
 
-      <div style={{ padding: '18px 20px', display: 'flex', flexDirection: 'column', flex: 1, gap: '10px' }}>
+      <div style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', flex: 1, gap: '8px' }}>
         <h3 style={{
-          fontFamily: 'var(--font-display)', fontSize: '0.95rem', fontWeight: 500,
+          fontFamily: 'var(--font-display)', fontSize: '0.8rem', fontWeight: 500,
           color: 'var(--gh-text-primary)', letterSpacing: '-0.01em', lineHeight: 1.3, margin: 0,
         }}>
           {product.nombre}
@@ -145,7 +145,7 @@ const ProductCard = ({ product, onSelect, index }) => {
           borderTop: '1px solid rgba(240,238,232,0.06)',
         }}>
           <span style={{
-            fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 500,
+            fontFamily: 'var(--font-display)', fontSize: '0.9rem', fontWeight: 500,
             color: 'var(--gh-text-primary)', letterSpacing: '-0.02em',
           }}>
             {formatCOP(product.precio)}
@@ -153,8 +153,8 @@ const ProductCard = ({ product, onSelect, index }) => {
           <button
             style={{
               background: 'var(--gh-accent)', color: 'var(--gh-bg)', border: 'none',
-              borderRadius: '7px', padding: '7px 14px',
-              fontSize: '0.7rem', fontWeight: 500,
+              borderRadius: '6px', padding: '5px 10px',
+              fontSize: '0.62rem', fontWeight: 500,
               fontFamily: 'var(--font-body)', letterSpacing: '0.07em',
               textTransform: 'uppercase', cursor: 'pointer',
             }}
@@ -277,46 +277,46 @@ const CatalogoPage = () => {
           .ghara-catalog-grid { grid-template-columns: 1fr !important; }
           .ghara-catalog-sidebar { display: none !important; }
         }
-        @media (max-width: 600px) {
+        @media (max-width: 380px) {
           .ghara-product-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
       <div style={{
         minHeight: '100vh', background: 'var(--gh-bg)',
-        paddingTop: '88px', paddingBottom: '80px',
+        paddingTop: '72px', paddingBottom: '60px',
         fontFamily: 'var(--font-body)',
       }}>
         {selectedProduct && <ProductDetail product={selectedProduct} onClose={() => setSelectedProduct(null)} />}
 
-        <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 24px' }}>
+        <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 16px' }} className="catalog-outer">
 
           {/* Header */}
-          <header style={{ marginBottom: '32px', paddingTop: '16px' }}>
+          <header style={{ marginBottom: '16px', paddingTop: '8px' }}>
             <p style={{
               fontFamily: 'var(--font-body)',
               fontSize: '0.65rem', fontWeight: 500, letterSpacing: '0.16em',
-              textTransform: 'uppercase', color: 'var(--gh-accent)', marginBottom: '14px', margin: '0 0 14px 0',
+              textTransform: 'uppercase', color: 'var(--gh-accent)', marginBottom: '8px', margin: '0 0 8px 0',
             }}>
               Catálogo Técnico — Ghara SAS
             </p>
             <h1 style={{
               fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.8rem, 7vw, 5rem)',
+              fontSize: 'clamp(1.8rem, 6vw, 5rem)',
               fontWeight: 500, color: 'var(--gh-text-primary)',
-              lineHeight: 0.92, letterSpacing: '-0.035em',
-              margin: '0 0 18px 0',
+              lineHeight: 0.95, letterSpacing: '-0.035em',
+              margin: '0 0 10px 0',
             }}>
-              Equipos de<br />
+              Equipos de{' '}
               <span style={{ color: 'var(--gh-text-muted)' }}>Climatización</span>
             </h1>
             <p style={{
               fontFamily: 'var(--font-body)',
-              fontSize: '1rem', color: 'var(--gh-text-muted)',
-              maxWidth: '460px', lineHeight: 1.6, margin: 0,
+              fontSize: '0.875rem', color: 'var(--gh-text-muted)',
+              maxWidth: '460px', lineHeight: 1.5, margin: 0,
             }}>
-              Soluciones de alta eficiencia para proyectos residenciales, comerciales e industriales.
-              {total > 0 && <>&nbsp;<span style={{ color: 'var(--gh-accent)', fontWeight: 500 }}>{total} equipos disponibles.</span></>}
+              Alta eficiencia HVAC para proyectos residenciales y comerciales.
+              {total > 0 && <>&nbsp;<span style={{ color: 'var(--gh-accent)', fontWeight: 500 }}>{total} equipos.</span></>}
             </p>
           </header>
 
@@ -476,7 +476,7 @@ const CatalogoPage = () => {
 
             {/* Main */}
             <main>
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '22px', overflowX: 'auto', paddingBottom: '4px' }}>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '6px', flexWrap: 'nowrap', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
                 {CATEGORIES.map(cat => (
                   <FilterChip key={cat} label={cat} active={selectedCategory === cat}
                     onClick={() => { setSelectedCategory(cat); setPage(1); }} />
@@ -492,7 +492,7 @@ const CatalogoPage = () => {
                   </button>
                 </div>
               ) : loading ? (
-                <div className="ghara-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
+                <div className="ghara-product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))', gap: '12px' }}>
                   {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
                 </div>
               ) : products.length === 0 ? (
@@ -503,7 +503,7 @@ const CatalogoPage = () => {
               ) : (
                 <>
                   <motion.div layout className="ghara-product-grid"
-                    style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
+                    style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))', gap: '12px' }}>
                     <AnimatePresence mode="popLayout">
                       {products.map((product, i) => (
                         <ProductCard key={product.idProducto} product={product} onSelect={setSelectedProduct} index={i} />
