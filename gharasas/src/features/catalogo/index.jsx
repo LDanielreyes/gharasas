@@ -203,6 +203,7 @@ const Divider = () => (
 );
 
 const CatalogoPage = () => {
+  const [mobileFiltersOpen, setMobileFiltersOpen] = React.useState(false);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -269,6 +270,9 @@ const CatalogoPage = () => {
             transition-duration: 0.01ms !important;
           }
         }
+        @media (min-width: 900px) {
+          .ghara-mobile-filter-btn { display: none !important; }
+        }
         @media (max-width: 900px) {
           .ghara-catalog-grid { grid-template-columns: 1fr !important; }
           .ghara-catalog-sidebar { display: none !important; }
@@ -288,7 +292,7 @@ const CatalogoPage = () => {
         <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 24px' }}>
 
           {/* Header */}
-          <header style={{ marginBottom: '48px', paddingTop: '16px' }}>
+          <header style={{ marginBottom: '32px', paddingTop: '16px' }}>
             <p style={{
               fontFamily: 'var(--font-body)',
               fontSize: '0.65rem', fontWeight: 500, letterSpacing: '0.16em',
@@ -315,6 +319,72 @@ const CatalogoPage = () => {
               {total > 0 && <>&nbsp;<span style={{ color: 'var(--gh-accent)', fontWeight: 500 }}>{total} equipos disponibles.</span></>}
             </p>
           </header>
+
+          {/* Mobile Filters Toggle Button */}
+          <div style={{ marginBottom: '16px' }} className="ghara-mobile-filter-btn">
+            <button
+              onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                background: 'var(--gh-surface-1)', border: '1px solid rgba(240,238,232,0.1)',
+                borderRadius: '10px', padding: '12px 16px', cursor: 'pointer',
+                color: 'var(--gh-text-primary)', fontFamily: 'var(--font-body)',
+                fontSize: '0.85rem', fontWeight: 500,
+              }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                Filtros
+              </span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--gh-text-muted)" strokeWidth="2" style={{ transform: mobileFiltersOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            {mobileFiltersOpen && (
+              <div style={{
+                marginTop: '8px', background: 'var(--gh-surface-1)',
+                border: '1px solid rgba(240,238,232,0.07)', borderRadius: '12px', padding: '20px',
+              }}>
+                <div style={{ position: 'relative', marginBottom: '16px' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#52566A" strokeWidth="2"
+                    style={{ position: 'absolute', left: '11px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+                    <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+                  </svg>
+                  <input
+                    type="text" placeholder="Buscar modelo o marca…" value={searchTerm}
+                    onChange={e => { setSearchTerm(e.target.value); setPage(1); }}
+                    style={{
+                      width: '100%', background: 'var(--gh-bg)',
+                      border: '1px solid rgba(240,238,232,0.08)', borderRadius: '8px',
+                      padding: '9px 10px 9px 33px', color: 'var(--gh-text-primary)',
+                      fontSize: '0.85rem', fontFamily: 'var(--font-body)',
+                      outline: 'none', boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem', fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gh-text-muted)', marginBottom: '10px' }}>Eficiencia SEER</p>
+                {['SEER 11-15', 'SEER 16-19', 'SEER 20+'].map(seer => (
+                  <label key={seer} style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '8px', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={selectedSeer.includes(seer)} onChange={() => handleSeerToggle(seer)} style={{ accentColor: 'var(--gh-accent)', width: '14px', height: '14px', cursor: 'pointer' }} />
+                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: selectedSeer.includes(seer) ? 'var(--gh-text-primary)' : 'var(--gh-text-muted)' }}>{seer}</span>
+                  </label>
+                ))}
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.62rem', fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gh-text-muted)', marginBottom: '10px', marginTop: '16px' }}>Precio COP</p>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                  {[{ p: 'Mín', v: priceMin, s: setPriceMin }, { p: 'Máx', v: priceMax, s: setPriceMax }].map(({ p, v, s }) => (
+                    <input key={p} type="number" placeholder={p} value={v}
+                      onChange={e => { s(e.target.value); setPage(1); }}
+                      style={{ background: 'var(--gh-bg)', border: '1px solid rgba(240,238,232,0.08)', borderRadius: '8px', padding: '8px 10px', color: 'var(--gh-text-primary)', fontSize: '0.8rem', fontFamily: 'var(--font-body)', outline: 'none', width: '100%', boxSizing: 'border-box' }}
+                    />
+                  ))}
+                </div>
+                {hasActiveFilters && (
+                  <button onClick={() => { setSearchTerm(''); setPriceMin(''); setPriceMax(''); setSelectedSeer([]); setSelectedCategory('Todos'); setPage(1); }}
+                    style={{ marginTop: '12px', width: '100%', background: 'transparent', border: '1px solid rgba(240,238,232,0.1)', borderRadius: '8px', padding: '8px', color: 'var(--gh-text-muted)', fontSize: '0.72rem', fontFamily: 'var(--font-body)', fontWeight: 500, letterSpacing: '0.07em', textTransform: 'uppercase', cursor: 'pointer' }}>
+                    Limpiar filtros
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
 
           {/* Layout */}
           <div className="ghara-catalog-grid" style={{ display: 'grid', gridTemplateColumns: '256px 1fr', gap: '32px', alignItems: 'start' }}>

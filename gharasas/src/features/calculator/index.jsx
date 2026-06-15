@@ -438,7 +438,7 @@ const RoomCard = ({ room, city, onChange, onDelete, canDelete }) => {
                 </div>
                 <div>
                     <p style={{ fontSize:'0.66rem', fontWeight:700, color:B.muted, textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:10 }}>Fuentes de calor</p>
-                    <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:7 }}>
+                    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(110px, 1fr))', gap:7 }}>
                         {DEVICE_DEFS.map(d => (
                             <DeviceCounter key={d.key} def={d} value={parseInt(room.devices?.[d.key])||0} onChange={v=>updDev(d.key,v)}/>
                         ))}
@@ -451,7 +451,7 @@ const RoomCard = ({ room, city, onChange, onDelete, canDelete }) => {
 
 // ---- PREFERENCES ------------------------------------------------------------
 const PreferenceSelector = ({ selected, onSelect }) => (
-    <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10 }}>
+    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(140px, 1fr))', gap:10 }}>
         {PREFERENCES.map(p => {
             const Icon = p.icon; const on = selected===p.key;
             return (

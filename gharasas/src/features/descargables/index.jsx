@@ -215,25 +215,27 @@ const DescargablesPage = () => {
                     <main className="flex-1 min-w-0">
                         {/* Header */}
                         <div className="mb-8">
-                            <div className="flex items-start justify-between mb-4">
-                                <div>
-                                    <h1 className="font-display font-bold text-3xl md:text-5xl text-slate-900 dark:text-white mb-3">
-                                        Biblioteca Técnica <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">2026</span>
-                                    </h1>
-                                    <p className="text-slate-600 dark:text-slate-400 flex items-center gap-2">
-                                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                                        Sistema actualizado: {filteredDocuments.length} documentos disponibles
+                            <div className="flex flex-col sm:flex-row items-start justify-between mb-6 gap-4">
+                                <div className="w-full sm:w-auto">
+                                    <div className="flex justify-between items-start w-full">
+                                        <h1 className="font-display font-bold text-3xl md:text-5xl text-slate-900 dark:text-white mb-2 leading-tight">
+                                            Biblioteca Técnica <br className="sm:hidden" />
+                                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-500">2026</span>
+                                        </h1>
+                                        {/* Mobile Filter Button */}
+                                        <button
+                                            onClick={() => setSidebarOpen(true)}
+                                            className="lg:hidden flex-shrink-0 flex items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-slate-800 text-white rounded-lg text-sm font-medium mt-1"
+                                        >
+                                            <span className="material-symbols-outlined text-lg">tune</span>
+                                            Filtros
+                                        </button>
+                                    </div>
+                                    <p className="text-slate-600 dark:text-slate-400 flex items-center gap-2 text-sm sm:text-base mt-2">
+                                        <span className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0 animate-pulse"></span>
+                                        <span>Sistema actualizado: {filteredDocuments.length} documentos disponibles</span>
                                     </p>
                                 </div>
-
-                                {/* Mobile Filter Button */}
-                                <button
-                                    onClick={() => setSidebarOpen(true)}
-                                    className="lg:hidden flex items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-slate-800 text-white rounded-lg text-sm font-medium"
-                                >
-                                    <span className="material-symbols-outlined text-lg">tune</span>
-                                    Filtros
-                                </button>
                             </div>
 
                             {/* Search and Sort */}

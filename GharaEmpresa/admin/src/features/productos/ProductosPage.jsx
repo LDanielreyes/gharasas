@@ -312,7 +312,7 @@ const ProductoModal = ({ producto, marcas, onClose, onSaved }) => {
               <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--gh-text-primary)', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid var(--gh-border)', paddingBottom: '12px' }}>
                 <Package size={18} color="var(--gh-accent)" /> Información Básica
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
                 <Field label="Marca" required>
                   <select style={selectStyle} value={form.idMarca} onChange={e => handleChange('idMarca', e.target.value)}>
                     <option value="">Seleccionar marca…</option>
@@ -333,7 +333,7 @@ const ProductoModal = ({ producto, marcas, onClose, onSaved }) => {
               <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--gh-text-primary)', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid var(--gh-border)', paddingBottom: '12px' }}>
                 <SlidersHorizontal size={18} color="var(--gh-accent)" /> Especificaciones Técnicas
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
                 <Field label="Tecnología" required>
                   <select style={selectStyle} value={form.tecnologia} onChange={e => handleChange('tecnologia', e.target.value)}>
                     {TECNOLOGIAS.map(t => <option key={t} value={t}>{t}</option>)}
@@ -375,7 +375,7 @@ const ProductoModal = ({ producto, marcas, onClose, onSaved }) => {
               <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--gh-text-primary)', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid var(--gh-border)', paddingBottom: '12px' }}>
                 <Activity size={18} color="var(--gh-accent)" /> Comercial & Inventario
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
                 <Field label="Precio Contado (COP)" required>
                   <input style={inputStyle} type="number" min="0" value={form.precioContado} onChange={e => handleChange('precioContado', e.target.value)} placeholder="Ej: 2350000" />
                 </Field>
@@ -647,7 +647,7 @@ const ProductosPage = () => {
       </div>
 
       {/* ── Mini KPIs ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px' }} className="productos-kpi-grid">
         <MiniKpi label="Total Productos"  value={stats.total.toLocaleString()}   icon={Package}       iconColor="#1565cc" />
         <MiniKpi label="Activos Visibles" value={stats.activos.toLocaleString()} icon={Eye}           iconColor="#15803d" />
         <MiniKpi label="Sin Imagen"       value={productos.filter(p => !p.imagenes?.length).length} icon={AlertTriangle} iconColor="#c2410c" />

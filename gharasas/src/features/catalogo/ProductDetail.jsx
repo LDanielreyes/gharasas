@@ -266,7 +266,8 @@ const ProductDetail = ({ product: productCard, onClose }) => {
   const formatPrice = (p) => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(p || 0);
 
   return (
-    <AnimatePresence>
+    <>
+      <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
         onClick={onClose}
@@ -274,7 +275,7 @@ const ProductDetail = ({ product: productCard, onClose }) => {
           position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)',
           backdropFilter: 'blur(4px)', zIndex: 1000,
           display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
-          padding: '20px', overflowY: 'auto',
+          padding: '8px', overflowY: 'auto',
         }}
       >
         <motion.div
@@ -318,10 +319,10 @@ const ProductDetail = ({ product: productCard, onClose }) => {
             </div>
           ) : (
             <>
-              {/* Body principal — dos columnas */}
+              {/* Body principal — responsive: 1 col mobile, 2 col md+ */}
               <div style={{
-                display: 'grid', gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 1fr)',
-                gap: '28px', padding: '24px 28px',
+                display: 'grid',
+                gap: '24px', padding: '16px 20px',
               }} className="product-detail-grid">
                 {/* Columna izq — galería */}
                 <div>
@@ -560,6 +561,7 @@ const ProductDetail = ({ product: productCard, onClose }) => {
         </motion.div>
       </motion.div>
     </AnimatePresence>
+    </>
   );
 };
 

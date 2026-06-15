@@ -6,15 +6,15 @@ const OurApproaches = () => {
     const navigate = useNavigate();
 
     return (
-        <section id="servicios" className="py-32 bg-surface-light dark:bg-surface-dark overflow-hidden">
+        <section id="servicios" className="py-16 md:py-32 bg-surface-light dark:bg-surface-dark overflow-hidden">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="mb-20">
+                <div className="mb-10 md:mb-20">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
-                        className="font-display font-bold text-5xl text-[#0C4D89]"
+                        className="font-display font-bold text-3xl md:text-5xl text-[#0C4D89]"
                     >
                         Nuestros Enfoques
                     </motion.h2>
@@ -36,7 +36,7 @@ const OurApproaches = () => {
                         transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
                         whileHover={{ y: -10 }}
                         onClick={() => navigate('/servicios/residenciales')}
-                        className="group relative h-[600px] lg:h-[700px] w-full lg:w-[110%] rounded-[2.5rem] overflow-hidden shadow-2xl cursor-pointer z-10 lg:hover:z-30 transition-all duration-500"
+                        className="group relative h-[360px] sm:h-[500px] lg:h-[700px] w-full lg:w-[110%] rounded-[2.5rem] overflow-hidden shadow-2xl cursor-pointer z-10 lg:hover:z-30 transition-all duration-500"
                     >
                         <div className="absolute inset-0">
                             <img
@@ -46,8 +46,8 @@ const OurApproaches = () => {
                             />
                             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500"></div>
                         </div>
-                        <div className="absolute bottom-0 left-0 p-10 md:p-14 w-full">
-                            <h3 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">Para Vivienda</h3>
+                        <div className="absolute bottom-0 left-0 p-6 md:p-10 lg:p-14 w-full">
+                            <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-3">Para Vivienda</h3>
                             <p className="text-slate-200 text-lg mb-8 max-w-md">Instalación y reparación de unidades split y compactas.</p>
                             <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/20 backdrop-blur-md text-white group-hover:bg-white group-hover:text-primary transition-all duration-300">
                                 <span className="material-symbols-outlined text-2xl">arrow_outward</span>
@@ -62,7 +62,7 @@ const OurApproaches = () => {
                         transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.4, 0.25, 1] }}
                         whileHover={{ y: -10 }}
                         onClick={() => navigate('/servicios/empresariales')}
-                        className="group relative h-[600px] lg:h-[700px] w-full lg:w-[110%] lg:-ml-[10%] rounded-[2.5rem] overflow-hidden shadow-2xl cursor-pointer z-20 mt-8 lg:mt-24"
+                        className="group relative h-[360px] sm:h-[500px] lg:h-[700px] w-full lg:w-[110%] lg:-ml-[10%] rounded-[2.5rem] overflow-hidden shadow-2xl cursor-pointer z-20 mt-8 lg:mt-24"
                     >
                         <div className="absolute inset-0">
                             <img
@@ -72,8 +72,8 @@ const OurApproaches = () => {
                             />
                             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500"></div>
                         </div>
-                        <div className="absolute bottom-0 left-0 p-10 md:p-14 w-full">
-                            <h3 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">Para Empresa</h3>
+                        <div className="absolute bottom-0 left-0 p-6 md:p-10 lg:p-14 w-full">
+                            <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-3">Para Empresa</h3>
                             <p className="text-slate-200 text-lg mb-8 max-w-md">Mantenimiento de sistemas industriales y VRF complex HVAC.</p>
                             <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/20 backdrop-blur-md text-white group-hover:bg-white group-hover:text-primary transition-all duration-300">
                                 <span className="material-symbols-outlined text-2xl">arrow_outward</span>

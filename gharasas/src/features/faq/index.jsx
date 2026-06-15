@@ -200,17 +200,17 @@ const FaqPage = () => {
     return (
         <div className="min-h-screen bg-white dark:bg-slate-900 transition-colors duration-300">
             {/* Header / Buscador */}
-            <header className="relative bg-primary dark:bg-slate-950 pt-32 pb-20 overflow-hidden">
+            <header className="relative bg-primary dark:bg-slate-950 pt-24 md:pt-32 pb-12 md:pb-20 overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-400 blur-[100px] rounded-full mix-blend-screen" />
                     <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 blur-[100px] rounded-full mix-blend-screen" />
                 </div>
                 
                 <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
+                    <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4">
                         ¿Cómo podemos <span className="text-cyan-400">ayudarte?</span>
                     </h1>
-                    <p className="text-slate-300 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+                    <p className="text-slate-300 text-sm sm:text-lg md:text-xl mb-6 max-w-2xl mx-auto">
                         Encuentra respuestas rápidas y claras a tus dudas sobre nuestros equipos de climatización.
                     </p>
                     
@@ -223,13 +223,13 @@ const FaqPage = () => {
                             placeholder="Ej. ¿Cómo realizo el mantenimiento de mi equipo?"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-full py-5 pl-16 pr-8 outline-none border-2 border-transparent focus:border-cyan-400 dark:focus:border-blue-500 shadow-2xl transition-all font-medium placeholder:text-slate-400"
+                            className="w-full bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-full py-3 sm:py-5 pl-12 sm:pl-16 pr-6 sm:pr-8 text-sm sm:text-base outline-none border-2 border-transparent focus:border-cyan-400 dark:focus:border-blue-500 shadow-2xl transition-all font-medium placeholder:text-slate-400"
                         />
                     </div>
                 </div>
             </header>
 
-            <section className="py-16 md:py-24 px-6">
+            <section className="py-12 md:py-24 px-4 md:px-6">
                 <div className="max-w-4xl mx-auto">
                     
                     {/* Filtros Categorías */}

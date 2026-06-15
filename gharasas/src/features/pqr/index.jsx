@@ -105,10 +105,10 @@ const PQRPage = () => {
                     <span className="inline-block px-4 py-1.5 bg-primary/10 dark:bg-blue-900/30 text-primary dark:text-blue-400 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
                         Atención al Cliente
                     </span>
-                    <h1 className="font-display font-bold text-4xl md:text-6xl text-slate-900 dark:text-white mb-6">
+                    <h1 className="font-display font-bold text-3xl md:text-5xl lg:text-6xl text-slate-900 dark:text-white mb-6">
                         Peticiones, Quejas y <span className="text-primary dark:text-blue-400">Reclamos</span>
                     </h1>
-                    <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+                    <p className="text-base sm:text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
                         Tu opinión es importante para nosotros. Estamos comprometidos a resolver tus inquietudes en el menor tiempo posible.
                     </p>
                 </motion.div>
@@ -127,7 +127,7 @@ const PQRPage = () => {
                         <label className="block text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-4 text-center">
                             ¿Qué tipo de solicitud deseas enviar?
                         </label>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                             {pqrTypes.map((type) => (
                                 <motion.button
                                     key={type.value}
@@ -135,7 +135,7 @@ const PQRPage = () => {
                                     onClick={() => handleTypeSelect(type.value)}
                                     whileHover={{ y: -4, scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className={`p-6 rounded-2xl border-2 transition-all duration-300 text-center ${formData.tipoSolicitud === type.value
+                                    className={`p-3 sm:p-5 rounded-2xl border-2 transition-all duration-300 text-center ${formData.tipoSolicitud === type.value
                                         ? 'border-primary dark:border-blue-400 bg-primary/5 dark:bg-cyan-400/10'
                                         : 'border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 hover:border-primary/50 dark:hover:border-cyan-400/50'
                                         }`}
@@ -165,7 +165,7 @@ const PQRPage = () => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-8 md:p-12 border border-slate-100 dark:border-white/5"
+                        className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-5 sm:p-8 md:p-12 border border-slate-100 dark:border-white/5"
                     >
                         <div className="grid md:grid-cols-2 gap-6 mb-6">
                             <div>

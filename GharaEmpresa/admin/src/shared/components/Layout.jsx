@@ -106,6 +106,14 @@ const Layout = () => {
         @media (max-width: 1023px) {
           .lg-pl-sidebar { padding-left: 0 !important; }
         }
+        @media (max-width: 767px) {
+          main { padding: 16px !important; }
+        }
+        @media (min-width: 768px) {
+          .dashboard-kpi-grid { grid-template-columns: repeat(4, 1fr) !important; }
+          .dashboard-2col-grid { grid-template-columns: 1fr 1fr !important; }
+          .productos-kpi-grid { grid-template-columns: repeat(4, 1fr) !important; }
+        }
       `}</style>
     </div>
   );

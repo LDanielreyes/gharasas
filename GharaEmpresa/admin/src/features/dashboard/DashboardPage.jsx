@@ -75,14 +75,14 @@ const DashboardPage = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       
       {/* ── KPIs Principales ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }} className="dashboard-kpi-grid">
         <KpiCard title="Cotizaciones (Mes)"  value={kpis.leadsMes}               icon={Users}        color="blue" subtitulo={`Hoy: ${kpis.leadsHoy || 0}`} />
         <KpiCard title="Reseñas Pendientes"  value={kpis.resenaPendientes}       icon={MessageSquare}color="orange" />
         <KpiCard title="PQR Abiertos"        value={kpis.pqrAbiertos}            icon={AlertCircle}  color="red" />
         <KpiCard title="Productos Activos"   value={kpis.productosActivos}       icon={Package}      color="emerald" />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+      <div style={{ display: 'grid', gap: '24px' }} className="dashboard-2col-grid">
         
         {/* ── Embudo de Conversión (Leads) ── */}
         <div className="gh-card" style={{ padding: '22px 24px', display: 'flex', flexDirection: 'column' }}>
