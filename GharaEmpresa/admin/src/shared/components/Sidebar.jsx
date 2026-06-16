@@ -5,6 +5,7 @@ import {
   AlertCircle, BarChart2, Users, LogOut, X, Headphones, Globe,
 } from 'lucide-react';
 import Cookies from 'js-cookie';
+import Swal from 'sweetalert2';
 
 const GharaLogo = () => (
   <svg viewBox="0 0 425 359" style={{ height: '28px', width: 'auto' }} fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,9 +35,31 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    Cookies.remove('accessToken');
-    Cookies.remove('refreshToken');
-    navigate('/login');
+    Swal.fire({
+      title: '¿Cerrar Sesión?',
+      text: 'Se cerrará tu sesión actual en el portal ejecutivo.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'var(--gh-danger)',
+      cancelButtonColor: 'var(--gh-text-muted)',
+      confirmButtonText: 'Sí, cerrar sesión',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
+        navigate('/login');
+      }
+    });
+  };
+
+  const handleProfileClick = () => {
+    Swal.fire({
+      title: 'Perfil',
+      text: 'Módulo de configuración de perfil en desarrollo.',
+      icon: 'info',
+      confirmButtonColor: 'var(--gh-accent)'
+    });
   };
 
   return (
@@ -105,6 +128,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         {/* Support */}
         <div style={{ padding: '12px 16px' }}>
           <button
+            onClick={() => window.open('https://wa.me/573233284206?text=Hola,%20necesito%20soporte%20t%C3%A9cnico%20con%20el%20panel%20administrativo%20de%20Ghara.', '_blank')}
+            title="Abrir chat en WhatsApp con el equipo técnico"
             style={{
               width: '100%', padding: '9px 12px',
               border: '1px solid rgba(240,238,232,0.08)', borderRadius: '8px',
@@ -123,7 +148,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
         {/* User + Logout */}
         <div style={{ borderTop: '1px solid rgba(240,238,232,0.06)', padding: '14px 16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '10px' }}>
+          <div 
+            onClick={handleProfileClick}
+            style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '10px', cursor: 'pointer', padding: '4px', borderRadius: '8px', transition: 'background 0.15s' }}
+            onMouseEnter={e => e.currentTarget.style.background = 'var(--gh-surface-2)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+          >
             <div style={{
               width: 32, height: 32, borderRadius: '8px',
               background: 'rgba(45, 196, 196,0.15)',
