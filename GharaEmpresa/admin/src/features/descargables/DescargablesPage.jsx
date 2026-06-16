@@ -124,12 +124,12 @@ export default function DescargablesPage() {
 
   return (
     <div style={{ padding: '0 24px', maxWidth: '1200px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px' }}>
+      <div className="flex flex-wrap gap-4 justify-between items-start mb-8">
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: 'var(--gh-text-primary)', margin: 0 }}>Centro de Descargables</h1>
-          <p style={{ color: 'var(--gh-text-secondary)', fontSize: '0.9rem', marginTop: '4px' }}>Gestiona los manuales, fichas técnicas y recursos de la plataforma.</p>
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--gh-text-primary)', margin: 0 }}>Centro de Descargables</h1>
+          <p style={{ color: 'var(--gh-text-secondary)', fontSize: '0.85rem', marginTop: '4px' }}>Gestiona los manuales, fichas técnicas y recursos de la plataforma.</p>
         </div>
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <button onClick={() => {
               setFormData({ titulo: '', descripcion: '', categoria: 'ficha-tecnica', version: '2026', tags: '' });
               setBulkFiles([]);
@@ -153,39 +153,46 @@ export default function DescargablesPage() {
         <div style={{ padding: '20px', color: 'var(--gh-danger)', backgroundColor: '#fef2f2', borderRadius: '8px' }}>{error}</div>
       ) : (
         <div className="gh-card" style={{ padding: 0, overflow: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.875rem', color: 'var(--gh-text-secondary)' }}>
-            <thead style={{ backgroundColor: 'var(--gh-surface-2)', borderBottom: '1px solid var(--gh-border)' }}>
-              <tr>
-                <th style={{ padding: '14px 24px', fontWeight: '600', color: 'var(--gh-text-muted)', textTransform: 'uppercase', fontSize: '0.75rem' }}>Archivo</th>
-                <th style={{ padding: '14px 24px', fontWeight: '600', color: 'var(--gh-text-muted)', textTransform: 'uppercase', fontSize: '0.75rem' }}>Categoría</th>
-                <th style={{ padding: '14px 24px', fontWeight: '600', color: 'var(--gh-text-muted)', textTransform: 'uppercase', fontSize: '0.75rem' }}>Tamaño</th>
-                <th style={{ padding: '14px 24px', fontWeight: '600', color: 'var(--gh-text-muted)', textTransform: 'uppercase', fontSize: '0.75rem', textAlign: 'right' }}>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {archivos.length === 0 ? (
-                <tr><td colSpan={4} style={{ padding: '40px 24px', textAlign: 'center', color: 'var(--gh-text-muted)' }}>No hay archivos subidos en el sistema.</td></tr>
-              ) : archivos.map(a => (
-                <tr key={a.idDescargable} style={{ borderBottom: '1px solid var(--gh-border)', transition: 'background-color 0.2s' }} onMouseOver={e => e.currentTarget.style.backgroundColor='var(--gh-surface-2)'} onMouseOut={e => e.currentTarget.style.backgroundColor='transparent'}>
-                  <td style={{ padding: '16px 24px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                      <div style={{ width: '40px', height: '40px', borderRadius: '10px', backgroundColor: 'var(--gh-brand-1)', opacity: 0.1, position: 'absolute' }}></div>
-                      <div style={{ width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gh-accent)', position: 'relative' }}>
-                        <FileText size={20} />
-                      </div>
-                      <div>
-                        <div style={{ fontWeight: '600', color: 'var(--gh-text-primary)' }}>{a.titulo}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--gh-text-muted)' }}>{a.tipoArchivo} • Versión {a.version}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td style={{ padding: '16px 24px' }}>
-                    <span style={{ padding: '4px 10px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: '600', backgroundColor: 'var(--gh-surface-2)', color: 'var(--gh-text-primary)', border: '1px solid var(--gh-border)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                      {a.categoria.replace('_', ' ')}
-                    </span>
-                  </td>
-                  <td style={{ padding: '16px 24px', color: 'var(--gh-text-muted)' }}>{a.pesoArchivo}</td>
-                  <td style={{ padding: '16px 24px', textAlign: 'right' }}>
+          {/* Header row – hidden on mobile */}
+          <div className="hidden sm:grid" style={{ gridTemplateColumns: '1fr auto auto auto', gap: 0, backgroundColor: 'var(--gh-surface-2)', borderBottom: '1px solid var(--gh-border)', padding: '12px 20px' }}>
+            <span style={{ fontWeight: '600', color: 'var(--gh-text-muted)', textTransform: 'uppercase', fontSize: '0.7rem' }}>Archivo</span>
+            <span style={{ fontWeight: '600', color: 'var(--gh-text-muted)', textTransform: 'uppercase', fontSize: '0.7rem', minWidth: 100, textAlign: 'center' }}>Categoría</span>
+            <span style={{ fontWeight: '600', color: 'var(--gh-text-muted)', textTransform: 'uppercase', fontSize: '0.7rem', minWidth: 70, textAlign: 'center' }}>Tamaño</span>
+            <span style={{ fontWeight: '600', color: 'var(--gh-text-muted)', textTransform: 'uppercase', fontSize: '0.7rem', minWidth: 90, textAlign: 'right' }}>Acciones</span>
+          </div>
+
+          {archivos.length === 0 ? (
+            <div style={{ padding: '40px 24px', textAlign: 'center', color: 'var(--gh-text-muted)' }}>No hay archivos subidos en el sistema.</div>
+          ) : archivos.map(a => {
+            // Fix encoding: titles stored with corrupted latin1 chars
+            const cleanTitle = (() => { try { return decodeURIComponent(escape(a.titulo)); } catch { return a.titulo; } })();
+            return (
+            <div key={a.idDescargable}
+              className="flex flex-col sm:grid sm:items-center"
+              style={{ gridTemplateColumns: '1fr auto auto auto', gap: 0, borderBottom: '1px solid var(--gh-border)', padding: '14px 20px', transition: 'background 0.15s', cursor: 'default' }}
+              onMouseOver={e => e.currentTarget.style.background='var(--gh-surface-2)'}
+              onMouseOut={e => e.currentTarget.style.background='transparent'}
+            >
+              {/* File name + meta */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
+                <div style={{ width: '38px', height: '38px', borderRadius: '10px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(45,196,196,0.08)', color: 'var(--gh-accent)' }}>
+                  <FileText size={18} />
+                </div>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontWeight: '600', color: 'var(--gh-text-primary)', fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{cleanTitle}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--gh-text-muted)', marginTop: '2px' }}>{a.tipoArchivo?.toUpperCase()} • Versión {a.version}</div>
+                </div>
+              </div>
+
+              {/* Category + size – inline on mobile, grid cols on desktop */}
+              <div className="flex sm:contents items-center gap-2 mt-2 sm:mt-0 flex-wrap">
+                <span style={{ padding: '3px 10px', borderRadius: '12px', fontSize: '0.68rem', fontWeight: '600', backgroundColor: 'var(--gh-surface-2)', color: 'var(--gh-text-primary)', border: '1px solid var(--gh-border)', textTransform: 'uppercase', letterSpacing: '0.4px', minWidth: 100, textAlign: 'center', display: 'inline-block' }}>
+                  {a.categoria?.replace(/_/g, ' ')}
+                </span>
+                <span className="sm:hidden" style={{ fontSize: '0.72rem', color: 'var(--gh-text-muted)' }}>{a.pesoArchivo}</span>
+                <span className="hidden sm:block" style={{ fontSize: '0.8rem', color: 'var(--gh-text-muted)', minWidth: 70, textAlign: 'center' }}>{a.pesoArchivo}</span>
+              </div>
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', minWidth: 90, marginTop: 0 }}>
                     <a href={`${import.meta.env.VITE_API_URL?.replace(/\/api$/, '') || 'http://localhost:3001'}${a.rutaArchivo}`} target="_blank" rel="noreferrer" style={{ color: 'var(--gh-text-muted)', margin: '0 8px', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color='var(--gh-accent)'} onMouseOut={e => e.currentTarget.style.color='var(--gh-text-muted)'}>
                       <LinkIcon size={18} />
                     </a>
@@ -195,11 +202,10 @@ export default function DescargablesPage() {
                     <button onClick={() => handleDelete(a.idDescargable)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gh-text-muted)', margin: '0 8px', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color='var(--gh-danger)'} onMouseOut={e => e.currentTarget.style.color='var(--gh-text-muted)'}>
                       <Trash2 size={18} />
                     </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              </div>
+            </div>
+            );
+          })}
         </div>
       )}
 
