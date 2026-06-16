@@ -56,7 +56,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
         style={{
-          background: 'var(--gh-surface)',
+          background: 'var(--gh-surface-1)',
           borderRight: '1px solid rgba(240,238,232,0.07)'
         }}
       >
