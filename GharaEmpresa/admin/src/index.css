@@ -264,7 +264,7 @@ html, body, #root {
   border-radius: 8px;
   border: 1px solid var(--gh-border);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background-color 0.35s ease, color 0.35s ease;
   font-family: var(--font-body);
 }
 .btn-secondary:hover { background: rgba(0,0,0,0.04); color: var(--gh-text-primary); }
@@ -353,7 +353,7 @@ html, body, #root {
   font-weight: 500;
   color: var(--gh-text-primary);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background-color 0.35s ease, color 0.35s ease;
   text-decoration: none;
   letter-spacing: 0.02em;
   font-family: var(--font-body);
