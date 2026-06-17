@@ -104,12 +104,12 @@ export default function AdministradoresPage() {
             setProfileData({ nombre: currentUser?.nombre || '', password: '', currentPassword: '' });
             setShowProfileModal(true);
           }}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-medium">
+            style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 16px", background: "var(--gh-surface-2)", color: "var(--gh-text-primary)", borderRadius: "8px", fontSize: "0.875rem", fontWeight: 500, border: "1px solid var(--gh-border)", transition: "all 0.2s" }} onMouseEnter={e => e.currentTarget.style.borderColor = "var(--gh-accent)"} onMouseLeave={e => e.currentTarget.style.borderColor = "var(--gh-border)"}>
             <User size={16} /> Mi Perfil
           </button>
           {isSuperAdmin && (
             <button onClick={() => handleOpenModal()}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium shadow-sm">
+              className="gh-btn-primary">
               <Plus size={16} /> Nuevo Usuario
             </button>
           )}
@@ -117,30 +117,30 @@ export default function AdministradoresPage() {
       </div>
 
       {!isSuperAdmin ? (
-        <div className="bg-white p-8 rounded-xl border border-slate-200 text-center">
+        <div className="gh-card" style={{ padding: "32px", textAlign: "center" }}>
           <Shield className="mx-auto h-12 w-12 text-slate-300 mb-4" />
-          <h3 className="text-lg font-semibold text-slate-800 mb-1">Acceso Restringido</h3>
-          <p className="text-slate-500">Solo el SuperAdmin puede gestionar otros administradores.</p>
+          <h3 style={{ fontSize: "1.125rem", fontWeight: 600, color: "var(--gh-text-primary)", marginBottom: "4px" }}>Acceso Restringido</h3>
+          <p style={{ color: "var(--gh-text-muted)" }}>Solo el SuperAdmin puede gestionar otros administradores.</p>
         </div>
       ) : loading ? (
-        <div className="p-8 text-center text-slate-500">Cargando...</div>
+        <div style={{ padding: "32px", textAlign: "center", color: "var(--gh-text-muted)" }}>Cargando...</div>
       ) : error ? (
         <div className="text-red-500 p-4">{error}</div>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-          <table className="w-full text-left text-sm text-slate-600">
-            <thead className="bg-slate-50 border-b border-slate-200 text-slate-500">
+        <div className="gh-card" style={{ padding: 0, overflow: "hidden" }}>
+          <table className="w-full text-left text-sm" style={{ color: "var(--gh-text-primary)" }}>
+            <thead style={{ backgroundColor: "var(--gh-surface-2)", borderBottom: "1px solid var(--gh-border)" }}>
               <tr>
-                <th className="px-6 py-4">Nombre</th>
-                <th className="px-6 py-4">Correo</th>
-                <th className="px-6 py-4">Rol</th>
-                <th className="px-6 py-4 text-right">Acciones</th>
+                <th className="px-6 py-4" style={{ color: "var(--gh-text-muted)" }}>Nombre</th>
+                <th className="px-6 py-4" style={{ color: "var(--gh-text-muted)" }}>Correo</th>
+                <th className="px-6 py-4" style={{ color: "var(--gh-text-muted)" }}>Rol</th>
+                <th className="px-6 py-4 text-right" style={{ color: "var(--gh-text-muted)" }}>Acciones</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody style={{ "--tw-divide-y-reverse": 0, borderTopWidth: "calc(1px * calc(1 - var(--tw-divide-y-reverse)))", borderBottomWidth: "calc(1px * var(--tw-divide-y-reverse))", borderColor: "var(--gh-border)" }}>
               {usuarios.map(u => (
-                <tr key={u.idAdmin} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-slate-800">{u.nombre}</td>
+                <tr key={u.idAdmin} style={{ transition: "background 0.15s", borderBottom: "1px solid var(--gh-border)" }} onMouseEnter={e => e.currentTarget.style.background = "var(--gh-surface-2)"} onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+                  <td className="px-6 py-4 font-medium" style={{ color: "var(--gh-text-primary)" }}>{u.nombre}</td>
                   <td className="px-6 py-4">{u.email}</td>
                   <td className="px-6 py-4">
                     <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
