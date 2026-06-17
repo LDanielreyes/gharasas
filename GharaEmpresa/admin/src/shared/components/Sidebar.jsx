@@ -73,7 +73,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         `}
         style={{
           background: 'var(--gh-surface-1)',
-          borderRight: '1px solid rgba(240,238,232,0.07)'
+          borderRight: '1px solid var(--gh-border)'
         }}
       >
         {/* Logo */}
@@ -125,7 +125,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             title="Abrir chat en WhatsApp con el equipo técnico"
             style={{
               width: '100%', padding: '9px 12px',
-              border: '1px solid rgba(240,238,232,0.08)', borderRadius: '8px',
+              border: '1px solid var(--gh-border)', borderRadius: '8px',
               color: 'var(--gh-text-muted)', fontSize: '0.78rem', fontWeight: 500,
               display: 'flex', alignItems: 'center', gap: 8,
               background: 'transparent', cursor: 'pointer', transition: 'all 0.15s',
@@ -140,7 +140,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </div>
 
         {/* User + Logout */}
-        <div style={{ borderTop: '1px solid rgba(240,238,232,0.06)', padding: '14px 16px' }}>
+        <div style={{ borderTop: '1px solid var(--gh-border)', padding: '14px 16px' }}>
           <div 
             onClick={handleProfileClick}
             style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '10px', cursor: 'pointer', padding: '4px', borderRadius: '8px', transition: 'background 0.15s' }}

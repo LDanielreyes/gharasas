@@ -13,12 +13,12 @@ const Layout = () => {
     <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: 'var(--gh-bg)' }}>
       <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingLeft: '220px', overflow: 'hidden' }}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingLeft: '250px', overflow: 'hidden' }}
            className="lg-pl-sidebar">
 
         {/* Topbar */}
         <header  style={{ height: "56px", 
-          borderBottom: '1px solid rgba(240,238,232,0.07)',
+          borderBottom: '1px solid var(--gh-border)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -36,7 +36,7 @@ const Layout = () => {
           </button>
 
           <div className="topbar-search hidden lg:flex">
-            <Search size={14} color="#52566A" />
+            <Search size={14} style={{ color: "var(--gh-text-muted)" }} />
             <input placeholder="Buscar productos, PQR o reportes..." />
           </div>
 
