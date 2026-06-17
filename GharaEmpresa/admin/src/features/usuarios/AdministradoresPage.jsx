@@ -93,11 +93,11 @@ export default function AdministradoresPage() {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <div className="flex justify-between items-center mb-8">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Cuentas y Accesos</h1>
-          <p className="text-slate-500 text-sm mt-1">Gestiona los miembros de tu equipo</p>
+          <h1 className="page-title">Cuentas y Accesos</h1>
+          <p className="page-subtitle">Gestiona los miembros de tu equipo</p>
         </div>
         <div className="flex gap-3">
           <button onClick={() => {

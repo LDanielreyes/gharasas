@@ -123,11 +123,11 @@ export default function DescargablesPage() {
   };
 
   return (
-    <div style={{ padding: '0 24px', maxWidth: '1200px', margin: '0 auto' }}>
-      <div className="flex flex-wrap gap-4 justify-between items-start mb-8">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <h1 style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--gh-text-primary)', margin: 0 }}>Centro de Descargables</h1>
-          <p style={{ color: 'var(--gh-text-secondary)', fontSize: '0.85rem', marginTop: '4px' }}>Gestiona los manuales, fichas técnicas y recursos de la plataforma.</p>
+          <h1 className="page-title">Centro de Descargables</h1>
+          <p className="page-subtitle">Gestiona los manuales, fichas técnicas y recursos de la plataforma.</p>
         </div>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <button onClick={() => {
