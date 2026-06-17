@@ -61,13 +61,13 @@
 
 [data-theme="dark"] {
   /* ── SISTEMA DE UI — MODO OSCURO ── */
-  --gh-bg:           #0A1628;
-  --gh-surface-1:    #0F2040;
-  --gh-surface-2:    #152B54;
-  --gh-text-primary:   #EDF6F9;
-  --gh-text-secondary: #A8D4E6;
-  --gh-text-muted:     #5B8FA8;
-  --gh-border:       rgba(45, 196, 196, 0.1);
+  --gh-bg:           #0B1120;
+  --gh-surface-1:    #111827;
+  --gh-surface-2:    #1F2937;
+  --gh-text-primary:   #F3F4F6;
+  --gh-text-secondary: #D1D5DB;
+  --gh-text-muted:     #9CA3AF;
+  --gh-border:       rgba(255, 255, 255, 0.1);
   --gh-success:      #34D399;
   --gh-danger:       #F87171;
   --gh-warning:      #FACC15;
@@ -79,7 +79,13 @@ body {
   background-color: var(--gh-bg);
   color: var(--gh-text-primary);
   font-family: var(--font-body);
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
+
+.gh-card, aside, header, main {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
 
 h1, h2, h3, h4, h5, h6, .font-display {
   font-family: var(--font-display);

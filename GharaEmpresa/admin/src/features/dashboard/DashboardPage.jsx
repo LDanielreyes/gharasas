@@ -189,7 +189,15 @@ const DashboardPage = () => {
           </table>
         )}
       </div>
-    </div>
+    
+      <style>{`
+        .kpi-icon-container { transition: background-color 0.35s ease, color 0.35s ease; }
+        [data-theme="dark"] .kpi-icon-blue { background-color: rgba(59, 130, 246, 0.15) !important; color: #60A5FA !important; }
+        [data-theme="dark"] .kpi-icon-orange { background-color: rgba(249, 115, 22, 0.15) !important; color: #FB923C !important; }
+        [data-theme="dark"] .kpi-icon-red { background-color: rgba(239, 68, 68, 0.15) !important; color: #F87171 !important; }
+        [data-theme="dark"] .kpi-icon-emerald { background-color: rgba(16, 185, 129, 0.15) !important; color: #34D399 !important; }
+      `}</style>
+</div>
   );
 };
 

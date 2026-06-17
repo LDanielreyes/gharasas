@@ -64,7 +64,7 @@ const Layout = () => {
               </div>
               <div style={{
                 width: 32, height: 32, borderRadius: '8px',
-                background: 'linear-gradient(135deg, rgba(45,196,196,0.2), rgba(26,117,181,0.2))',
+                background: 'var(--gh-surface-2)',
                 border: '1px solid rgba(45, 196, 196,0.3)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 color: 'var(--gh-brand-1)', fontWeight: 700, fontSize: '0.8rem',
