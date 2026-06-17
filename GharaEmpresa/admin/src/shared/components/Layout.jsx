@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import { Menu, Search, Bell, Settings } from 'lucide-react';
+import { Menu, Search, Settings } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
+import NotificationsPanel from './NotificationsPanel';
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showNotifs, setShowNotifs] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: 'var(--gh-bg)' }}>
@@ -42,56 +43,7 @@ const Layout = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: 'auto' }}>
             <ThemeToggle />
 
-          <div style={{ position: 'relative' }}>
-            <button
-              aria-label="Notificaciones"
-              onClick={() => setShowNotifs(!showNotifs)}
-              style={{
-                position: 'relative', padding: '7px', borderRadius: '8px',
-                background: 'none', border: 'none', cursor: 'pointer',
-                color: 'var(--gh-text-muted)', transition: 'background 0.15s',
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = 'var(--gh-border)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'none'}
-            >
-              <Bell size={17} strokeWidth={1.75} />
-              {showNotifs ? null : (
-                <span style={{
-                  position: 'absolute', top: '6px', right: '6px',
-                  width: '6px', height: '6px', borderRadius: '50%',
-                  background: 'var(--gh-danger)', border: '1.5px solid var(--gh-surface-1)',
-                }} />
-              )}
-            </button>
-
-            {showNotifs && (
-              <div style={{
-                position: 'absolute', top: '100%', right: 0, marginTop: '8px',
-                width: '300px', background: 'var(--gh-surface-1)',
-                border: '1px solid var(--gh-border)', borderRadius: '12px',
-                boxShadow: '0 10px 25px rgba(0,0,0,0.1)', zIndex: 50,
-                overflow: 'hidden', padding: '12px 0'
-              }}>
-                <div style={{ padding: '0 16px 8px', borderBottom: '1px solid var(--gh-border)', marginBottom: '8px' }}>
-                  <h4 style={{ margin: 0, fontSize: '0.9rem', color: 'var(--gh-text-primary)' }}>Notificaciones</h4>
-                </div>
-                <div style={{ padding: '8px 16px', display: 'flex', gap: 12, cursor: 'pointer' }} onMouseEnter={e => e.currentTarget.style.background='var(--gh-surface-2)'} onMouseLeave={e => e.currentTarget.style.background='transparent'} onClick={() => setShowNotifs(false)}>
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--gh-danger)', marginTop: 6, flexShrink: 0 }} />
-                  <div>
-                    <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--gh-text-primary)', fontWeight: 500 }}>Nueva PQR abierta</p>
-                    <p style={{ margin: 0, fontSize: '0.7rem', color: 'var(--gh-text-muted)' }}>Hace 5 min</p>
-                  </div>
-                </div>
-                <div style={{ padding: '8px 16px', display: 'flex', gap: 12, cursor: 'pointer' }} onMouseEnter={e => e.currentTarget.style.background='var(--gh-surface-2)'} onMouseLeave={e => e.currentTarget.style.background='transparent'} onClick={() => setShowNotifs(false)}>
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--gh-accent)', marginTop: 6, flexShrink: 0 }} />
-                  <div>
-                    <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--gh-text-primary)', fontWeight: 500 }}>Cotización residencial</p>
-                    <p style={{ margin: 0, fontSize: '0.7rem', color: 'var(--gh-text-muted)' }}>Hace 1 hr</p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+          <NotificationsPanel />
 
             <button
               aria-label="Configuración"
@@ -108,8 +60,14 @@ const Layout = () => {
 
             <div style={{ width: '1px', height: '20px', background: 'var(--gh-border)', margin: '0 4px' }} />
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9, cursor: 'pointer' }}>
-              <div style={{ textAlign: 'right' }}>
+            <div
+              onClick={() => navigate('/perfil')}
+              title="Ver mi perfil"
+              style={{ display: 'flex', alignItems: 'center', gap: 9, cursor: 'pointer', padding: '4px 6px', borderRadius: '10px', transition: 'background 0.15s' }}
+              onMouseEnter={e => e.currentTarget.style.background = 'var(--gh-surface-2)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            >
+              <div className="hidden sm:block" style={{ textAlign: 'right' }}>
                 <p style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--gh-text-primary)', lineHeight: 1.2, fontFamily: "'IBM Plex Sans', sans-serif" }}>
                   Admin Ghara
                 </p>
@@ -119,10 +77,10 @@ const Layout = () => {
               </div>
               <div style={{
                 width: 32, height: 32, borderRadius: '8px',
-                background: 'rgba(45, 196, 196,0.15)',
-                border: '1px solid rgba(45, 196, 196,0.25)',
+                background: 'linear-gradient(135deg, rgba(45,196,196,0.2), rgba(26,117,181,0.2))',
+                border: '1px solid rgba(45, 196, 196,0.3)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'var(--gh-brand-1)', fontWeight: 500, fontSize: '0.8rem',
+                color: 'var(--gh-brand-1)', fontWeight: 700, fontSize: '0.8rem',
                 fontFamily: "'Syne', sans-serif", flexShrink: 0,
               }}>
                 A

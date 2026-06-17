@@ -13,6 +13,7 @@ import ReportesPage   from './features/reportes/ReportesPage';
 import AdministradoresPage from './features/usuarios/AdministradoresPage';
 import DescargablesPage from './features/descargables/DescargablesPage';
 import FaqPage from './features/faq/FaqPage';
+import ProfilePage from './features/perfil/ProfilePage';
 
 // Rutas Placeholder para módulos en construcción
 const Placeholder = ({ title }) => (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/preguntas" element={<FaqPage />} />
           <Route path="/usuarios"  element={<AdministradoresPage />} />
           <Route path="/descargables"  element={<DescargablesPage />} />
+          <Route path="/perfil"    element={<ProfilePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

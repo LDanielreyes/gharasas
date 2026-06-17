@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Package, MessageSquare, HelpCircle,
-  AlertCircle, BarChart2, Users, LogOut, X, Headphones, Globe,
+  AlertCircle, BarChart2, Users, LogOut, X, Headphones, Globe, UserCircle,
 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
@@ -29,6 +29,7 @@ const navItems = [
   { name: 'Q&A / FAQ',      icon: HelpCircle,      path: '/preguntas' },
   { name: 'Administradores', icon: Users,           path: '/usuarios' },
   { name: 'Descargables',    icon: Package,         path: '/descargables' },
+  { name: 'Mi Perfil',       icon: UserCircle,      path: '/perfil' },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
