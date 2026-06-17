@@ -76,15 +76,6 @@ export default function NotificationsPanel() {
           });
         }
 
-        // If no real data, show helpful placeholders
-        if (items.length === 0) {
-          items.push(
-            { id: 'demo-1', type: 'lead',   title: 'Nueva cotización residencial', subtitle: 'Sistema Ghara', date: new Date(Date.now() - 15 * 60000).toISOString(), leida: false, path: '/' },
-            { id: 'demo-2', type: 'pqr',    title: 'PQR pendiente de respuesta',  subtitle: 'Soporte Técnico', date: new Date(Date.now() - 2 * 3600000).toISOString(), leida: false, path: '/pqr' },
-            { id: 'demo-3', type: 'resena', title: 'Reseña esperando aprobación', subtitle: 'Gestión de Contenido', date: new Date(Date.now() - 5 * 3600000).toISOString(), leida: false, path: '/resenas' },
-          );
-        }
-
         setNotifs(items.sort((a, b) => new Date(b.date) - new Date(a.date)));
       } catch {
         setNotifs([
