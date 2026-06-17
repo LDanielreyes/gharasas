@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import { Menu, Search, Settings } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import NotificationsPanel from './NotificationsPanel';
 
@@ -45,20 +45,7 @@ const Layout = () => {
 
           <NotificationsPanel />
 
-            <button
-              aria-label="Configuración"
-              style={{
-                padding: '7px', borderRadius: '8px',
-                background: 'none', border: 'none', cursor: 'pointer',
-                color: 'var(--gh-text-muted)', transition: 'background 0.15s',
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = 'var(--gh-border)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'none'}
-            >
-              <Settings size={17} strokeWidth={1.75} />
-            </button>
 
-            <div style={{ width: '1px', height: '20px', background: 'var(--gh-border)', margin: '0 4px' }} />
 
             <div
               onClick={() => navigate('/perfil')}

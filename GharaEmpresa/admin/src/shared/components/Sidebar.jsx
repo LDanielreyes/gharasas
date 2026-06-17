@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Package, MessageSquare, HelpCircle,
-  AlertCircle, BarChart2, Users, LogOut, X, Headphones, Globe, UserCircle,
+  AlertCircle, BarChart2, Users, LogOut, X, Headphones, Globe, FolderDown,
 } from 'lucide-react';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
@@ -28,8 +28,7 @@ const navItems = [
   { name: 'Metadatos',       icon: Globe,           path: '/seo' },
   { name: 'Q&A / FAQ',      icon: HelpCircle,      path: '/preguntas' },
   { name: 'Administradores', icon: Users,           path: '/usuarios' },
-  { name: 'Descargables',    icon: Package,         path: '/descargables' },
-  { name: 'Mi Perfil',       icon: UserCircle,      path: '/perfil' },
+  { name: 'Descargables',    icon: FolderDown,      path: '/descargables' },
 ];
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
@@ -54,14 +53,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     });
   };
 
-  const handleProfileClick = () => {
-    Swal.fire({
-      title: 'Perfil',
-      text: 'Módulo de configuración de perfil en desarrollo.',
-      icon: 'info',
-      confirmButtonColor: 'var(--gh-accent)'
-    });
-  };
+  const handleProfileClick = () => navigate('/perfil');
 
   return (
     <>
