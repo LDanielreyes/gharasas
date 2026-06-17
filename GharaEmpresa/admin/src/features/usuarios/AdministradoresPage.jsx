@@ -143,18 +143,21 @@ export default function AdministradoresPage() {
                   <td className="px-6 py-4 font-medium" style={{ color: "var(--gh-text-primary)" }}>{u.nombre}</td>
                   <td className="px-6 py-4">{u.email}</td>
                   <td className="px-6 py-4">
-                    <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
-                      u.rol === 'SuperAdmin' ? 'bg-purple-100 text-purple-700' :
-                      u.rol === 'Administrador' ? 'bg-blue-100 text-blue-700' :
-                      'bg-slate-100 text-slate-700'
-                    }`}>{u.rol}</span>
+                    <span className="gh-badge" style={{
+                      backgroundColor: u.rol === 'SuperAdmin' ? 'rgba(168, 85, 247, 0.15)' :
+                                       u.rol === 'Administrador' ? 'rgba(59, 130, 246, 0.15)' :
+                                       'var(--gh-surface-2)',
+                      color: u.rol === 'SuperAdmin' ? '#C084FC' :
+                             u.rol === 'Administrador' ? '#60A5FA' :
+                             'var(--gh-text-muted)'
+                    }}>{u.rol}</span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button onClick={() => handleOpenModal(u)} className="text-blue-600 hover:text-blue-800 mx-2 p-1">
+                    <button onClick={() => handleOpenModal(u)} style={{ color: "var(--gh-brand-1)", margin: "0 8px", padding: "4px" }}>
                       <Edit2 size={16} />
                     </button>
                     {u.idAdmin !== currentUser?.idAdmin && (
-                      <button onClick={() => handleDelete(u.idAdmin)} className="text-red-500 hover:text-red-700 mx-2 p-1">
+                      <button onClick={() => handleDelete(u.idAdmin)} style={{ color: "var(--gh-danger)", margin: "0 8px", padding: "4px" }}>
                         <Trash2 size={16} />
                       </button>
                     )}
