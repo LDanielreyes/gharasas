@@ -96,7 +96,7 @@ export default function ProfilePage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, paddingBottom: 20, borderBottom: '1px solid var(--gh-border)', marginBottom: 20 }}>
           <div style={{
             width: 38, height: 38, borderRadius: '8px', flexShrink: 0,
-            background: 'rgba(45,196,196,0.12)', border: '1px solid rgba(45,196,196,0.2)',
+            background: 'var(--gh-surface-2)', border: '1px solid var(--gh-border)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             color: 'var(--gh-brand-1)', fontWeight: 600, fontSize: '0.85rem',
           }}>
@@ -149,7 +149,7 @@ export default function ProfilePage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingBottom: 20, borderBottom: '1px solid var(--gh-border)', marginBottom: 20 }}>
           <div style={{
             width: 34, height: 34, borderRadius: '8px', flexShrink: 0,
-            background: 'rgba(45,196,196,0.08)',
+            background: 'var(--gh-surface-2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             color: 'var(--gh-accent)',
           }}>
