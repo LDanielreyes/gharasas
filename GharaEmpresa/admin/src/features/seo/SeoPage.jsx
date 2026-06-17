@@ -113,7 +113,7 @@ const EditPanel = ({ producto, onSave }) => {
             onClick={() => setSlug(baseSlug)}
             style={{
               display: 'flex', alignItems: 'center', gap: '5px',
-              fontSize: '0.72rem', color: '#1565cc', fontWeight: 600,
+              fontSize: '0.72rem', color: 'var(--gh-text-primary)', fontWeight: 600,
               background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit',
             }}
           >
@@ -194,7 +194,7 @@ const SeoScore = ({ p }) => {
   const map = {
     0: { bg: '#fee2e2', color: '#b91c1c', label: 'Sin SEO' },
     1: { bg: '#fef9c3', color: '#854d0e', label: 'Básico' },
-    2: { bg: '#dbeffe', color: '#1565cc', label: 'Parcial' },
+    2: { bg: '#dbeffe', color: 'var(--gh-text-primary)', label: 'Parcial' },
     3: { bg: '#dcfce7', color: '#15803d', label: 'Completo' },
   };
   const s = map[score];
@@ -293,7 +293,7 @@ const SeoPage = () => {
         {[
           { label: 'Total productos',    value: productos.length,                                  color: 'var(--gh-text-primary)' },
           { label: 'Con slug',           value: productos.filter(p => p.slug).length,              color: '#15803d' },
-          { label: 'Con meta-título',    value: productos.filter(p => p.metaTitulo).length,        color: '#1565cc' },
+          { label: 'Con meta-título',    value: productos.filter(p => p.metaTitulo).length,        color: 'var(--gh-text-primary)' },
           { label: 'Sin SEO',            value: sinSeo,                                            color: sinSeo > 0 ? '#b91c1c' : '#15803d' },
         ].map(s => (
           <div key={s.label} className="gh-card" style={{ padding: '14px 18px' }}>
@@ -323,16 +323,16 @@ const SeoPage = () => {
 
       {/* Info banner */}
       <div style={{
-        padding: '16px', background: '#eff8ff', border: '1px solid #bee3fc',
+        padding: '16px', background: 'var(--gh-surface-2)', border: '1px solid var(--gh-border)',
         borderRadius: '8px', display: 'flex', flexDirection: 'column', gap: '8px',
       }}>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
           <Info size={18} color="#1565cc" style={{ flexShrink: 0, marginTop: '2px' }} />
-          <p style={{ fontSize: '0.9rem', color: '#1565cc', margin: 0 }}>
+          <p style={{ fontSize: '0.9rem', color: 'var(--gh-text-primary)', margin: 0 }}>
             <strong>Guía SEO y Visibilidad en Buscadores:</strong>
           </p>
         </div>
-        <ul style={{ fontSize: '0.85rem', color: '#1e3a8a', marginLeft: '28px', marginTop: 0, paddingLeft: '16px', lineHeight: '1.6' }}>
+        <ul style={{ fontSize: '0.85rem', color: 'var(--gh-text-secondary)', marginLeft: '28px', marginTop: 0, paddingLeft: '16px', lineHeight: '1.6' }}>
           <li><strong>Título ideal:</strong> 50–60 caracteres. Es lo primero que lee el cliente en Google.</li>
           <li><strong>Descripción ideal:</strong> 120–155 caracteres. Escribe algo atractivo que invite a hacer clic.</li>
           <li><strong>URL (Slug):</strong> Será el enlace directo al producto (ej. <i>gharasas.com/catalogo/tu-producto</i>).</li>
@@ -366,12 +366,12 @@ const SeoPage = () => {
                   onClick={() => setExpanded(expanded === p.idProducto ? null : p.idProducto)}
                   style={{
                     display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr 80px',
-                    padding: '14px 20px', borderBottom: '1px solid #f9fafb',
+                    padding: '14px 20px', borderBottom: '1px solid var(--gh-border)',
                     cursor: 'pointer', transition: 'background 0.1s',
-                    background: expanded === p.idProducto ? '#f8fafc' : '#fff',
+                    background: expanded === p.idProducto ? 'var(--gh-surface-2)' : 'transparent',
                   }}
-                  onMouseEnter={e => { if (expanded !== p.idProducto) e.currentTarget.style.background = '#fafbfd'; }}
-                  onMouseLeave={e => { if (expanded !== p.idProducto) e.currentTarget.style.background = '#fff'; }}
+                  onMouseEnter={e => { if (expanded !== p.idProducto) e.currentTarget.style.background = 'var(--gh-surface-2)'; }}
+                  onMouseLeave={e => { if (expanded !== p.idProducto) e.currentTarget.style.background = 'transparent'; }}
                 >
                   {/* Producto */}
                   <div>
