@@ -139,7 +139,7 @@ const DashboardPage = () => {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {topProductos.masVistos?.map((p, i) => (
-                <div key={p.idProducto} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: '#f8fafc', borderRadius: '8px' }}>
+                <div key={p.idProducto} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: 'var(--gh-surface-2)', borderRadius: '8px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{ width: '28px', height: '28px', borderRadius: '6px', background: i === 0 ? 'var(--blue-100)' : i === 1 ? 'var(--slate-200)' : i === 2 ? 'var(--sky-100)' : '#e2e8f0', color: i === 0 ? 'var(--blue-600)' : i === 1 ? 'var(--slate-600)' : i === 2 ? 'var(--sky-700)' : '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.8rem' }}>
                       #{i + 1}

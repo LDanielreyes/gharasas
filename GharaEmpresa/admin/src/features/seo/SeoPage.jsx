@@ -28,7 +28,7 @@ const SeoIndicator = ({ label, value, ideal, warn }) => {
     else { color = '#b91c1c'; icon = '✗'; }
   }
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#6b7280', marginTop: '3px' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--gh-text-muted)', marginTop: '3px' }}>
       <span>{label}</span>
       <span style={{ color, fontWeight: 600 }}>{icon} {len} caracteres (ideal {ideal[0]}–{ideal[1]})</span>
     </div>
@@ -42,20 +42,20 @@ const GooglePreview = ({ url, title, description }) => {
   const finalDesc = description || 'Descripción detallada de tu producto para mostrar a los clientes.';
   
   return (
-    <div style={{ padding: '16px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
-      <p style={{ fontSize: '0.75rem', fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', marginBottom: '8px' }}>Vista Previa en Google</p>
+    <div style={{ padding: '16px', background: 'var(--gh-surface-2)', border: '1px solid var(--gh-border)', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+      <p style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--gh-text-muted)', textTransform: 'uppercase', marginBottom: '8px' }}>Vista Previa en Google</p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '28px', height: '28px', background: '#f3f4f6', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1a3f6a', fontWeight: 700, fontSize: '14px' }}>G</div>
+          <div style={{ width: '28px', height: '28px', background: 'var(--gh-border)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gh-text-primary)', fontWeight: 700, fontSize: '14px' }}>G</div>
           <div>
-            <span style={{ fontSize: '14px', color: '#202124', display: 'block' }}>Ghara SAS</span>
-            <span style={{ fontSize: '12px', color: '#4d5156', display: 'block' }}>https://www.gharasas.com › catalogo › {url || 'slug-producto'}</span>
+            <span style={{ fontSize: '14px', color: 'var(--gh-text-primary)', display: 'block' }}>Ghara SAS</span>
+            <span style={{ fontSize: '12px', color: 'var(--gh-text-secondary)', display: 'block' }}>https://www.gharasas.com › catalogo › {url || 'slug-producto'}</span>
           </div>
         </div>
-        <a href="#" style={{ fontSize: '20px', color: '#1a0dab', textDecoration: 'none', cursor: 'default', marginTop: '4px', display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        <a href="#" style={{ fontSize: '20px', color: 'var(--gh-brand-1)', textDecoration: 'none', cursor: 'default', marginTop: '4px', display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {finalTitle}
         </a>
-        <span style={{ fontSize: '14px', color: '#4d5156', lineHeight: '1.58', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+        <span style={{ fontSize: '14px', color: 'var(--gh-text-secondary)', lineHeight: '1.58', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {finalDesc}
         </span>
       </div>
@@ -106,8 +106,8 @@ const EditPanel = ({ producto, onSave }) => {
       {/* Slug */}
       <div style={{ marginBottom: '14px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
-          <label style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#374151' }}>
-            Slug de URL <span style={{ color: '#9ca3af', fontWeight: 400 }}>(único, solo minúsculas y guiones)</span>
+          <label style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--gh-text-primary)' }}>
+            Slug de URL <span style={{ color: 'var(--gh-text-muted)', fontWeight: 400 }}>(único, solo minúsculas y guiones)</span>
           </label>
           <button
             onClick={() => setSlug(baseSlug)}
@@ -121,7 +121,7 @@ const EditPanel = ({ producto, onSave }) => {
           </button>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ color: '#9ca3af', fontSize: '0.8125rem', whiteSpace: 'nowrap' }}>
+          <span style={{ color: 'var(--gh-text-muted)', fontSize: '0.8125rem', whiteSpace: 'nowrap' }}>
             /catalogo/
           </span>
           <input
@@ -136,7 +136,7 @@ const EditPanel = ({ producto, onSave }) => {
 
       {/* Meta Título */}
       <div style={{ marginBottom: '14px' }}>
-        <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: '#374151', marginBottom: '5px' }}>
+        <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--gh-text-primary)', marginBottom: '5px' }}>
           Meta-Título
         </label>
         <input
@@ -151,7 +151,7 @@ const EditPanel = ({ producto, onSave }) => {
 
       {/* Meta Descripción */}
       <div style={{ marginBottom: '16px' }}>
-        <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: '#374151', marginBottom: '5px' }}>
+        <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--gh-text-primary)', marginBottom: '5px' }}>
           Meta-Descripción
         </label>
         <textarea
@@ -291,31 +291,31 @@ const SeoPage = () => {
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
         {[
-          { label: 'Total productos',    value: productos.length,                                  color: '#374151' },
+          { label: 'Total productos',    value: productos.length,                                  color: 'var(--gh-text-primary)' },
           { label: 'Con slug',           value: productos.filter(p => p.slug).length,              color: '#15803d' },
           { label: 'Con meta-título',    value: productos.filter(p => p.metaTitulo).length,        color: '#1565cc' },
           { label: 'Sin SEO',            value: sinSeo,                                            color: sinSeo > 0 ? '#b91c1c' : '#15803d' },
         ].map(s => (
-          <div key={s.label} className="card" style={{ padding: '14px 18px' }}>
-            <p style={{ fontSize: '0.72rem', color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</p>
+          <div key={s.label} className="gh-card" style={{ padding: '14px 18px' }}>
+            <p style={{ fontSize: '0.72rem', color: 'var(--gh-text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</p>
             <p style={{ fontSize: '1.5rem', fontWeight: 800, color: s.color, marginTop: '3px' }}>{s.value}</p>
           </div>
         ))}
       </div>
 
       {/* Search */}
-      <div className="card" style={{ padding: '12px 16px' }}>
+      <div className="gh-card" style={{ padding: '12px 16px' }}>
         <div style={{ position: 'relative' }}>
-          <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
+          <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gh-text-muted)' }} />
           <input
             value={busqueda}
             onChange={e => setBusqueda(e.target.value)}
             placeholder="Buscar por modelo o marca..."
             style={{
               width: '100%', paddingLeft: '36px', height: '38px',
-              border: '1px solid #e9ecf1', borderRadius: '8px',
-              fontSize: '0.875rem', outline: 'none', fontFamily: 'inherit', color: '#374151',
-              background: '#f9fafb',
+              border: '1px solid var(--gh-border)', borderRadius: '8px',
+              fontSize: '0.875rem', outline: 'none', fontFamily: 'inherit', color: 'var(--gh-text-primary)',
+              background: 'var(--gh-surface-2)',
             }}
           />
         </div>
@@ -341,16 +341,16 @@ const SeoPage = () => {
       </div>
 
       {/* Table */}
-      <div className="card" style={{ overflow: 'hidden' }}>
+      <div className="gh-card" style={{ overflow: 'hidden' }}>
         {loading ? (
-          <div style={{ padding: '60px', textAlign: 'center', color: '#9ca3af' }}>Cargando productos...</div>
+          <div style={{ padding: '60px', textAlign: 'center', color: 'var(--gh-text-muted)' }}>Cargando productos...</div>
         ) : (
           <>
             {/* Header */}
             <div style={{
               display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr 80px',
               padding: '10px 20px', borderBottom: '1px solid #f0f2f5',
-              fontSize: '0.68rem', fontWeight: 600, color: '#9ca3af',
+              fontSize: '0.68rem', fontWeight: 600, color: 'var(--gh-text-muted)',
               textTransform: 'uppercase', letterSpacing: '0.07em',
             }}>
               <span>PRODUCTO</span>
@@ -376,17 +376,17 @@ const SeoPage = () => {
                   {/* Producto */}
                   <div>
                     <p style={{ fontWeight: 600, color: '#0d2137', fontSize: '0.9rem' }}>{p.modelo}</p>
-                    <p style={{ fontSize: '0.72rem', color: '#9ca3af', textTransform: 'uppercase', fontWeight: 600 }}>{p.marca?.nombre}</p>
+                    <p style={{ fontSize: '0.72rem', color: 'var(--gh-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>{p.marca?.nombre}</p>
                   </div>
 
                   {/* Slug */}
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     {p.slug ? (
-                      <span style={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#374151', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <span style={{ fontFamily: 'monospace', fontSize: '0.8rem', color: 'var(--gh-text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         /catalogo/{p.slug}
                       </span>
                     ) : (
-                      <span style={{ fontSize: '0.8rem', color: '#9ca3af', fontStyle: 'italic' }}>Sin slug asignado</span>
+                      <span style={{ fontSize: '0.8rem', color: 'var(--gh-text-muted)', fontStyle: 'italic' }}>Sin slug asignado</span>
                     )}
                   </div>
 
@@ -412,7 +412,7 @@ const SeoPage = () => {
             ))}
 
             {filtered.length === 0 && (
-              <div style={{ padding: '48px', textAlign: 'center', color: '#9ca3af' }}>
+              <div style={{ padding: '48px', textAlign: 'center', color: 'var(--gh-text-muted)' }}>
                 <Globe size={32} style={{ margin: '0 auto 12px', opacity: 0.3 }} />
                 <p>No se encontraron productos.</p>
               </div>

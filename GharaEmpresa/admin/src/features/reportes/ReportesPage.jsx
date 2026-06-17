@@ -24,8 +24,8 @@ const TIPOS = [
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="card" style={{ padding: '10px 14px', minWidth: '130px' }}>
-      <p style={{ fontSize: '0.72rem', color: '#9ca3af', marginBottom: '3px' }}>{label}</p>
+    <div className="gh-card" style={{ padding: '10px 14px', minWidth: '130px' }}>
+      <p style={{ fontSize: '0.72rem', color: 'var(--gh-text-muted)', marginBottom: '3px' }}>{label}</p>
       {payload.map((p, i) => (
         <p key={i} style={{ fontSize: '0.875rem', fontWeight: 700, color: p.color || '#0d2137' }}>
           {typeof p.value === 'number' && p.name === 'total'
@@ -46,17 +46,17 @@ const TipoCard = ({ tipo, selected, onClick }) => {
       style={{
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px',
         padding: '16px 12px', borderRadius: '10px', cursor: 'pointer',
-        border: selected ? `2px solid ${tipo.color}` : '2px solid #e9ecf1',
-        background: selected ? `${tipo.color}10` : '#fff',
+        border: selected ? `2px solid ${tipo.color}` : '2px solid var(--gh-border)',
+        background: selected ? `${tipo.color}10` : 'transparent',
         transition: 'all 0.15s', flex: 1, fontFamily: 'inherit',
       }}
     >
       <div style={{
         width: 38, height: 38, borderRadius: '10px',
-        background: selected ? `${tipo.color}20` : '#f4f7fb',
+        background: selected ? `${tipo.color}20` : 'var(--gh-surface-2)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
-        <Icon size={18} color={selected ? tipo.color : '#9ca3af'} />
+        <Icon size={18} color={selected ? tipo.color : 'var(--gh-text-muted)'} />
       </div>
       <span style={{
         fontSize: '0.8125rem', fontWeight: selected ? 700 : 500,
@@ -70,9 +70,9 @@ const TipoCard = ({ tipo, selected, onClick }) => {
 
 // ─── Summary Cards ────────────────────────────────────────
 const SummaryCard = ({ label, value }) => (
-  <div className="card" style={{ padding: '14px 18px' }}>
-    <p style={{ fontSize: '0.72rem', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>{label}</p>
-    <p style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0d2137', marginTop: '4px' }}>{value}</p>
+  <div className="gh-card" style={{ padding: '14px 18px' }}>
+    <p style={{ fontSize: '0.72rem', color: 'var(--gh-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>{label}</p>
+    <p style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--gh-text-primary)', marginTop: '4px' }}>{value}</p>
   </div>
 );
 
@@ -145,8 +145,8 @@ const ReportesPage = () => {
       </div>
 
       {/* ── Config Card ── */}
-      <div className="card" style={{ padding: '22px 24px' }}>
-        <h2 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#0d2137', marginBottom: '16px' }}>
+      <div className="gh-card" style={{ padding: '22px 24px' }}>
+        <h2 style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--gh-text-primary)', marginBottom: '16px' }}>
           Configuración del Reporte
         </h2>
 
@@ -160,7 +160,7 @@ const ReportesPage = () => {
         {/* Fecha range */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '12px', alignItems: 'flex-end' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: '#374151', marginBottom: '5px' }}>
+            <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--gh-text-primary)', marginBottom: '5px' }}>
               <Calendar size={13} style={{ display: 'inline', marginRight: '5px' }} />Desde
             </label>
             <input
@@ -172,7 +172,7 @@ const ReportesPage = () => {
             />
           </div>
           <div>
-            <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: '#374151', marginBottom: '5px' }}>
+            <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--gh-text-primary)', marginBottom: '5px' }}>
               <Calendar size={13} style={{ display: 'inline', marginRight: '5px' }} />Hasta
             </label>
             <input
@@ -212,11 +212,11 @@ const ReportesPage = () => {
 
           {/* Chart */}
           {ventasDiarias.length > 0 && (
-            <div className="card" style={{ padding: '22px 24px' }}>
+            <div className="gh-card" style={{ padding: '22px 24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <div>
-                  <h2 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#0d2137' }}>Tendencia — Últimos 30 días</h2>
-                  <p style={{ fontSize: '0.8rem', color: '#9ca3af', marginTop: '2px' }}>Evolución diaria de {tipo}</p>
+                  <h2 style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--gh-text-primary)' }}>Tendencia — Últimos 30 días</h2>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--gh-text-muted)', marginTop: '2px' }}>Evolución diaria de {tipo}</p>
                 </div>
                 <div style={{ display: 'flex', gap: '6px' }}>
                   {['total', 'cantidad'].map(v => (
@@ -279,12 +279,12 @@ const ReportesPage = () => {
           )}
 
           {/* Table + Export */}
-          <div className="card" style={{ overflow: 'hidden' }}>
+          <div className="gh-card" style={{ overflow: 'hidden' }}>
             <div style={{
               padding: '16px 20px', borderBottom: '1px solid #f0f2f5',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
             }}>
-              <p style={{ fontWeight: 700, color: '#0d2137', fontSize: '0.9375rem' }}>
+              <p style={{ fontWeight: 700, color: 'var(--gh-text-primary)', fontSize: '0.9375rem' }}>
                 Datos del Reporte — {reporte.data.length} registros
               </p>
               <button
@@ -297,7 +297,7 @@ const ReportesPage = () => {
             </div>
 
             {reporte.data.length === 0 ? (
-              <div style={{ padding: '48px', textAlign: 'center', color: '#9ca3af' }}>
+              <div style={{ padding: '48px', textAlign: 'center', color: 'var(--gh-text-muted)' }}>
                 No hay datos en el período seleccionado.
               </div>
             ) : (
@@ -323,7 +323,7 @@ const ReportesPage = () => {
                   </tbody>
                 </table>
                 {reporte.data.length > 100 && (
-                  <div style={{ padding: '12px 20px', borderTop: '1px solid #f0f2f5', fontSize: '0.8125rem', color: '#9ca3af', textAlign: 'center' }}>
+                  <div style={{ padding: '12px 20px', borderTop: '1px solid #f0f2f5', fontSize: '0.8125rem', color: 'var(--gh-text-muted)', textAlign: 'center' }}>
                     Mostrando 100 de {reporte.data.length} registros. Exporta a Excel para ver todos.
                   </div>
                 )}
@@ -336,10 +336,10 @@ const ReportesPage = () => {
       {!reporte && !loading && (
         <div style={{ padding: '60px', textAlign: 'center' }}>
           <BarChart2 size={40} style={{ margin: '0 auto 14px', color: '#d1d5db' }} />
-          <p style={{ fontWeight: 600, color: '#374151', fontSize: '1rem', marginBottom: '4px' }}>
+          <p style={{ fontWeight: 600, color: 'var(--gh-text-primary)', fontSize: '1rem', marginBottom: '4px' }}>
             Selecciona el tipo y período
           </p>
-          <p style={{ color: '#9ca3af', fontSize: '0.875rem' }}>
+          <p style={{ color: 'var(--gh-text-muted)', fontSize: '0.875rem' }}>
             Los resultados aparecerán aquí junto con la gráfica de tendencias.
           </p>
         </div>

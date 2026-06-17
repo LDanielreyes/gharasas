@@ -12,8 +12,8 @@ const SemaforoBadge = ({ semaforo }) => {
 
   const map = {
     rojo:     { bg: '#fee2e2', color: '#b91c1c', icon: <AlertCircle size={12} />, label: `Vencido (${semaforo.diasTranscurridos}d)` },
-    amarillo: { bg: '#fef9c3', color: '#854d0e', icon: <Clock size={12} />,       label: `Alerta — quedan ${semaforo.diasRestantes}d` },
-    verde:    { bg: '#dcfce7', color: '#15803d', icon: <CheckCircle2 size={12} />, label: `En tiempo (${semaforo.diasRestantes}d)` },
+    amarillo: { bg: '#fef9c3', color: '#eab308', icon: <Clock size={12} />,       label: `Alerta — quedan ${semaforo.diasRestantes}d` },
+    verde:    { bg: '#dcfce7', color: '#22c55e', icon: <CheckCircle2 size={12} />, label: `En tiempo (${semaforo.diasRestantes}d)` },
   };
   const s = map[semaforo.color] || map.verde;
 
@@ -34,8 +34,8 @@ const SemaforoBadge = ({ semaforo }) => {
 const StatusBadge = ({ status }) => {
   const map = {
     'Abierto':    { bg: '#dbeffe', color: '#1565cc' },
-    'En Proceso': { bg: '#fef9c3', color: '#854d0e' },
-    'Resuelto':   { bg: '#dcfce7', color: '#15803d' },
+    'En Proceso': { bg: '#fef9c3', color: '#eab308' },
+    'Resuelto':   { bg: '#dcfce7', color: '#22c55e' },
   };
   const s = map[status] || map['Abierto'];
   return (
@@ -158,30 +158,30 @@ const PqrPage = () => {
       {/* ── Stats strip ── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
         {[
-          { label: 'Total PQR',    value: pqrs.length, bg: '#f4f7fb', col: '#374151' },
-          { label: 'Sin Resolver', value: openCount,   bg: '#fef9c3', col: '#854d0e' },
-          { label: 'Resueltos',    value: pqrs.length - openCount, bg: '#dcfce7', col: '#15803d' },
+          { label: 'Total PQR',    value: pqrs.length, bg: 'var(--gh-surface-2)', col: 'var(--gh-text-primary)' },
+          { label: 'Sin Resolver', value: openCount,   bg: 'rgba(234, 179, 8, 0.15)', col: '#eab308' },
+          { label: 'Resueltos',    value: pqrs.length - openCount, bg: 'rgba(34, 197, 94, 0.15)', col: '#22c55e' },
         ].map(s => (
-          <div key={s.label} className="card" style={{ padding: '16px 20px', background: s.bg, borderColor: 'transparent' }}>
-            <p style={{ fontSize: '0.75rem', color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</p>
+          <div key={s.label} className="gh-card" style={{ padding: '16px 20px', background: s.bg, borderColor: 'transparent' }}>
+            <p style={{ fontSize: '0.75rem', color: 'var(--gh-text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</p>
             <p style={{ fontSize: '1.75rem', fontWeight: 800, color: s.col, marginTop: '4px' }}>{s.value}</p>
           </div>
         ))}
       </div>
 
       {/* ── Filters ── */}
-      <div className="card" style={{ padding: '14px 18px', display: 'flex', gap: '12px', alignItems: 'center' }}>
+      <div className="gh-card" style={{ padding: '14px 18px', display: 'flex', gap: '12px', alignItems: 'center' }}>
         <div style={{ flex: 1, position: 'relative' }}>
-          <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
+          <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gh-text-muted)' }} />
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Buscar por radicado, nombre o asunto..."
             style={{
               width: '100%', paddingLeft: '36px', height: '38px',
-              border: '1px solid #e9ecf1', borderRadius: '8px',
-              fontSize: '0.875rem', background: '#f9fafb', outline: 'none',
-              color: '#374151', fontFamily: 'inherit',
+              border: '1px solid var(--gh-border)', borderRadius: '8px',
+              fontSize: '0.875rem', background: 'var(--gh-surface-2)', outline: 'none',
+              color: 'var(--gh-text-primary)', fontFamily: 'inherit',
             }}
           />
         </div>
@@ -189,9 +189,9 @@ const PqrPage = () => {
           value={filterEstado}
           onChange={e => setFilterEstado(e.target.value)}
           style={{
-            height: '38px', padding: '0 36px 0 12px', border: '1px solid #e9ecf1',
-            borderRadius: '8px', fontSize: '0.875rem', background: '#f9fafb',
-            color: '#374151', outline: 'none', cursor: 'pointer',
+            height: '38px', padding: '0 36px 0 12px', border: '1px solid var(--gh-border)',
+            borderRadius: '8px', fontSize: '0.875rem', background: 'var(--gh-surface-2)',
+            color: 'var(--gh-text-primary)', outline: 'none', cursor: 'pointer',
             fontFamily: 'inherit', minWidth: '150px', appearance: 'none',
             backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
             backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center',
@@ -205,18 +205,18 @@ const PqrPage = () => {
       </div>
 
       {/* ── Table ── */}
-      <div className="card" style={{ overflow: 'hidden' }}>
+      <div className="gh-card" style={{ overflow: 'hidden' }}>
         {loading ? (
-          <div style={{ padding: '60px', textAlign: 'center', color: '#9ca3af', fontSize: '0.875rem' }}>
+          <div style={{ padding: '60px', textAlign: 'center', color: 'var(--gh-text-muted)', fontSize: '0.875rem' }}>
             Cargando tickets PQR...
           </div>
         ) : filtered.length === 0 ? (
           <div style={{ padding: '60px', textAlign: 'center' }}>
             <CheckCircle2 size={36} style={{ margin: '0 auto 12px', color: '#d1d5db' }} />
-            <p style={{ fontWeight: 500, color: '#374151', marginBottom: '4px' }}>
+            <p style={{ fontWeight: 500, color: 'var(--gh-text-primary)', marginBottom: '4px' }}>
               {search || filterEstado !== 'Todos' ? 'Sin resultados con estos filtros' : '¡Sin tickets abiertos!'}
             </p>
-            <p style={{ fontSize: '0.875rem', color: '#9ca3af' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--gh-text-muted)' }}>
               {!search && filterEstado === 'Todos' && 'Todos los PQR han sido atendidos.'}
             </p>
           </div>
@@ -240,25 +240,25 @@ const PqrPage = () => {
                       <p style={{ fontWeight: 700, color: '#1565cc', fontSize: '0.875rem' }}>
                         {pqr.radicado}
                       </p>
-                      <p style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '2px' }}>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--gh-text-muted)', marginTop: '2px' }}>
                         {formatDate(pqr.fechaRadicado)}
                       </p>
                     </td>
                     <td>
-                      <p style={{ fontWeight: 600, color: '#374151', fontSize: '0.875rem' }}>
+                      <p style={{ fontWeight: 600, color: 'var(--gh-text-primary)', fontSize: '0.875rem' }}>
                         {pqr.nombreRemitente}
                       </p>
                       <span style={{
                         display: 'inline-block', marginTop: '3px',
                         padding: '2px 8px', borderRadius: '99px',
                         fontSize: '0.68rem', fontWeight: 600,
-                        background: '#f3f4f6', color: '#6b7280',
+                        background: '#f3f4f6', color: 'var(--gh-text-muted)',
                       }}>
                         {pqr.tipoSolicitud}
                       </span>
                     </td>
                     <td style={{ maxWidth: '220px' }}>
-                      <span style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.875rem', color: '#374151' }}>
+                      <span style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '0.875rem', color: 'var(--gh-text-primary)' }}>
                         {pqr.asunto}
                       </span>
                     </td>
@@ -286,7 +286,7 @@ const PqrPage = () => {
                         </button>
                       )}
                       {pqr.estadoTicket === 'Resuelto' && (
-                        <span style={{ fontSize: '0.78rem', color: '#9ca3af' }}>Resuelto</span>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--gh-text-muted)' }}>Resuelto</span>
                       )}
                     </td>
                   </tr>
@@ -302,9 +302,9 @@ const PqrPage = () => {
             padding: '13px 20px', borderTop: '1px solid #f0f2f5',
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           }}>
-            <p style={{ fontSize: '0.8125rem', color: '#9ca3af' }}>
-              Mostrando <strong style={{ color: '#374151' }}>{filtered.length}</strong> de{' '}
-              <strong style={{ color: '#374151' }}>{pqrs.length}</strong> tickets
+            <p style={{ fontSize: '0.8125rem', color: 'var(--gh-text-muted)' }}>
+              Mostrando <strong style={{ color: 'var(--gh-text-primary)' }}>{filtered.length}</strong> de{' '}
+              <strong style={{ color: 'var(--gh-text-primary)' }}>{pqrs.length}</strong> tickets
             </p>
             <div style={{ display: 'flex', gap: '6px' }}>
               <button className="btn-secondary" style={{ padding: '5px 10px' }} disabled>

@@ -134,19 +134,19 @@ const ResenasPage = () => {
 
       {/* ── Filters + pending counter ── */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '14px', alignItems: 'stretch' }}>
-        <div className="card" style={{ padding: '14px 18px', display: 'flex', gap: '12px' }}>
+        <div className="gh-card" style={{ padding: '14px 18px', display: 'flex', gap: '12px' }}>
           {/* Search */}
           <div style={{ flex: 1, position: 'relative' }}>
-            <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
+            <Search size={14} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gh-text-muted)' }} />
             <input
               value={busqueda}
               onChange={e => setBusqueda(e.target.value)}
               placeholder="Filtrar por comentario, autor o producto..."
               style={{
                 width: '100%', paddingLeft: '36px', height: '38px',
-                border: '1px solid #e9ecf1', borderRadius: '8px',
-                fontSize: '0.875rem', background: '#f9fafb', outline: 'none',
-                color: '#374151', fontFamily: 'inherit',
+                border: '1px solid var(--gh-border)', borderRadius: '8px',
+                fontSize: '0.875rem', background: 'var(--gh-surface-2)', outline: 'none',
+                color: 'var(--gh-text-primary)', fontFamily: 'inherit',
               }}
             />
           </div>
@@ -155,9 +155,9 @@ const ResenasPage = () => {
             value={filtro}
             onChange={e => setFiltro(e.target.value)}
             style={{
-              height: '38px', padding: '0 36px 0 12px', border: '1px solid #e9ecf1',
-              borderRadius: '8px', fontSize: '0.875rem', background: '#f9fafb',
-              color: '#374151', outline: 'none', cursor: 'pointer',
+              height: '38px', padding: '0 36px 0 12px', border: '1px solid var(--gh-border)',
+              borderRadius: '8px', fontSize: '0.875rem', background: 'var(--gh-surface-2)',
+              color: 'var(--gh-text-primary)', outline: 'none', cursor: 'pointer',
               fontFamily: 'inherit', minWidth: '140px', appearance: 'none',
               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
               backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center',
@@ -171,7 +171,7 @@ const ResenasPage = () => {
         </div>
 
         {/* Pending counter */}
-        <div className="card" style={{
+        <div className="gh-card" style={{
           padding: '14px 20px', display: 'flex', alignItems: 'center', gap: '12px',
           background: pendingCount > 0 ? '#fef9c3' : '#f4f7fb',
           borderColor: pendingCount > 0 ? '#fde68a' : '#e9ecf1',
@@ -181,21 +181,21 @@ const ResenasPage = () => {
             <p style={{ fontSize: '1.25rem', fontWeight: 800, color: pendingCount > 0 ? '#854d0e' : '#374151' }}>
               {pendingCount}
             </p>
-            <p style={{ fontSize: '0.72rem', color: '#9ca3af', marginTop: '1px' }}>Pendientes</p>
+            <p style={{ fontSize: '0.72rem', color: 'var(--gh-text-muted)', marginTop: '1px' }}>Pendientes</p>
           </div>
         </div>
       </div>
 
       {/* ── Review cards ── */}
       {loading ? (
-        <div style={{ padding: '60px', textAlign: 'center', color: '#9ca3af', fontSize: '0.875rem' }}>
+        <div style={{ padding: '60px', textAlign: 'center', color: 'var(--gh-text-muted)', fontSize: '0.875rem' }}>
           Cargando reseñas...
         </div>
       ) : filtered.length === 0 ? (
-        <div className="card" style={{ padding: '60px', textAlign: 'center' }}>
+        <div className="gh-card" style={{ padding: '60px', textAlign: 'center' }}>
           <CheckCircle size={36} style={{ margin: '0 auto 12px', color: '#d1d5db' }} />
-          <p style={{ fontWeight: 500, color: '#374151', marginBottom: '4px' }}>No hay reseñas aquí</p>
-          <p style={{ fontSize: '0.875rem', color: '#9ca3af' }}>
+          <p style={{ fontWeight: 500, color: 'var(--gh-text-primary)', marginBottom: '4px' }}>No hay reseñas aquí</p>
+          <p style={{ fontSize: '0.875rem', color: 'var(--gh-text-muted)' }}>
             {filtro === 'Pendiente'
               ? '¡Todas las reseñas han sido moderadas!'
               : 'Cambia el filtro para ver otras reseñas.'}
@@ -206,7 +206,7 @@ const ResenasPage = () => {
           {filtered.map(resena => (
             <div
               key={resena.idResena}
-              className="card"
+              className="gh-card"
               style={{
                 padding: '20px 22px',
                 display: 'flex',
@@ -237,7 +237,7 @@ const ResenasPage = () => {
                       <StarRating rating={resena.calificacion} />
                       <ModerationBadge status={resena.estadoModeracion} />
                     </div>
-                    <p style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '3px' }}>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--gh-text-muted)', marginTop: '3px' }}>
                       {formatDate(resena.fechaResena)}
                     </p>
                   </div>
@@ -248,7 +248,7 @@ const ResenasPage = () => {
                   <span style={{
                     display: 'inline-block', marginTop: '8px',
                     padding: '3px 10px', borderRadius: '99px',
-                    background: '#f0f2f5', color: '#6b7280',
+                    background: '#f0f2f5', color: 'var(--gh-text-muted)',
                     fontSize: '0.72rem', fontWeight: 600,
                   }}>
                     Producto: {resena.producto.modelo}
@@ -257,7 +257,7 @@ const ResenasPage = () => {
 
                 {/* Comment */}
                 {resena.comentario && (
-                  <p style={{ color: '#374151', fontSize: '0.9rem', marginTop: '10px', lineHeight: 1.6 }}>
+                  <p style={{ color: 'var(--gh-text-primary)', fontSize: '0.9rem', marginTop: '10px', lineHeight: 1.6 }}>
                     {resena.comentario}
                   </p>
                 )}
@@ -320,7 +320,7 @@ const ResenasPage = () => {
                 ) : (
 
                   <>
-                  <span style={{ fontSize: '0.78rem', color: '#9ca3af', textAlign: 'center', padding: '8px' }}>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--gh-text-muted)', textAlign: 'center', padding: '8px' }}>
                     Ya moderada
                   </span>
                   <button
